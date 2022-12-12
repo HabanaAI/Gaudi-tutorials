@@ -23,7 +23,7 @@ Please follow the instructions provided in the [Gaudi Installation Guide](https:
 In the docker container, clone this repository and switch to the branch that matches your SynapseAI version. You can run the [`hl-smi`](https://docs.habana.ai/en/latest/Management_and_Monitoring/System_Management_Tools_Guide/System_Management_Tools.html#hl-smi-utility-options) utility to determine the SynapseAI version.
 
 ```bash
-git clone -b [SynapseAI version] https://github.com/HabanaAI/Gaudi-tutorials /path/to/Gaudi-tutorials
+git clone https://github.com/HabanaAI/Gaudi-tutorials /path/to/Gaudi-tutorials
 ```
 
 ### Install Habana DeepSpeed
