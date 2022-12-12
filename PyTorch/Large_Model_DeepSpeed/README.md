@@ -31,6 +31,10 @@ cd PyTorch/Large_Model_DeepSpeed
 
 Please follow the instructions provided in the [Gaudi DeepSpeed User Guide](https://docs.habana.ai/en/latest/PyTorch/DeepSpeed/DeepSpeed_User_Guide.html) to install the DeepSpeed on Gaudi.
 
+```bash
+pip install git+https://github.com/HabanaAI/DeepSpeed.git@1.7.1
+```
+
 ## Memory Consumptions Under Different DeepSpeed Technologies
 ### Preparations
 
