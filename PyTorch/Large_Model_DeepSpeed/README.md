@@ -24,7 +24,7 @@ In the docker container, clone this repository and switch to the branch that mat
 
 ```bash
 git clone https://github.com/HabanaAI/Gaudi-tutorials /path/to/Gaudi-tutorials
-cd PyTorch/Large_Model_DeepSpeed
+cd Gaudi-tutorials/PyTorch/Large_Model_DeepSpeed/
 ```
 
 ### Install Habana DeepSpeed
