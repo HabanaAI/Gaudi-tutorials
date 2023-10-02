@@ -1,6 +1,6 @@
 # Large Model usage with minGPT
 
-This tutorial provides example training scripts to demonstrate different DeepSpeed optimization technologies on HPU. This tutorial will focus on the memory optimization technologies, including Zero Redundancy Optimizer(ZeRO) and Activation Checkpointing.
+This tutorial provides example training scripts to demonstrate different DeepSpeed optimization technologies on Gaudi2. This tutorial will focus on the memory optimization technologies, including Zero Redundancy Optimizer(ZeRO) and Activation Checkpointing.
 
 
 ## Table of Contents
@@ -32,7 +32,7 @@ cd Gaudi-tutorials/PyTorch/Large_Model_DeepSpeed/
 Please follow the instructions provided in the [Gaudi DeepSpeed User Guide](https://docs.habana.ai/en/latest/PyTorch/DeepSpeed/DeepSpeed_User_Guide.html) to install the DeepSpeed on Gaudi.
 
 ```bash
-pip install git+https://github.com/HabanaAI/DeepSpeed.git@1.10.0
+pip install git+https://github.com/HabanaAI/DeepSpeed.git@1.11.0
 ```
 
 ## Memory Consumptions Under Different DeepSpeed Technologies
@@ -116,12 +116,26 @@ The memory consumption on different training phases and the max memory consumpti
 | 2    | 523                | 523               | 523                 | 568 (max 935)      | 568             | 523 (max 708)  | 935             |
 | 3    | 523                | 523               | 523                 | 568 (max 935)      | 568             | 523 (max 708)  | 935             |
 
+5. Run minGPT with DeepSpeed ZeRO3
+```bash
+cd /path/to/Gaudi-tutorials/PyTorch/Large_Model_DeepSpeed
+deepspeed demo_ds.py --deepspeed --deepspeed_config ds_config_zero3.json --use_hpu --steps 4 --dump-memory
+```
+The memory consumption on different training phases and the max memory consumption will look like below (in MB):
+
+| step | Before forward (M) | After forward (M) | Before backward (M) | After backward (M) | Before step (M) | After step (M) | Max memeory (M) |
+| ---- | ------------------ | ----------------- | ------------------- | ------------------ | --------------- | -------------- | --------------- |
+| 0    | 166                | 166               | 166                 | 660 (max 993)      | 660             | 682            | **993**         |
+| 1    | 520                | 520               | 520                 | 663 (max 935)      | 663             | 523 (max 708)  | 935             |
+| 2    | 523                | 523               | 523                 | 568 (max 935)      | 568             | 523 (max 708)  | 935             |
+| 3    | 523                | 523               | 523                 | 568 (max 935)      | 568             | 523 (max 708)  | 935             |
+
 **Conclusions:**
 1. Zero0 (basically the default DDP) takes biggest memory
 2. Zero1 & 2 takes less memory than Zero0
 3. With Activation Checkpointing, memory decreases even more.
 
-### Use ZeRO to solve the Out-Of-Memory issue
+### Use ZeRO to solve the Out-Of-Memory issue on First-Gen Gaudi
 Due to the limited memory on HPU device, it may fail to run a big model on HPU with default configuration (e.g. ZeRO0)
 
 1. Create a very big model with minGPT
@@ -159,6 +173,9 @@ deepspeed demo_ds.py --deepspeed --deepspeed_config ds_config_zero1.json --use_h
 Via applying ZeRO technology, e.g. ZeRO1, the model can run successfully on HPU.
 
 ## Changelog
+
+### 1.11.0
+ - Updated with ZeRO3 support 
 
 ### 1.7.1
  - Import DeepSpeed and other necessary packages.
