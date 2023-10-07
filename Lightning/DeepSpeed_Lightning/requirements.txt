@@ -1,0 +1,4 @@
+lightning>=1.8.0
+torch>=1.10.0
+numpy
+lightning-habana==1.1.0

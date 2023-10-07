@@ -1,0 +1,55 @@
+[tool.black]
+line-length = 120
+target-version = ['py38', 'py39', 'py310']
+
+
+[tool.ruff]
+line-length = 120
+# Enable Pyflakes `E` and `F` codes by default.
+select = [
+    "E", "W",  # see: https://pypi.org/project/pycodestyle
+    "F",  # see: https://pypi.org/project/pyflakes
+    "I",  # see: Isort
+]
+#extend-select = [
+#    "C4",  # see: https://pypi.org/project/flake8-comprehensions
+#    "SIM",  # see: https://pypi.org/project/flake8-simplify
+#    "RET",  # see: https://pypi.org/project/flake8-return
+#    "PT",  # see: https://pypi.org/project/flake8-pytest-style
+#]
+ignore = [
+    "E731",  # Do not assign a lambda expression, use a def
+]
+ignore-init-module-imports = true
+
+[tool.ruff.per-file-ignores]
+".actions/*" = ["S101", "S310"]
+"setup.py" = ["S101"]
+
+[tool.ruff.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10
+
+
+[tool.mypy]
+files = [
+    "lightning_gpt/"
+]
+# This section is for folders with "-" as they are not valid python modules
+exclude = [
+    '^mingpt/',
+    '^nanogpt/'
+]
+install_types = "True"
+non_interactive = "True"
+disallow_untyped_defs = "True"
+ignore_missing_imports = "True"
+show_error_codes = "True"
+warn_redundant_casts = "True"
+warn_unused_configs = "True"
+warn_unused_ignores = "True"
+allow_redefinition = "True"
+# disable this rule as the Trainer attributes are defined in the connectors, not in its __init__
+disable_error_code = "attr-defined"
+# style choices
+warn_no_return = "False"

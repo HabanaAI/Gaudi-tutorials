@@ -1,0 +1,50 @@
+# Manifest syntax https://docs.python.org/2/distutils/sourcedist.html
+graft wheelhouse
+graft nanogpt
+graft mingpt
+
+recursive-exclude __pycache__  *.py[cod] *.orig
+
+# Include the README and CHANGELOG
+include *.md
+
+# Include the license file
+include LICENSE
+recursive-include lightning_gpt *LICENSE
+
+# Include Citation file
+include *.cff
+
+# Include marker file for PEP 561
+recursive-include lightning_gpt *.typed
+
+exclude *.sh
+exclude *.toml
+exclude *.svg
+
+# exclude tests from package
+recursive-exclude tests *
+recursive-exclude site *
+exclude tests
+
+# Exclude the documentation files
+recursive-exclude docs *
+exclude docs
+
+# Include the Requirements
+include requirements.txt
+recursive-include requirements *.txt
+recursive-exclude requirements *.py
+
+# Exclude build configs
+exclude *.yml
+exclude *.yaml
+
+prune .devcontainer
+prune .git
+prune .github
+prune examples*
+prune temp*
+prune test*
+prune SandBox*
+prune app
