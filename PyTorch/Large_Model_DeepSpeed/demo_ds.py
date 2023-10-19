@@ -11,52 +11,32 @@ import pickle
 
 set_seed(3407)
 
+
 def add_argument():
+    parser = argparse.ArgumentParser(description="minGPT")
 
-    parser = argparse.ArgumentParser(description='minGPT')
-
-    #data
+    # data
     # cuda
-    parser.add_argument('--with_cuda',
-                        default=False,
-                        action='store_true',
-                        help='use CPU in case there\'s no GPU support')
+    parser.add_argument(
+        "--with_cuda", default=False, action="store_true", help="use CPU in case there's no GPU support"
+    )
 
     # train
-    parser.add_argument('-b',
-                        '--batch_size',
-                        default=32,
-                        type=int,
-                        help='mini-batch size (default: 32)')
+    parser.add_argument("-b", "--batch_size", default=32, type=int, help="mini-batch size (default: 32)")
 
-    parser.add_argument('--steps',
-                        default=2000,
-                        type=int,
-                        help='number of training steps')
+    parser.add_argument("--steps", default=2000, type=int, help="number of training steps")
 
-    parser.add_argument('--local_rank',
-                        type=int,
-                        default=-1,
-                        help='local rank passed from distributed launcher')
+    parser.add_argument("--local_rank", type=int, default=-1, help="local rank passed from distributed launcher")
 
-    parser.add_argument('--log-interval',
-                        type=int,
-                        default=100,
-                        help='output logging information at a given interval')
+    parser.add_argument("--log-interval", type=int, default=100, help="output logging information at a given interval")
 
     parser.add_argument(
-                        '--activation-checkpoint',
-                        default=False,
-                        action='store_true',
-                        help=
-                        'Enable activation checkpoint')
+        "--activation-checkpoint", default=False, action="store_true", help="Enable activation checkpoint"
+    )
 
     parser.add_argument(
-                        '--dump-memory',
-                        default=False,
-                        action='store_true',
-                        help=
-                        'Dump the memory usage during training')
+        "--dump-memory", default=False, action="store_true", help="Dump the memory usage during training"
+    )
 
     # Include DeepSpeed configuration arguments
     parser = deepspeed.add_config_arguments(parser)
@@ -65,9 +45,10 @@ def add_argument():
 
     return args
 
+
 args = add_argument()
 
-if hasattr(args, 'use_hpu') and args.use_hpu:
+if hasattr(args, "use_hpu") and args.use_hpu:
     use_hpu = True
     dist_backend = "hccl"
     init_method = "env://"
@@ -75,6 +56,7 @@ if hasattr(args, 'use_hpu') and args.use_hpu:
 else:
     deepspeed.init_distributed()
     use_hpu = False
+
 
 class SortDataset(Dataset):
     """
@@ -87,13 +69,13 @@ class SortDataset(Dataset):
     """
 
     def __init__(self, split, length=6, num_digits=3):
-        assert split in {'train', 'test'}
+        assert split in {"train", "test"}
         self.split = split
         self.length = length
         self.num_digits = num_digits
 
     def __len__(self):
-        return 10000 # ...
+        return 10000  # ...
 
     def get_vocab_size(self):
         return self.num_digits
@@ -118,9 +100,9 @@ class SortDataset(Dataset):
                     continue
             # figure out if this generated example is train or test based on its hash
             h = hash(pickle.dumps(inp.tolist()))
-            inp_split = 'test' if h % 4 == 0 else 'train' # designate 25% of examples as test
+            inp_split = "test" if h % 4 == 0 else "train"  # designate 25% of examples as test
             if inp_split == self.split:
-                break # ok
+                break  # ok
 
         # solve the task: i.e. sort
         sol = torch.sort(inp)[0]
@@ -132,21 +114,22 @@ class SortDataset(Dataset):
         x = cat[:-1].clone()
         y = cat[1:].clone()
         # we only want to predict at output locations, mask out the loss at the input locations
-        y[:self.length-1] = -1
+        y[: self.length - 1] = -1
         return x, y
 
+
 # print an example instance of the dataset
-train_dataset = SortDataset('train')
-test_dataset = SortDataset('test')
+train_dataset = SortDataset("train")
+test_dataset = SortDataset("test")
 x, y = train_dataset[0]
-for a, b in zip(x,y):
-    print(int(a),int(b))
+for a, b in zip(x, y):
+    print(int(a), int(b))
 
 # create a GPT instance
 from mingpt.model import GPT
 
 model_config = GPT.get_default_config()
-model_config.model_type = 'gpt-nano'
+model_config.model_type = "gpt-nano"
 model_config.vocab_size = train_dataset.get_vocab_size()
 model_config.block_size = train_dataset.get_block_size()
 if args.activation_checkpoint:
@@ -164,43 +147,52 @@ parameters = filter(lambda p: p.requires_grad, model.parameters())
 # 2) Distributed data loader
 # 3) DeepSpeed optimizer
 model_engine, optimizer, trainloader, __ = deepspeed.initialize(
-    args=args, model=model, model_parameters=parameters, training_data=train_dataset)
+    args=args, model=model, model_parameters=parameters, training_data=train_dataset
+)
 
-if hasattr(args, 'use_hpu') and args.use_hpu:
+if hasattr(args, "use_hpu") and args.use_hpu:
     # create a HPU device
     device = torch.device("hpu")
 else:
     device = model_engine.local_rank
 
 if args.activation_checkpoint:
-    deepspeed.checkpointing.configure(None, deepspeed_config=args.deepspeed_config, num_checkpoints=model_config.checkpoint_num_layers)
+    deepspeed.checkpointing.configure(
+        None, deepspeed_config=args.deepspeed_config, num_checkpoints=model_config.checkpoint_num_layers
+    )
 
 fp16 = model_engine.fp16_enabled()
-print(f'fp16={fp16}')
+print(f"fp16={fp16}")
 
 # create a Trainer object
 from mingpt.trainer import Trainer
 
 train_config = Trainer.get_default_config()
-train_config.learning_rate = 5e-4 # the model we're using is so small that we can go a bit faster
+train_config.learning_rate = 5e-4  # the model we're using is so small that we can go a bit faster
 train_config.max_iters = args.steps
 train_config.num_workers = 0
-trainer = Trainer(train_config, model_engine, train_dataset, ds_enabled=True, use_hpu=use_hpu, dump_mem=args.dump_memory)
+trainer = Trainer(
+    train_config, model_engine, train_dataset, ds_enabled=True, use_hpu=use_hpu, dump_mem=args.dump_memory
+)
+
 
 def batch_end_callback(trainer):
     if trainer.iter_num % args.log_interval == 0:
         print(f"iter_dt {trainer.iter_dt * 1000:.2f}ms; iter {trainer.iter_num}: train loss {trainer.loss.item():.5f}")
-trainer.set_callback('on_batch_end', batch_end_callback)
+
+
+trainer.set_callback("on_batch_end", batch_end_callback)
 
 trainer.run()
 
-print('Evaluating the trained model ...')
+print("Evaluating the trained model ...")
 # now let's perform some evaluation
 model_engine.eval()
 
+
 def eval_split(trainer, split, max_batches):
-    dataset = {'train':train_dataset, 'test':test_dataset}[split]
-    n = train_dataset.length # naugy direct access shrug
+    dataset = {"train": train_dataset, "test": test_dataset}[split]
+    n = train_dataset.length  # naugy direct access shrug
     results = []
     mistakes_printed_already = 0
     loader = DataLoader(dataset, batch_size=100, num_workers=0, drop_last=False)
@@ -211,35 +203,39 @@ def eval_split(trainer, split, max_batches):
         inp = x[:, :n]
         sol = y[:, -n:]
         # let the model sample the rest of the sequence
-        cat = model.generate(inp, n, do_sample=False) # using greedy argmax, not sampling
-        sol_candidate = cat[:, n:] # isolate the filled in sequence
+        cat = model.generate(inp, n, do_sample=False)  # using greedy argmax, not sampling
+        sol_candidate = cat[:, n:]  # isolate the filled in sequence
         # compare the predicted sequence to the true sequence
-        correct = (sol == sol_candidate).all(1).cpu() # Software 1.0 vs. Software 2.0 fight RIGHT on this line haha
+        correct = (sol == sol_candidate).all(1).cpu()  # Software 1.0 vs. Software 2.0 fight RIGHT on this line haha
         for i in range(x.size(0)):
             results.append(int(correct[i]))
-            if not correct[i] and mistakes_printed_already < 3: # only print up to 5 mistakes to get a sense
+            if not correct[i] and mistakes_printed_already < 3:  # only print up to 5 mistakes to get a sense
                 mistakes_printed_already += 1
-                print("GPT claims that %s sorted is %s but gt is %s" % (inp[i].tolist(), sol_candidate[i].tolist(), sol[i].tolist()))
-        if max_batches is not None and b+1 >= max_batches:
+                print(
+                    "GPT claims that %s sorted is %s but gt is %s"
+                    % (inp[i].tolist(), sol_candidate[i].tolist(), sol[i].tolist())
+                )
+        if max_batches is not None and b + 1 >= max_batches:
             break
     rt = torch.tensor(results, dtype=torch.float)
-    print("%s final score: %d/%d = %.2f%% correct" % (split, rt.sum(), len(results), 100*rt.mean()))
+    print("%s final score: %d/%d = %.2f%% correct" % (split, rt.sum(), len(results), 100 * rt.mean()))
     return rt.sum()
+
 
 # run a lot of examples from both train and test through the model and verify the output correctness
 with torch.no_grad():
-    train_score = eval_split(trainer, 'train', max_batches=50)
-    test_score  = eval_split(trainer, 'test',  max_batches=50)
+    train_score = eval_split(trainer, "train", max_batches=50)
+    test_score = eval_split(trainer, "test", max_batches=50)
 
 # let's run a random given sequence through the model as well
-n = train_dataset.length # naugy direct access shrug
+n = train_dataset.length  # naugy direct access shrug
 inp = torch.tensor([[0, 0, 2, 1, 0, 1]], dtype=torch.long).to(device)
 assert inp[0].nelement() == n
 with torch.no_grad():
     cat = model.generate(inp, n, do_sample=False)
 sol = torch.sort(inp[0])[0]
 sol_candidate = cat[:, n:]
-print('input sequence  :', inp.tolist())
-print('predicted sorted:', sol_candidate.tolist())
-print('gt sort         :', sol.tolist())
-print('matches         :', bool((sol == sol_candidate).all()))
+print("input sequence  :", inp.tolist())
+print("predicted sorted:", sol_candidate.tolist())
+print("gt sort         :", sol.tolist())
+print("matches         :", bool((sol == sol_candidate).all()))

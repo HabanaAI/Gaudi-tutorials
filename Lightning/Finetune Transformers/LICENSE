@@ -1,3 +1,3 @@
 Copyright 2022 Habana Labs, Ltd. an Intel Company.
-Licensed under a CC BY SA 4.0 license. https://creativecommons.org/licenses/by-sa/4.0/ 
-A derivative of Finetune Transformers Models with Pytorch Lightning by PL Team. https://github.com/PytorchLightning/lightning-tutorials/blob/publication/.notebooks/lightning_examples/text-transformers.ipynb 
+Licensed under a CC BY SA 4.0 license. https://creativecommons.org/licenses/by-sa/4.0/
+A derivative of Finetune Transformers Models with Pytorch Lightning by PL Team. https://github.com/PytorchLightning/lightning-tutorials/blob/publication/.notebooks/lightning_examples/text-transformers.ipynb

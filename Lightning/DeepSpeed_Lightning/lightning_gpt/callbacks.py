@@ -2,14 +2,15 @@ import time
 
 import torch
 from lightning_utilities import module_available
+
 if module_available("lightning"):
     from lightning.pytorch import LightningModule, Trainer
     from lightning.pytorch.callbacks import Callback
 elif module_available("pytorch_lightning"):
     from pytorch_lightning import LightningModule
     from pytorch_lightning.callbacks import Callback
-#from lightning import LightningModule, Trainer
-#from lightning.pytorch import Callback
+# from lightning import LightningModule, Trainer
+# from lightning.pytorch import Callback
 from lightning.pytorch.utilities import rank_zero_info
 
 

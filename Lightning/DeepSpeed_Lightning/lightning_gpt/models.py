@@ -4,6 +4,7 @@ from typing import Any, Optional, Tuple
 
 import torch.optim
 from lightning_utilities import module_available
+
 if module_available("lightning"):
     from lightning.pytorch import LightningModule
     from lightning.pytorch.strategies.deepspeed import _DEEPSPEED_AVAILABLE
@@ -329,12 +330,13 @@ def _get_deepspeed_optimizer(
         return DeepSpeedCPUAdam(optim_groups, lr=learning_rate, betas=betas)
 
     elif fused_adam and _DEEPSPEED_AVAILABLE:
-        #from deepspeed.ops.adam import FusedAdam
+        # from deepspeed.ops.adam import FusedAdam
 
-        #return FusedAdam(optim_groups, lr=learning_rate, betas=betas)
+        # return FusedAdam(optim_groups, lr=learning_rate, betas=betas)
         from habana_frameworks.torch.hpex.optimizers import FusedAdamW
+
         return FusedAdamW(optim_groups, lr=learning_rate)
-        #return torch.optim.Adam(optim_groups, lr=learning_rate)
+        # return torch.optim.Adam(optim_groups, lr=learning_rate)
 
     elif fused_adam or cpu_offload:
         warnings.warn(
