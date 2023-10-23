@@ -1,0 +1,26 @@
+# Natural Language Processing
+langchain==0.0.191
+chromadb==0.3.22
+llama-cpp-python==0.1.66
+pdfminer.six==20221105
+optimum[habana]
+InstructorEmbedding==1.0.1
+sentence-transformers==2.2.2
+faiss-cpu==1.7.4
+huggingface_hub==0.16.4
+protobuf==3.20
+auto-gptq==0.2.2
+docx2txt
+unstructured
+
+# Utilities
+urllib3
+accelerate
+bitsandbytes ; sys_platform != 'win32'
+bitsandbytes-windows ; sys_platform == 'win32'
+click
+flask
+requests
+
+# Excel File Manipulation
+openpyxl
