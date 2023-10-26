@@ -1,6 +1,6 @@
 # Large Model usage with minGPT
 
-This tutorial provides example training scripts to demonstrate different DeepSpeed optimization technologies on Gaudi2. This tutorial will focus on the memory optimization technologies, including Zero Redundancy Optimizer(ZeRO) and Activation Checkpointing.
+This tutorial provides example training scripts to demonstrate different DeepSpeed optimization technologies on the Intel&reg; Gaudi&reg;2 AI accelerator. This tutorial will focus on the memory optimization technologies, including Zero Redundancy Optimizer(ZeRO) and Activation Checkpointing.
 
 
 ## Table of Contents
