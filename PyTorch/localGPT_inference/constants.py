@@ -43,5 +43,5 @@ EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
 EMBEDDING_INPUT_SIZE = -1
 
 # LLM HF id and base name (if applicable)
-LLM_ID = "meta-llama/Llama-2-7b-chat-hf"
+LLM_ID = "meta-llama/Llama-2-70b-chat-hf"
 LLM_BASE_NAME = None
