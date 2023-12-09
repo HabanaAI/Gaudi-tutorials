@@ -1,5 +1,3 @@
-#Copyright (c) 2023 Habana Labs, Ltd. an Intel Company.
-
 from sentence_transformers import SentenceTransformer
 from InstructorEmbedding import INSTRUCTOR_Pooling, INSTRUCTOR_Transformer
 from InstructorEmbedding.instructor import batch_to_device, import_from_string

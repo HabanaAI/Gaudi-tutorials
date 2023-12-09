@@ -1,13 +1,7 @@
-#Copyright (c) 2023 Habana Labs, Ltd. an Intel Company.
-
-import sys
 import time
 import unittest
 
 from pipeline import GaudiTextGenerationPipeline
-
-sys.path.append('../')
-from constants import LLM_ID
 
 
 class TestGaudiTextGenPipeline(unittest.TestCase):
@@ -15,7 +9,7 @@ class TestGaudiTextGenPipeline(unittest.TestCase):
     def setUpClass(self):
         """Overrides setUpClass from unittest to create artifacts for testing"""
         self.max_new_tokens = 100
-        self.pipe = GaudiTextGenerationPipeline(model_name_or_path=f"../{LLM_ID}", max_new_tokens=self.max_new_tokens, temperature=0, top_p=0.95, repetition_penalty=1.15, use_kv_cache=True)
+        self.pipe = GaudiTextGenerationPipeline(model_name_or_path="meta-llama/Llama-2-7b-chat-hf", max_new_tokens=self.max_new_tokens, temperature=0.2, top_p=0.95, repetition_penalty=1.15, do_sample=True)
 
         # Inputs for testing
         self.short_prompt = "Once upon a time"
