@@ -19,7 +19,8 @@ INGEST_THREADS = os.cpu_count() or 8
 
 # Define the Chroma settings
 CHROMA_SETTINGS = Settings(
-    chroma_db_impl="duckdb+parquet", persist_directory=PERSIST_DIRECTORY, anonymized_telemetry=False
+    anonymized_telemetry=False,
+    is_persistent=True,
 )
 
 # https://python.langchain.com/en/latest/_modules/langchain/document_loaders/excel.html#UnstructuredExcelLoader
@@ -42,5 +43,5 @@ EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
 EMBEDDING_INPUT_SIZE = -1
 
 # LLM HF id and base name (if applicable)
-LLM_ID = "meta-llama/Llama-2-13b-chat-hf"
+LLM_ID = "meta-llama/Llama-2-7b-chat-hf"
 LLM_BASE_NAME = None

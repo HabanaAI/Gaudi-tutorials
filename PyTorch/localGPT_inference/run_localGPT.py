@@ -1,6 +1,5 @@
-#Copyright (c) 2023 Habana Labs, Ltd. an Intel Company.
-
 import logging
+import os
 import time
 import click
 import torch
@@ -17,7 +16,7 @@ from langchain.vectorstores import Chroma
 from constants import CHROMA_SETTINGS, EMBEDDING_MODEL_NAME, PERSIST_DIRECTORY, EMBEDDING_INPUT_SIZE, LLM_ID, LLM_BASE_NAME
 
 
-def load_model(device_type, model_id, model_basename=None):
+def load_model(device_type, model_id, temperature, top_p, model_basename=None):
     """
     Select a model for text generation using the HuggingFace library.
     If you are running this for the first time, it will download a model for you.
@@ -35,8 +34,12 @@ def load_model(device_type, model_id, model_basename=None):
     Raises:
         ValueError: If an unsupported model or device type is provided.
     """
+    
+    logging.info(f"temperature set to {temperature}, top_p set to {top_p}")
     logging.info(f"Loading Model: {model_id}, on: {device_type}")
     logging.info("This action can take a few minutes!")
+
+    process_rank = -1
 
     if model_basename is not None:
         if ".ggml" in model_basename:
@@ -81,9 +84,11 @@ def load_model(device_type, model_id, model_basename=None):
     elif device_type == "hpu":
         from gaudi_utils.pipeline import GaudiTextGenerationPipeline
 
-        pipe = GaudiTextGenerationPipeline(model_name_or_path=model_id, max_new_tokens=100, temperature=0.5, top_p=0.5, repetition_penalty=1.15, use_kv_cache=True, do_sample=True)
+        pipe = GaudiTextGenerationPipeline(model_name_or_path=model_id, max_new_tokens=1000, temperature=temperature, top_p=top_p, repetition_penalty=1.15, do_sample=True)
         pipe.compile_graph()
+        process_rank = pipe.get_process_rank()
     else:
+        from transformers import GenerationConfig, pipeline
         if (
         device_type.lower() == "cuda"
         ):  # The code supports all huggingface models that ends with -HF or which have a .bin
@@ -105,7 +110,7 @@ def load_model(device_type, model_id, model_basename=None):
             model.tie_weights()
         else:
             logging.info("Using LlamaTokenizer")
-            from transformers import LlamaTokenizer, LlamaForCausalLM, GenerationConfig, pipeline
+            from transformers import LlamaTokenizer, LlamaForCausalLM
 
             tokenizer = LlamaTokenizer.from_pretrained(model_id)
             model = LlamaForCausalLM.from_pretrained(model_id)
@@ -121,9 +126,9 @@ def load_model(device_type, model_id, model_basename=None):
             "text-generation",
             model=model,
             tokenizer=tokenizer,
-            max_new_tokens=100,
-            temperature=0,
-            top_p=0.95,
+            max_new_tokens=1000,
+            temperature=temperature,
+            top_p=top_p,
             repetition_penalty=1.15,
             generation_config=generation_config,
         )
@@ -131,7 +136,7 @@ def load_model(device_type, model_id, model_basename=None):
     local_llm = HuggingFacePipeline(pipeline=pipe)
     logging.info("Local LLM Loaded")
 
-    return local_llm
+    return local_llm, process_rank
 
 
 # chose device typ to run on as well as to show source documents.
@@ -170,7 +175,19 @@ def load_model(device_type, model_id, model_basename=None):
     is_flag=True,
     help="Show sources along with answers (Default is False)",
 )
-def main(device_type, show_sources):
+@click.option(
+    "--temperature",
+    default=0.2,
+    help="Specify the temperature value for text-generation with LLMs",
+)
+@click.option(
+    "--top_p",
+    default=0.95,
+    help="Specify the top_p value for text-generation with LLMs",
+)
+
+
+def main(device_type, show_sources, temperature, top_p):
     """
     This function implements the information retrieval task.
 
@@ -185,6 +202,16 @@ def main(device_type, show_sources):
     logging.info(f"Running on: {device_type}")
     logging.info(f"Display Source Documents set to: {show_sources}")
 
+    use_deepspeed = "deepspeed" in os.environ["_"]
+
+    # model info
+    model_id = LLM_ID
+    model_basename = LLM_BASE_NAME
+
+    # Load model pipeline object and process rank if using deepspeed
+    llm, local_rank = load_model(device_type, model_id, temperature, top_p, model_basename=model_basename)
+
+    # Load embeddings object for vectorstore retrieval
     if device_type == "hpu":
         from gaudi_utils.embeddings import GaudiHuggingFaceEmbeddings
 
@@ -192,20 +219,14 @@ def main(device_type, show_sources):
     else:
         embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_NAME, model_kwargs={"device": device_type})
 
-    # load the vectorstore
+    # Load chroma vectorstore
     db = Chroma(
         persist_directory=PERSIST_DIRECTORY,
         embedding_function=embeddings,
         client_settings=CHROMA_SETTINGS,
     )
     retriever = db.as_retriever()
-
-    # load the LLM for generating Natural Language responses
-
-    # model info
-    model_id = LLM_ID
-    model_basename = LLM_BASE_NAME
-
+    
     template = """Use the following pieces of context to answer the question at the end. If you don't know the answer,\
 just say that you don't know, don't try to make up an answer.
 
@@ -218,8 +239,7 @@ Answer:"""
     prompt = PromptTemplate(input_variables=["history", "context", "question"], template=template)
     memory = ConversationBufferMemory(input_key="question", memory_key="history")
 
-    llm = load_model(device_type, model_id=model_id, model_basename=model_basename)
-
+    # Initialize langchain
     qa = RetrievalQA.from_chain_type(
         llm=llm,
         chain_type="stuff",
@@ -228,31 +248,59 @@ Answer:"""
         chain_type_kwargs={"prompt": prompt, "memory": memory},
     )
 
-    # Interactive questions and answers
+    if use_deepspeed:
+        torch.distributed.barrier()
+        
+        # Set up distributed FileStore for deepspeed
+        store = torch.distributed.FileStore("filestore", int(os.getenv("WORLD_SIZE")))
+        
+        # pre-flight run before starting interactive session
+        qa("What is this document about?")
+        
+        torch.distributed.barrier()
+
+    # Interactive Session
     while True:
-        query = input("\nEnter a query: ")
+        if local_rank in [-1, 0]:
+            query = input("\nEnter a query: ")
+            if use_deepspeed:
+                store.set("query", query)
+        
+        if use_deepspeed:
+            torch.distributed.barrier()
+            query = str(store.get("query"), encoding='utf-8')
+        
         if query == "exit":
             break
-        # Get the answer from the chain
-        start_time = time.perf_counter()
+       
+        if local_rank in [-1, 0]:
+            start_time = time.perf_counter()
+        
+        if use_deepspeed:
+            torch.distributed.barrier()
+
         res = qa(query)
-        end_time = time.perf_counter()
-        logging.info(f"Query processing time: {end_time-start_time}s")
-        answer, docs = res["result"], res["source_documents"]
+        
+        if local_rank in [-1, 0]:
+            end_time = time.perf_counter()
+            logging.info(f"Query processing time: {end_time-start_time}s")
+            answer, docs = res["result"], res["source_documents"]
+        
+            print("\n\n> Question:")
+            print(query)
+            print("\n> Answer:")
+            print(answer)
 
-        # Print the result
-        print("\n\n> Question:")
-        print(query)
-        print("\n> Answer:")
-        print(answer)
+            if show_sources:  # this is a flag that you can set to disable showing answers.
+                # # Print the relevant sources used for the answer
+                print("----------------------------------SOURCE DOCUMENTS---------------------------")
+                for document in docs:
+                    print("\n> " + document.metadata["source"] + ":")
+                    print(document.page_content)
+                print("----------------------------------SOURCE DOCUMENTS---------------------------")
 
-        if show_sources:  # this is a flag that you can set to disable showing answers.
-            # # Print the relevant sources used for the answer
-            print("----------------------------------SOURCE DOCUMENTS---------------------------")
-            for document in docs:
-                print("\n> " + document.metadata["source"] + ":")
-                print(document.page_content)
-            print("----------------------------------SOURCE DOCUMENTS---------------------------")
+        if use_deepspeed:
+            torch.distributed.barrier()
 
 
 if __name__ == "__main__":

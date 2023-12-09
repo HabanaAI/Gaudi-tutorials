@@ -159,8 +159,6 @@ def main(device_type):
     )
     end_time = time.perf_counter()
     logging.info(f"Time taken to create embeddings vectorstore: {end_time-start_time}s")
-    db.persist()
-    db = None
 
 
 if __name__ == "__main__":
