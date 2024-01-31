@@ -69,15 +69,16 @@ def get_checkpoint_files(model_name_or_path, local_rank):
     return file_list
 
 
-def write_checkpoints_json(model_name_or_path, local_rank, checkpoints_json):
+def maybe_write_checkpoints_json(model_name_or_path, local_rank, checkpoints_json):
     """
     Dumps metadata into a JSON file for DeepSpeed-inference.
     """
     checkpoint_files = get_checkpoint_files(model_name_or_path, local_rank)
-    if local_rank == 0:
+    if checkpoint_files and local_rank == 0:
         data = {"type": "ds_model", "checkpoints": checkpoint_files, "version": 1.0}
         with open(checkpoints_json, "w") as fp:
             json.dump(data, fp)
+    return bool(checkpoint_files)
 
 
 def model_on_meta(config):
@@ -146,7 +147,7 @@ def get_ds_injection_policy(config):
 
 
 class CustomStoppingCriteria(StoppingCriteria):
-    """" 
+    """"
     A custom stopping criteria which stops text generation when a stop token is generated.
     """
     def __init__(self, stop_token_id):
@@ -206,14 +207,14 @@ class GaudiTextGenerationPipeline:
             if load_to_meta:
                 # model loaded to meta is managed differently
                 checkpoints_json = "checkpoints.json"
-                write_checkpoints_json(model_name_or_path, self.local_rank, checkpoints_json)
+                has_checkpoints = maybe_write_checkpoints_json(model_name_or_path, self.local_rank, checkpoints_json)
+                if has_checkpoints:
+                    ds_inference_kwargs["checkpoint"] = checkpoints_json
 
             # Make sure all devices/nodes have access to the model checkpoints
             torch.distributed.barrier()
 
             ds_inference_kwargs["injection_policy"] = get_ds_injection_policy(config)
-            if load_to_meta:
-                ds_inference_kwargs["checkpoint"] = checkpoints_json
 
             model = deepspeed.init_inference(model, **ds_inference_kwargs)
             model = model.module
@@ -229,7 +230,7 @@ class GaudiTextGenerationPipeline:
         # Used for padding input to fixed length
         self.tokenizer.padding_side = "left"
         self.max_padding_length = kwargs.get("max_padding_length", self.model.config.max_position_embeddings)
-        
+
         # Define config params for llama models
         if self.model.config.model_type == "llama":
             self.model.generation_config.pad_token_id = 0
@@ -241,7 +242,7 @@ class GaudiTextGenerationPipeline:
             self.tokenizer.pad_token = self.tokenizer.decode(self.tokenizer.pad_token_id)
             self.tokenizer.eos_token = self.tokenizer.decode(self.tokenizer.eos_token_id)
             self.tokenizer.bos_token = self.tokenizer.decode(self.tokenizer.bos_token_id)
-        
+
         # Applicable to models that do not have pad tokens
         if self.tokenizer.pad_token is None:
             self.tokenizer.pad_token = self.tokenizer.eos_token
