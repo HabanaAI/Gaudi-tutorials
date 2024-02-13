@@ -1,25 +1,7 @@
-import logging
 import os
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
 
-import click
-import torch
-from langchain.docstore.document import Document
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.text_splitter import Language, RecursiveCharacterTextSplitter
-from langchain.vectorstores import Chroma
-
-from constants import (
-    CHROMA_SETTINGS,
-    DOCUMENT_MAP,
-    EMBEDDING_MODEL_NAME,
-    INGEST_THREADS,
-    PERSIST_DIRECTORY,
-    SOURCE_DIRECTORY,
-    EMBEDDING_INPUT_SIZE,
-)
-
-import time
+from constants import DOCUMENT_MAP, INGEST_THREADS
 
 
 def load_single_document(file_path):
@@ -34,7 +16,6 @@ def load_single_document(file_path):
 
 
 def load_document_batch(filepaths):
-    logging.info("Loading document batch")
     # create a thread pool
     with ThreadPoolExecutor(len(filepaths)) as exe:
         # load files
@@ -75,94 +56,3 @@ def load_documents(source_dir):
             docs.extend(contents)
 
     return docs
-
-
-def split_documents(documents):
-    # Splits documents for correct Text Splitter
-    text_docs, python_docs = [], []
-    for doc in documents:
-        file_extension = os.path.splitext(doc.metadata["source"])[1]
-        if file_extension == ".py":
-            python_docs.append(doc)
-        else:
-            text_docs.append(doc)
-
-    return text_docs, python_docs
-
-
-@click.command()
-@click.option(
-    "--device_type",
-    default="cuda" if torch.cuda.is_available() else "cpu",
-    type=click.Choice(
-        [
-            "cpu",
-            "cuda",
-            "ipu",
-            "xpu",
-            "mkldnn",
-            "opengl",
-            "opencl",
-            "ideep",
-            "hip",
-            "ve",
-            "fpga",
-            "ort",
-            "xla",
-            "lazy",
-            "vulkan",
-            "mps",
-            "meta",
-            "hpu",
-            "mtia",
-        ],
-    ),
-    help="Device to run on. (Default is cuda)",
-)
-def main(device_type):
-    # Load documents and split in chunks
-    logging.info(f"Loading documents from {SOURCE_DIRECTORY}")
-    documents = load_documents(SOURCE_DIRECTORY)
-    text_documents, python_documents = split_documents(documents)
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-    python_splitter = RecursiveCharacterTextSplitter.from_language(
-        language=Language.PYTHON, chunk_size=1000, chunk_overlap=200
-    )
-    texts = text_splitter.split_documents(text_documents)
-    texts.extend(python_splitter.split_documents(python_documents))
-    logging.info(f"Loaded {len(documents)} documents from {SOURCE_DIRECTORY}")
-    logging.info(f"Split into {len(texts)} chunks of text")
-
-    # Create embeddings
-    if device_type == "hpu":
-        from habana_frameworks.torch.utils.library_loader import load_habana_module
-        from gaudi_utils.embeddings import GaudiHuggingFaceEmbeddings
-
-        load_habana_module()
-        embeddings = GaudiHuggingFaceEmbeddings(
-            embedding_input_size=EMBEDDING_INPUT_SIZE,
-            model_name=EMBEDDING_MODEL_NAME,
-            model_kwargs={"device": device_type},
-        )
-    else:
-        embeddings = HuggingFaceEmbeddings(
-            model_name=EMBEDDING_MODEL_NAME,
-            model_kwargs={"device": device_type},
-        )
-
-    start_time = time.perf_counter()
-    db = Chroma.from_documents(
-        texts,
-        embeddings,
-        persist_directory=PERSIST_DIRECTORY,
-        client_settings=CHROMA_SETTINGS,
-    )
-    end_time = time.perf_counter()
-    logging.info(f"Time taken to create embeddings vectorstore: {end_time-start_time}s")
-
-
-if __name__ == "__main__":
-    logging.basicConfig(
-        format="%(asctime)s - %(levelname)s - %(filename)s:%(lineno)s - %(message)s", level=logging.INFO
-    )
-    main()
