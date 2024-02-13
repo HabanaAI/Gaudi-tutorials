@@ -3,6 +3,7 @@ import json
 import torch
 import os
 from pathlib import Path
+from typing import List
 
 from habana_frameworks.torch.distributed.hccl import initialize_distributed_hpu
 from habana_frameworks.torch.hpu import wrap_in_hpu_graph
@@ -268,8 +269,8 @@ class GaudiTextGenerationPipeline:
         if self.use_deepspeed:
             torch.distributed.barrier()
 
-    def __call__(self, prompt: str):
-        model_inputs = self.tokenizer.encode_plus(prompt, return_tensors="pt", max_length=self.max_padding_length, padding="max_length", truncation=True)
+    def __call__(self, prompt: List[str]):
+        model_inputs = self.tokenizer.encode_plus(prompt[0], return_tensors="pt", max_length=self.max_padding_length, padding="max_length", truncation=True)
 
         for t in model_inputs:
             if torch.is_tensor(model_inputs[t]):
@@ -295,7 +296,7 @@ class GaudiTextGenerationPipeline:
         Function to compile computation graphs and synchronize hpus.
         """
         for _ in range(3):
-            self("Here is my prompt")
+            self(["Here is my prompt"])
         torch_hpu.synchronize()
 
 
