@@ -266,6 +266,8 @@ class GaudiTextGenerationPipeline:
         # Define stopping criteria based on eos token id
         self.stopping_criteria = StoppingCriteriaList([CustomStoppingCriteria(self.generation_config.eos_token_id)])
 
+        self._postprocess_params = {}
+
         if self.use_deepspeed:
             torch.distributed.barrier()
 
@@ -306,21 +308,21 @@ def main():
 
     # Test model on different input prompts
     print("Test 1: short prompt")
-    print(pipe("Once upon a time"))
+    print(pipe(["Once upon a time"]))
     print("Success!\n")
 
     print("Test 2: long prompt")
-    print(pipe("Antibiotics are a type of medication used to treat bacterial infections. They work by either killing the bacteria or preventing them from reproducing, allowing the body’s immune system to fight off the infection. Antibiotics are usually taken orally in the form of pills, capsules, or liquid solutions, or sometimes administered intravenously. They are not effective against viral infections, and using them"))
+    print(pipe(["Antibiotics are a type of medication used to treat bacterial infections. They work by either killing the bacteria or preventing them from reproducing, allowing the body’s immune system to fight off the infection. Antibiotics are usually taken orally in the form of pills, capsules, or liquid solutions, or sometimes administered intravenously. They are not effective against viral infections, and using them"]))
     print("Success!\n")
 
     print("Test 3: qa prompt")
-    print(pipe("""Answer the question based on the context below. If the question cannot be answered using the information provided answer with "I don't know".
+    print(pipe(["""Answer the question based on the context below. If the question cannot be answered using the information provided answer with "I don't know".
 
 Context: Large Language Models (LLMs) are the latest models used in NLP. Their superior performance over smaller models has made them incredibly useful for developers building NLP enabled applications. These models can be accessed via Hugging Face's `transformers` library, via OpenAI using the `openai` library, and via Cohere using the `cohere` library.
 
 Question: Which libraries and model providers offer LLMs?
 
-Answer: """))
+Answer: """]))
     print("Success!")
 
 

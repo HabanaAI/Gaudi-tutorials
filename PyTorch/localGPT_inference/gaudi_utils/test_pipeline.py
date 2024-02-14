@@ -32,7 +32,7 @@ Answer: """
     def test_short_prompt_input(self):
         """Test llm with short prompt and measure latency and throughput"""
         start_time = time.perf_counter()
-        output = self.pipe(self.short_prompt)
+        output = self.pipe([self.short_prompt])
         end_time = time.perf_counter()
         print(f"Generated Text: {repr(output[0]['generated_text'])}")
         print(f"Latency: {end_time-start_time} seconds")
@@ -42,7 +42,7 @@ Answer: """
     def test_long_prompt_input(self):
         """Test llm with long prompt and measure latency and thoughput"""
         start_time = time.perf_counter()
-        output = self.pipe(self.long_prompt)
+        output = self.pipe([self.long_prompt])
         end_time = time.perf_counter()
         print(f"Generated Text: {repr(output[0]['generated_text'])}")
         print(f"Latency: {end_time-start_time} seconds")
@@ -52,7 +52,7 @@ Answer: """
     def test_qa_prompt_input(self):
         """Test llm with question answering prompt and measure latency and throughput"""
         start_time = time.perf_counter()
-        output = self.pipe(self.qa_prompt)
+        output = self.pipe([self.qa_prompt])
         end_time = time.perf_counter()
         print(f"Generated Text: {repr(output[0]['generated_text'])}")
         print(f"Latency: {end_time-start_time} seconds")
