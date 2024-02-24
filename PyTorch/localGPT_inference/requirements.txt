@@ -1,5 +1,5 @@
 # Natural Language Processing
-langchain==0.0.191
+langchain==0.0.329
 chromadb==0.4.6
 llama-cpp-python==0.1.66
 pdfminer.six==20221105
@@ -7,7 +7,7 @@ pickleshare
 InstructorEmbedding==1.0.1
 sentence-transformers==2.2.2
 faiss-cpu==1.7.4
-protobuf==3.20
+protobuf==3.20.2
 auto-gptq==0.2.2
 docx2txt
 unstructured
