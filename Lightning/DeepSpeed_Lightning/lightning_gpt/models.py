@@ -9,8 +9,8 @@ if module_available("lightning"):
     from lightning.pytorch import LightningModule
     from lightning.pytorch.strategies.deepspeed import _DEEPSPEED_AVAILABLE
 elif module_available("pytorch_lightning"):
-    from pytorch_lightning import LightningModule
     from lightning_habana.strategies.deepspeed import _DEEPSPEED_AVAILABLE
+    from pytorch_lightning import LightningModule
 
 from lightning_utilities.core.overrides import is_overridden
 

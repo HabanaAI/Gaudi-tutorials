@@ -1,19 +1,26 @@
 import logging
 import os
 import time
+
 import click
 import torch
-
 from auto_gptq import AutoGPTQForCausalLM
+from constants import (
+    CHROMA_SETTINGS,
+    EMBEDDING_INPUT_SIZE,
+    EMBEDDING_MODEL_NAME,
+    LLM_BASE_NAME,
+    LLM_ID,
+    PERSIST_DIRECTORY,
+)
 from huggingface_hub import hf_hub_download
+
 from langchain.chains import RetrievalQA
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.llms import HuggingFacePipeline, LlamaCpp
 from langchain.memory import ConversationBufferMemory
 from langchain.prompts import PromptTemplate
 from langchain.vectorstores import Chroma
-
-from constants import CHROMA_SETTINGS, EMBEDDING_MODEL_NAME, PERSIST_DIRECTORY, EMBEDDING_INPUT_SIZE, LLM_ID, LLM_BASE_NAME
 
 
 def load_model(device_type, model_id, temperature, top_p, model_basename=None):
@@ -34,7 +41,7 @@ def load_model(device_type, model_id, temperature, top_p, model_basename=None):
     Raises:
         ValueError: If an unsupported model or device type is provided.
     """
-    
+
     logging.info(f"temperature set to {temperature}, top_p set to {top_p}")
     logging.info(f"Loading Model: {model_id}, on: {device_type}")
     logging.info("This action can take a few minutes!")
@@ -84,17 +91,25 @@ def load_model(device_type, model_id, temperature, top_p, model_basename=None):
     elif device_type == "hpu":
         from gaudi_utils.pipeline import GaudiTextGenerationPipeline
 
-        pipe = GaudiTextGenerationPipeline(model_name_or_path=model_id, max_new_tokens=1000, temperature=temperature, top_p=top_p, repetition_penalty=1.15, do_sample=True)
+        pipe = GaudiTextGenerationPipeline(
+            model_name_or_path=model_id,
+            max_new_tokens=1000,
+            temperature=temperature,
+            top_p=top_p,
+            repetition_penalty=1.15,
+            do_sample=True,
+        )
         pipe.compile_graph()
         process_rank = pipe.get_process_rank()
     else:
         from transformers import GenerationConfig, pipeline
+
         if (
-        device_type.lower() == "cuda"
+            device_type.lower() == "cuda"
         ):  # The code supports all huggingface models that ends with -HF or which have a .bin
             # file in their HF repo.
             logging.info("Using AutoModelForCausalLM for full models")
-            from transformers import AutoTokenizer, AutoModelForCausalLM
+            from transformers import AutoModelForCausalLM, AutoTokenizer
 
             tokenizer = AutoTokenizer.from_pretrained(model_id)
             logging.info("Tokenizer loaded")
@@ -110,7 +125,7 @@ def load_model(device_type, model_id, temperature, top_p, model_basename=None):
             model.tie_weights()
         else:
             logging.info("Using LlamaTokenizer")
-            from transformers import LlamaTokenizer, LlamaForCausalLM
+            from transformers import LlamaForCausalLM, LlamaTokenizer
 
             tokenizer = LlamaTokenizer.from_pretrained(model_id)
             model = LlamaForCausalLM.from_pretrained(model_id)
@@ -185,8 +200,6 @@ def load_model(device_type, model_id, temperature, top_p, model_basename=None):
     default=0.95,
     help="Specify the top_p value for text-generation with LLMs",
 )
-
-
 def main(device_type, show_sources, temperature, top_p):
     """
     This function implements the information retrieval task.
@@ -215,7 +228,11 @@ def main(device_type, show_sources, temperature, top_p):
     if device_type == "hpu":
         from gaudi_utils.embeddings import GaudiHuggingFaceEmbeddings
 
-        embeddings = GaudiHuggingFaceEmbeddings(embedding_input_size=EMBEDDING_INPUT_SIZE, model_name=EMBEDDING_MODEL_NAME, model_kwargs={"device": device_type})
+        embeddings = GaudiHuggingFaceEmbeddings(
+            embedding_input_size=EMBEDDING_INPUT_SIZE,
+            model_name=EMBEDDING_MODEL_NAME,
+            model_kwargs={"device": device_type},
+        )
     else:
         embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_NAME, model_kwargs={"device": device_type})
 
@@ -226,7 +243,7 @@ def main(device_type, show_sources, temperature, top_p):
         client_settings=CHROMA_SETTINGS,
     )
     retriever = db.as_retriever()
-    
+
     template = """Use the following pieces of context to answer the question at the end. If you don't know the answer,\
 just say that you don't know, don't try to make up an answer.
 
@@ -250,13 +267,13 @@ Answer:"""
 
     if use_deepspeed:
         torch.distributed.barrier()
-        
+
         # Set up distributed FileStore for deepspeed
         store = torch.distributed.FileStore("filestore", int(os.getenv("WORLD_SIZE")))
-        
+
         # pre-flight run before starting interactive session
         qa("What is this document about?")
-        
+
         torch.distributed.barrier()
 
     # Interactive Session
@@ -265,27 +282,27 @@ Answer:"""
             query = input("\nEnter a query: ")
             if use_deepspeed:
                 store.set("query", query)
-        
+
         if use_deepspeed:
             torch.distributed.barrier()
-            query = str(store.get("query"), encoding='utf-8')
-        
+            query = str(store.get("query"), encoding="utf-8")
+
         if query == "exit":
             break
-       
+
         if local_rank in [-1, 0]:
             start_time = time.perf_counter()
-        
+
         if use_deepspeed:
             torch.distributed.barrier()
 
         res = qa(query)
-        
+
         if local_rank in [-1, 0]:
             end_time = time.perf_counter()
             logging.info(f"Query processing time: {end_time-start_time}s")
             answer, docs = res["result"], res["source_documents"]
-        
+
             print("\n\n> Question:")
             print(query)
             print("\n> Answer:")

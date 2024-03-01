@@ -11,12 +11,12 @@ https://github.com/huggingface/transformers/blob/main/src/transformers/models/gp
 
 import math
 
+import deepspeed
 import torch
 import torch.nn as nn
 from torch.nn import functional as F
 
 from mingpt.utils import CfgNode as CN
-import deepspeed
 
 # -----------------------------------------------------------------------------
 

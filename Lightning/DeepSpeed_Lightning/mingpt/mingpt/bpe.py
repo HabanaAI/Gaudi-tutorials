@@ -8,11 +8,11 @@ I also tried to add as many comments as possible, my own understanding of what's
 going on.
 """
 
-import os
 import json
+import os
+
 import regex as re
 import requests
-
 import torch
 
 # -----------------------------------------------------------------------------
@@ -79,14 +79,14 @@ class Encoder:
         python re reference: https://docs.python.org/3/library/re.html
         - the vertical bars | is OR, so re.findall will chunkate text as the pieces match, from left to right
         - '\'s' would split up things like Andrej's -> (Andrej, 's)
-        - ' ?\p{L}': optional space followed by 1+ unicode code points in the category "letter"
-        - ' ?\p{N}': optional space followed by 1+ unicode code points in the category "number"
-        - ' ?[^\s\p{L}\p{N}]+': optional space, then 1+ things that are NOT a whitespace, letter or number
-        - '\s+(?!\S)': 1+ whitespace characters (e.g. space or tab or etc) UNLESS they are followed by non-whitespace
+        - ' ?\\p{L}': optional space followed by 1+ unicode code points in the category "letter"
+        - ' ?\\p{N}': optional space followed by 1+ unicode code points in the category "number"
+        - ' ?[^\\s\\p{L}\\p{N}]+': optional space, then 1+ things that are NOT a whitespace, letter or number
+        - '\\s+(?!\\S)': 1+ whitespace characters (e.g. space or tab or etc) UNLESS they are followed by non-whitespace
                        so this will consume whitespace characters in a sequence but exclude the last whitespace in
                        that sequence. that last whitespace has the opportunity to then match the optional ' ?' in
                        earlier patterns.
-        - '\s+': 1+ whitespace characters, intended probably to catch a full trailing sequence of whitespaces at end of string
+        - '\\s+': 1+ whitespace characters, intended probably to catch a full trailing sequence of whitespaces at end of string
         So TLDR:
         - we are special casing a few common apostrophe constructs ('s, 't, 're, ...) and making those into separate tokens
         - we then separate out strings into consecutive chunks of 1) letters, 2) numbers, 3) non-letter-numbers, 4) whitespaces
@@ -129,7 +129,7 @@ class Encoder:
                     j = word.index(first, i)
                     new_word.extend(word[i:j])
                     i = j
-                except:
+                except:  # noqa: E722
                     new_word.extend(word[i:])
                     break
 

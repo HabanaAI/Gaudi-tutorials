@@ -4,7 +4,6 @@ Trains a GPT to add n-digit numbers.
 
 import os
 import sys
-import json
 
 import torch
 from torch.utils.data import Dataset
@@ -12,7 +11,8 @@ from torch.utils.data.dataloader import DataLoader
 
 from mingpt.model import GPT
 from mingpt.trainer import Trainer
-from mingpt.utils import set_seed, setup_logging, CfgNode as CN
+from mingpt.utils import CfgNode as CN
+from mingpt.utils import set_seed, setup_logging
 
 # -----------------------------------------------------------------------------
 

@@ -1,7 +1,7 @@
-import os
-import sys
 import json
+import os
 import random
+import sys
 from ast import literal_eval
 
 import numpy as np

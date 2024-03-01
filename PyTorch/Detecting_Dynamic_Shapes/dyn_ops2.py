@@ -1,7 +1,7 @@
 # Copyright (c) 2023, Habana Labs Ltd.  All rights reserved.
 
-from habana_frameworks.torch.utils.experimental import detect_recompilation_auto_model
 import torch
+from habana_frameworks.torch.utils.experimental import detect_recompilation_auto_model
 
 
 class InnerNet(torch.nn.Module):

@@ -1,48 +1,31 @@
 from argparse import ArgumentParser
 from urllib.request import urlopen
 
-from deepspeed.ops.adam import DeepSpeedCPUAdam, FusedAdam
-
 # from deepspeed.profiling.flops_profiler.profiler import FlopsProfiler
-from deepspeed.runtime.lr_schedules import WarmupLR
-
 # import lightning as L
 from lightning_utilities import module_available
 
 if module_available("lightning"):
     import lightning.pytorch as L
-    from lightning.pytorch.callbacks import Callback, LearningRateMonitor, ModelCheckpoint
-    from lightning.pytorch.loggers import WandbLogger
     from lightning.pytorch.plugins import DeepSpeedPrecisionPlugin
-    from lightning.pytorch.profilers.pytorch import PyTorchProfiler
-    from lightning.pytorch.strategies import StrategyRegistry
-    from lightning.pytorch.utilities.types import STEP_OUTPUT
 elif module_available("pytorch_lightning"):
     import pytorch_lightning as L
-    from pytorch_lightning.callbacks import Callback, LearningRateMonitor, ModelCheckpoint
-    from pytorch_lightning.loggers import WandbLogger
     from pytorch_lightning.plugins import DeepSpeedPrecisionPlugin
-    from pytorch_lightning.profilers.pytorch import PyTorchProfiler
-    from pytorch_lightning.strategies import StrategyRegistry
-    from pytorch_lightning.utilities.types import STEP_OUTPUT
 
-from lightning_habana.pytorch.accelerator import HPUAccelerator
-from lightning_habana.pytorch.strategies import HPUDeepSpeedStrategy, HPUParallelStrategy
+import gc
 
 import torch
+import torch.distributed as dist
+from lightning_habana.pytorch.accelerator import HPUAccelerator
+from lightning_habana.pytorch.strategies import HPUDeepSpeedStrategy, HPUParallelStrategy
 from torch.utils.data import DataLoader
 
 from lightning_gpt import callbacks, data, models
 
-
 try:
-    import habana_frameworks.torch.core as htcore
     import habana_frameworks.torch.hpu as hthpu
-except:
+except ImportError:
     print("INFO: no habana framework package installed")
-
-import gc
-import torch.distributed as dist
 
 
 def see_memory_usage(message, force=True, use_hpu=False):
@@ -194,7 +177,7 @@ def main(args):
     if int(os.environ["LOCAL_RANK"]) != 0:
         return
     x = train_dataset.to_tokens(context, "hpu")
-    y = model.generate(x, max_new_tokens=20, temperature=1.0, do_sample=True, top_k=3)
+    model.generate(x, max_new_tokens=20, temperature=1.0, do_sample=True, top_k=3)
 
 
 if __name__ == "__main__":

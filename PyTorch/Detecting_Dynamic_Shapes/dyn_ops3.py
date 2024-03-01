@@ -1,10 +1,11 @@
 # Copyright (c) 2023, Habana Labs Ltd.  All rights reserved.
 
-import torchvision, os
-from PIL import Image
-import torchvision.transforms as T
+import os
 
 import habana_frameworks.torch.core as htcore
+import torchvision
+import torchvision.transforms as T
+from PIL import Image
 
 device = "hpu"
 
@@ -13,7 +14,7 @@ model = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained=True)
 model.eval()  # set to evaluation mode
 model = model.to(device)  # move model to device
 
-from habana_frameworks.torch.utils.experimental import detect_recompilation_auto_model
+from habana_frameworks.torch.utils.experimental import detect_recompilation_auto_model  # noqa: E402
 
 model = detect_recompilation_auto_model(model, waittime=0.3)
 

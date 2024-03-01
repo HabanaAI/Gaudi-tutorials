@@ -2,7 +2,6 @@ import sys
 from argparse import REMAINDER, ArgumentParser
 
 from optimum.habana.distributed import DistributedRunner
-from optimum.utils import logging
 
 
 def parse_args():
