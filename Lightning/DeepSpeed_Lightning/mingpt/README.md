@@ -1,4 +1,3 @@
-
 # minGPT
 
 ![mingpt](mingpt.jpg)
@@ -30,9 +29,10 @@ Here's how you'd instantiate a GPT-2 (124M param version):
 
 ```python
 from mingpt.model import GPT
+
 model_config = GPT.get_default_config()
-model_config.model_type = 'gpt2'
-model_config.vocab_size = 50257 # openai's model vocabulary
+model_config.model_type = "gpt2"
+model_config.vocab_size = 50257  # openai's model vocabulary
 model_config.block_size = 1024  # openai's model block_size (i.e. input context length)
 model = GPT(model_config)
 ```
@@ -45,8 +45,9 @@ And here's how you'd train it:
 train_dataset = YourDataset()
 
 from mingpt.trainer import Trainer
+
 train_config = Trainer.get_default_config()
-train_config.learning_rate = 5e-4 # many possible options, see the file
+train_config.learning_rate = 5e-4  # many possible options, see the file
 train_config.max_iters = 1000
 train_config.batch_size = 32
 trainer = Trainer(train_config, model, train_dataset)

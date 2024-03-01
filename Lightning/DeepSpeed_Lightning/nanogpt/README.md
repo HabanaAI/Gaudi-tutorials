@@ -1,4 +1,3 @@
-
 # nanoGPT
 
 ![nanoGPT](assets/nanogpt.jpg)
@@ -13,12 +12,12 @@ Because the code is so simple, it is very easy to hack to your needs, train new 
 
 Dependencies:
 
-- [pytorch](https://pytorch.org) <3
-- [numpy](https://numpy.org/install/) <3
-- `pip install transformers` for huggingface transformers <3 (to load GPT-2 checkpoints)
-- `pip install datasets` for huggingface datasets <3 (if you want to download + preprocess OpenWebText)
-- `pip install tiktoken` for OpenAI's fast BPE code <3
-- `pip install wandb` for optional logging <3
+- [pytorch](https://pytorch.org) \<3
+- [numpy](https://numpy.org/install/) \<3
+- `pip install transformers` for huggingface transformers \<3 (to load GPT-2 checkpoints)
+- `pip install datasets` for huggingface datasets \<3 (if you want to download + preprocess OpenWebText)
+- `pip install tiktoken` for OpenAI's fast BPE code \<3
+- `pip install wandb` for optional logging \<3
 - `pip install tqdm`
 
 ## quick start
@@ -130,12 +129,12 @@ $ python train.py eval_gpt2_xl
 
 and observe the following losses on train and val:
 
-| model | params | train loss | val loss |
-| ------| ------ | ---------- | -------- |
-| gpt2 | 124M         | 3.11  | 3.12     |
-| gpt2-medium | 350M  | 2.85  | 2.84     |
-| gpt2-large | 774M   | 2.66  | 2.67     |
-| gpt2-xl | 1558M     | 2.56  | 2.54     |
+| model       | params | train loss | val loss |
+| ----------- | ------ | ---------- | -------- |
+| gpt2        | 124M   | 3.11       | 3.12     |
+| gpt2-medium | 350M   | 2.85       | 2.84     |
+| gpt2-large  | 774M   | 2.66       | 2.67     |
+| gpt2-xl     | 1558M  | 2.56       | 2.54     |
 
 However, we have to note that GPT-2 was trained on (closed, never released) WebText, while OpenWebText is just a best-effort open reproduction of this dataset. This means there is a dataset domain gap. Indeed, taking the GPT-2 (124M) checkpoint and finetuning on OWT directly for a while reaches loss down to ~2.85. This then becomes the more appropriate baseline w.r.t. reproduction.
 

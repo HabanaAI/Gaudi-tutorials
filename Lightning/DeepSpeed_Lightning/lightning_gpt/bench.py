@@ -4,6 +4,7 @@ from typing import Any, Callable, Dict, Iterable, List, Optional, Type, Union
 
 import torch
 from lightning_utilities import module_available
+
 if module_available("lightning"):
     import lightning.pytorch as L
 elif module_available("pytorch_lightning"):

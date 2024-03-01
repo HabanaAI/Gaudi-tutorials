@@ -2,11 +2,13 @@ from argparse import ArgumentParser
 from urllib.request import urlopen
 
 from deepspeed.ops.adam import DeepSpeedCPUAdam, FusedAdam
-#from deepspeed.profiling.flops_profiler.profiler import FlopsProfiler
+
+# from deepspeed.profiling.flops_profiler.profiler import FlopsProfiler
 from deepspeed.runtime.lr_schedules import WarmupLR
 
-#import lightning as L
+# import lightning as L
 from lightning_utilities import module_available
+
 if module_available("lightning"):
     import lightning.pytorch as L
     from lightning.pytorch.callbacks import Callback, LearningRateMonitor, ModelCheckpoint
@@ -37,10 +39,11 @@ try:
     import habana_frameworks.torch.core as htcore
     import habana_frameworks.torch.hpu as hthpu
 except:
-    print('INFO: no habana framework package installed')
+    print("INFO: no habana framework package installed")
 
 import gc
 import torch.distributed as dist
+
 
 def see_memory_usage(message, force=True, use_hpu=False):
     if not force:
@@ -56,14 +59,16 @@ def see_memory_usage(message, force=True, use_hpu=False):
     if use_hpu:
         print(
             f"MA {round(hthpu.memory_allocated() / (1024 * 1024),2 )} MB \
-            Max_MA {round(hthpu.max_memory_allocated() / (1024 * 1024),2)} MB ")
+            Max_MA {round(hthpu.max_memory_allocated() / (1024 * 1024),2)} MB "
+        )
 
         # get the peak memory to report correct data, so reset the counter for the next call
         hthpu.reset_peak_memory_stats()
     else:
         print(
             f"MA {round(torch.cuda.memory_allocated() / (1024 * 1024),2 )} MB \
-            Max_MA {round(torch.cuda.max_memory_allocated() / (1024 * 1024),2)} MB")
+            Max_MA {round(torch.cuda.max_memory_allocated() / (1024 * 1024),2)} MB"
+        )
 
         # get the peak memory to report correct data, so reset the counter for the next call
         if hasattr(torch.cuda, "reset_peak_memory_stats"):  # pytorch 1.4+
@@ -145,16 +150,16 @@ def main(args):
     trainer = L.Trainer(
         accelerator=HPUAccelerator() if args.device_type == "hpu" else "auto",
         devices="auto",
-        strategy = HPUDeepSpeedStrategy(
+        strategy=HPUDeepSpeedStrategy(
             stage=args.deepspeed_stage,
-            #offload_optimizer=cfg.offload_optimizer,
-            #offload_parameters=cfg.offload_parameters,
-            #remote_device=cfg.offload_device,
-            #offload_params_device=cfg.offload_device,
-            #offload_optimizer_device=cfg.offload_device,
-            #nvme_path=cfg.nvme_path,
-            logging_batch_size_per_gpu=1, #cfg.batch_size,
-            #partition_activations=cfg.partition_activations,
+            # offload_optimizer=cfg.offload_optimizer,
+            # offload_parameters=cfg.offload_parameters,
+            # remote_device=cfg.offload_device,
+            # offload_params_device=cfg.offload_device,
+            # offload_optimizer_device=cfg.offload_device,
+            # nvme_path=cfg.nvme_path,
+            logging_batch_size_per_gpu=1,  # cfg.batch_size,
+            # partition_activations=cfg.partition_activations,
             cpu_checkpointing=True,
             allgather_bucket_size=5e8,
             reduce_bucket_size=5e8,
@@ -164,14 +169,12 @@ def main(args):
             # add the option to load a config from json file with more deepspeed options
             # note that if supplied all defaults are ignored - model settings defaults this arg to None
             # config=cfg.deepspeed_cfg_file
-        ) if args.strategy == "deepspeed" else  HPUParallelStrategy(
-            bucket_cap_mb=125,
-            gradient_as_bucket_view=True,
-            static_graph=True
-        ),
+        )
+        if args.strategy == "deepspeed"
+        else HPUParallelStrategy(bucket_cap_mb=125, gradient_as_bucket_view=True, static_graph=True),
         callbacks=callback_list,
         accumulate_grad_batches=1,
-        precision="bf16-mixed" if args.strategy == "deepspeed" else "16-mixed",#16,
+        precision="bf16-mixed" if args.strategy == "deepspeed" else "16-mixed",  # 16,
         max_epochs=args.max_epochs,
         num_nodes=1,
         check_val_every_n_epoch=5000,
@@ -187,18 +190,18 @@ def main(args):
 
     context = "Friends of my soul"  # Prime with something
     import os
+
     if int(os.environ["LOCAL_RANK"]) != 0:
         return
     x = train_dataset.to_tokens(context, "hpu")
     y = model.generate(x, max_new_tokens=20, temperature=1.0, do_sample=True, top_k=3)
 
 
-
 if __name__ == "__main__":
     L.seed_everything(42)
 
     parser = ArgumentParser()
-    #parser = L.Trainer.add_argparse_args(parser)
+    # parser = L.Trainer.add_argparse_args(parser)
 
     parser.add_argument("--model_type", default="gpt2", type=str)
     parser.add_argument("--device_type", default="hpu", type=str)
