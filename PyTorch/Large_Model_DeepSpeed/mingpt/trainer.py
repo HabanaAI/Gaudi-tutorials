@@ -5,21 +5,21 @@ Simple training loop; Boilerplate that could apply to any arbitrary neural netwo
 so nothing in this file really has anything to do with GPT specifically.
 """
 
+import gc
 import time
 from collections import defaultdict
 
 import torch
+import torch.distributed as dist
 from torch.utils.data.dataloader import DataLoader
+
 from mingpt.utils import CfgNode as CN
 
 try:
     import habana_frameworks.torch.core as htcore
     import habana_frameworks.torch.hpu as hthpu
-except:
+except ImportError:
     print("INFO: no habana framework package installed")
-
-import gc
-import torch.distributed as dist
 
 
 def see_memory_usage(message, force=True, use_hpu=False):

@@ -1,7 +1,8 @@
 import os
+
+import numpy as np
 import requests
 import tiktoken
-import numpy as np
 
 # download the tiny shakespeare dataset
 input_file_path = os.path.join(os.path.dirname(__file__), "input.txt")

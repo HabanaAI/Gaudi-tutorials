@@ -2,11 +2,12 @@
 A much shorter version of train.py for benchmarking
 """
 import os
-from contextlib import nullcontext
-import numpy as np
 import time
+from contextlib import nullcontext
+
+import numpy as np
 import torch
-from model import GPTConfig, GPT
+from model import GPT, GPTConfig
 
 # -----------------------------------------------------------------------------
 batch_size = 12

@@ -4,9 +4,10 @@ Sample from a trained model
 import os
 import pickle
 from contextlib import nullcontext
-import torch
+
 import tiktoken
-from model import GPTConfig, GPT
+import torch
+from model import GPT, GPTConfig
 
 # -----------------------------------------------------------------------------
 init_from = "resume"  # either 'resume' (from an out_dir) or a gpt2 variant (e.g. 'gpt2-xl')
@@ -67,13 +68,13 @@ if load_meta:
     # TODO want to make this more general to arbitrary encoder/decoder schemes
     stoi, itos = meta["stoi"], meta["itos"]
     encode = lambda s: [stoi[c] for c in s]
-    decode = lambda l: "".join([itos[i] for i in l])
+    decode = lambda it: "".join([itos[i] for i in it])
 else:
     # ok let's assume gpt-2 encodings by default
     print("No meta.pkl found, assuming GPT-2 encodings...")
     enc = tiktoken.get_encoding("gpt2")
     encode = lambda s: enc.encode(s, allowed_special={"<|endoftext|>"})
-    decode = lambda l: enc.decode(l)
+    decode = lambda it: enc.decode(it)
 
 # encode the beginning of the prompt
 if start.startswith("FILE:"):

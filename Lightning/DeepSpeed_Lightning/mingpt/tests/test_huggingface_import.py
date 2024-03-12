@@ -3,10 +3,12 @@ Ensure that we can load huggingface/transformer GPTs into minGPT
 """
 
 import unittest
+
 import torch
-from transformers import GPT2Tokenizer, GPT2LMHeadModel
-from mingpt.model import GPT
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
+
 from mingpt.bpe import BPETokenizer
+from mingpt.model import GPT
 
 # -----------------------------------------------------------------------------
 

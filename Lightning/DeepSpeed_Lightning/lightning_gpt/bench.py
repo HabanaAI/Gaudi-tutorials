@@ -6,11 +6,11 @@ import torch
 from lightning_utilities import module_available
 
 if module_available("lightning"):
-    import lightning.pytorch as L
+    from lightning.app import CloudCompute, LightningFlow, LightningWork
+    from lightning.app.components import LightningTrainerMultiNode
 elif module_available("pytorch_lightning"):
-    import pytorch_lightning as L
-from lightning.app import CloudCompute, LightningFlow, LightningWork
-from lightning.app.components import LightningTrainerMultiNode
+    from lightning_app import CloudCompute, LightningFlow, LightningWork
+    from lightning_app.components import LightningTrainerMultiNode
 
 
 def _hook_memory() -> int:

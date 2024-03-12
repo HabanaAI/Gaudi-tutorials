@@ -1,35 +1,53 @@
-from sentence_transformers import SentenceTransformer
-from InstructorEmbedding import INSTRUCTOR_Pooling, INSTRUCTOR_Transformer
-from InstructorEmbedding.instructor import batch_to_device, import_from_string
-from langchain.embeddings import HuggingFaceEmbeddings, HuggingFaceInstructEmbeddings
-import os
 import json
+import os
 from collections import OrderedDict
+
 import numpy as np
 import torch
+from InstructorEmbedding import INSTRUCTOR_Pooling, INSTRUCTOR_Transformer
+from InstructorEmbedding.instructor import batch_to_device, import_from_string
+from sentence_transformers import SentenceTransformer
 from tqdm.autonotebook import trange
+
+from langchain.embeddings import HuggingFaceEmbeddings, HuggingFaceInstructEmbeddings
 
 
 class GaudiSentenceTransformer(SentenceTransformer):
     """Child class that overrides the tokenize method from SentenceTransformer"""
+
     def __init__(self, model_name_or_path, embedding_input_size=-1, **kwargs):
         super().__init__(model_name_or_path, **kwargs)
         self.embedding_input_size = embedding_input_size
 
     def tokenize(self, texts):
         """Override tokenize method from SentenceTransformer"""
-        return self._first_module().tokenizer(texts, max_length=self.max_seq_length if (self.embedding_input_size == -1 or self.embedding_input_size > self.max_seq_length) else self.embedding_input_size, padding="max_length", return_tensors="pt", truncation=True)
+        return self._first_module().tokenizer(
+            texts,
+            max_length=self.max_seq_length
+            if (self.embedding_input_size == -1 or self.embedding_input_size > self.max_seq_length)
+            else self.embedding_input_size,
+            padding="max_length",
+            return_tensors="pt",
+            truncation=True,
+        )
 
 
 class GaudiHuggingFaceEmbeddings(HuggingFaceEmbeddings):
     """Child class that uses a GaudiSentenceTransformer client"""
+
     def __init__(self, embedding_input_size=-1, **kwargs):
         super().__init__(**kwargs)
-        self.client = GaudiSentenceTransformer(self.model_name, embedding_input_size=embedding_input_size, cache_folder=self.cache_folder, **self.model_kwargs)
+        self.client = GaudiSentenceTransformer(
+            self.model_name,
+            embedding_input_size=embedding_input_size,
+            cache_folder=self.cache_folder,
+            **self.model_kwargs,
+        )
 
 
 class GaudiINSTRUCTOR(GaudiSentenceTransformer):
     """INSTRUCTOR class for running on Gaudis. Code taken from instructor-embedding repo"""
+
     def __init__(self, model_name_or_path, embedding_input_size=-1, **kwargs):
         super().__init__(model_name_or_path, embedding_input_size=embedding_input_size, **kwargs)
 
@@ -46,29 +64,28 @@ class GaudiINSTRUCTOR(GaudiSentenceTransformer):
 
         labels = torch.tensor(labels)
 
-
         sentence_features = []
         for idx in range(num_texts):
             assert isinstance(texts[idx][0], list)
-            assert len(texts[idx][0])==2,f"The input should have both instruction and input text"
+            assert len(texts[idx][0]) == 2, "The input should have both instruction and input text"
             # if len(texts[idx][0])==3:
-                # print('component 3')
+            # print('component 3')
             num = len(texts[idx])
             contexts = []
             concatenated_input_texts = []
             for local_idx in range(num):
-                assert len(texts[idx][local_idx])==2
+                assert len(texts[idx][local_idx]) == 2
                 contexts.append(texts[idx][local_idx][0])
-                concatenated_input_texts.append(''.join(texts[idx][local_idx]))
-                assert isinstance(contexts[-1],str)
-                assert isinstance(concatenated_input_texts[-1],str)
+                concatenated_input_texts.append("".join(texts[idx][local_idx]))
+                assert isinstance(contexts[-1], str)
+                assert isinstance(concatenated_input_texts[-1], str)
             tokenized = self.tokenize(concatenated_input_texts)
             context_tok = self.tokenize(contexts)
-            tokenized['context_masks'] = torch.sum(context_tok['attention_mask'],dim=1)
-            tokenized['context_masks'] = tokenized['context_masks'] - 1
-            for my_idx in range(len(tokenized['context_masks'])):
-                if tokenized['context_masks'][my_idx]<=1:
-                    tokenized['context_masks'][my_idx] = 0
+            tokenized["context_masks"] = torch.sum(context_tok["attention_mask"], dim=1)
+            tokenized["context_masks"] = tokenized["context_masks"] - 1
+            for my_idx in range(len(tokenized["context_masks"])):
+                if tokenized["context_masks"][my_idx] <= 1:
+                    tokenized["context_masks"][my_idx] = 0
                 # text_types = [pair[-1] for pair in texts[idx]]
                 # assert all([tid==1 for tid in text_types]) or all([tid==0 for tid in text_types])
                 # tokenized['text_type'] = text_types[0]
@@ -89,47 +106,50 @@ class GaudiINSTRUCTOR(GaudiSentenceTransformer):
         Loads a full sentence-transformers model
         """
         # Check if the config_sentence_transformers.json file exists (exists since v2 of the framework)
-        config_sentence_transformers_json_path = os.path.join(model_path, 'config_sentence_transformers.json')
+        config_sentence_transformers_json_path = os.path.join(model_path, "config_sentence_transformers.json")
         if os.path.exists(config_sentence_transformers_json_path):
             with open(config_sentence_transformers_json_path) as fIn:
                 self._model_config = json.load(fIn)
 
         # Check if a readme exists
-        model_card_path = os.path.join(model_path, 'README.md')
+        model_card_path = os.path.join(model_path, "README.md")
         if os.path.exists(model_card_path):
             try:
-                with open(model_card_path, encoding='utf8') as fIn:
+                with open(model_card_path, encoding="utf8") as fIn:
                     self._model_card_text = fIn.read()
-            except:
+            except Exception:
                 pass
 
         # Load the modules of sentence transformer
-        modules_json_path = os.path.join(model_path, 'modules.json')
+        modules_json_path = os.path.join(model_path, "modules.json")
         with open(modules_json_path) as fIn:
             modules_config = json.load(fIn)
 
         modules = OrderedDict()
         for module_config in modules_config:
-            if module_config['idx']==0:
-                print('load INSTRUCTOR_Transformer')
+            if module_config["idx"] == 0:
+                print("load INSTRUCTOR_Transformer")
                 module_class = INSTRUCTOR_Transformer
-            elif module_config['idx']==1:
+            elif module_config["idx"] == 1:
                 module_class = INSTRUCTOR_Pooling
             else:
-                module_class = import_from_string(module_config['type'])
-            module = module_class.load(os.path.join(model_path, module_config['path']))
-            modules[module_config['name']] = module
+                module_class = import_from_string(module_config["type"])
+            module = module_class.load(os.path.join(model_path, module_config["path"]))
+            modules[module_config["name"]] = module
 
         return modules
 
-    def encode(self, sentences,
-               batch_size: int = 32,
-               show_progress_bar: bool = None,
-               output_value: str = 'sentence_embedding',
-               convert_to_numpy: bool = True,
-               convert_to_tensor: bool = False,
-               device: str = None,
-               normalize_embeddings: bool = False):
+    def encode(
+        self,
+        sentences,
+        batch_size: int = 32,
+        show_progress_bar: bool = None,
+        output_value: str = "sentence_embedding",
+        convert_to_numpy: bool = True,
+        convert_to_tensor: bool = False,
+        device: str = None,
+        normalize_embeddings: bool = False,
+    ):
         """
         Computes sentence embeddings
 
@@ -152,12 +172,14 @@ class GaudiINSTRUCTOR(GaudiSentenceTransformer):
         if convert_to_tensor:
             convert_to_numpy = False
 
-        if output_value != 'sentence_embedding':
+        if output_value != "sentence_embedding":
             convert_to_tensor = False
             convert_to_numpy = False
 
         input_was_string = False
-        if isinstance(sentences, str) or not hasattr(sentences, '__len__'): #Cast an individual sentence to a list with length 1
+        if isinstance(sentences, str) or not hasattr(
+            sentences, "__len__"
+        ):  # Cast an individual sentence to a list with length 1
             sentences = [sentences]
             input_was_string = True
 
@@ -167,7 +189,7 @@ class GaudiINSTRUCTOR(GaudiSentenceTransformer):
         self.to(device)
 
         all_embeddings = []
-        if isinstance(sentences[0],list):
+        if isinstance(sentences[0], list):
             lengths = []
             for sen in sentences:
                 lengths.append(-self._text_length(sen[1]))
@@ -177,27 +199,27 @@ class GaudiINSTRUCTOR(GaudiSentenceTransformer):
         sentences_sorted = [sentences[idx] for idx in length_sorted_idx]
 
         for start_index in trange(0, len(sentences), batch_size, desc="Batches", disable=not show_progress_bar):
-            sentences_batch = sentences_sorted[start_index:start_index+batch_size]
+            sentences_batch = sentences_sorted[start_index : start_index + batch_size]
             features = self.tokenize(sentences_batch)
             features = batch_to_device(features, device)
 
             with torch.no_grad():
                 out_features = self.forward(features)
 
-                if output_value == 'token_embeddings':
+                if output_value == "token_embeddings":
                     embeddings = []
-                    for token_emb, attention in zip(out_features[output_value], out_features['attention_mask']):
-                        last_mask_id = len(attention)-1
+                    for token_emb, attention in zip(out_features[output_value], out_features["attention_mask"]):
+                        last_mask_id = len(attention) - 1
                         while last_mask_id > 0 and attention[last_mask_id].item() == 0:
                             last_mask_id -= 1
 
-                        embeddings.append(token_emb[0:last_mask_id+1])
-                elif output_value is None:  #Return all outputs
+                        embeddings.append(token_emb[0 : last_mask_id + 1])
+                elif output_value is None:  # Return all outputs
                     embeddings = []
-                    for sent_idx in range(len(out_features['sentence_embedding'])):
-                        row =  {name: out_features[name][sent_idx] for name in out_features}
+                    for sent_idx in range(len(out_features["sentence_embedding"])):
+                        row = {name: out_features[name][sent_idx] for name in out_features}
                         embeddings.append(row)
-                else:   #Sentence embeddings
+                else:  # Sentence embeddings
                     embeddings = out_features[output_value]
                     embeddings = embeddings.detach()
                     if normalize_embeddings:
@@ -224,6 +246,12 @@ class GaudiINSTRUCTOR(GaudiSentenceTransformer):
 
 class GaudiHuggingFaceInstructEmbeddings(HuggingFaceInstructEmbeddings):
     """Child class that uses a GaudiINSTRUCTOR client"""
+
     def __init__(self, embedding_input_size=-1, **kwargs):
         super().__init__(**kwargs)
-        self.client = GaudiINSTRUCTOR(self.model_name, embedding_input_size=embedding_input_size, cache_folder=self.cache_folder, **self.model_kwargs)
+        self.client = GaudiINSTRUCTOR(
+            self.model_name,
+            embedding_input_size=embedding_input_size,
+            cache_folder=self.cache_folder,
+            **self.model_kwargs,
+        )

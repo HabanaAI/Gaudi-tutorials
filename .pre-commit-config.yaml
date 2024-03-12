@@ -57,8 +57,8 @@ repos:
           - mdformat-black
           - mdformat_frontmatter
 
-  #- repo: https://github.com/astral-sh/ruff-pre-commit
-  #  rev: v0.0.292
-  #  hooks:
-  #    - id: ruff
-  #      args: ["--fix"]
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.2.2
+    hooks:
+      - id: ruff
+        args: ["--fix"]

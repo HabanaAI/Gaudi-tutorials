@@ -6,8 +6,9 @@ encoder and decoder and some other related info.
 """
 import os
 import pickle
-import requests
+
 import numpy as np
+import requests
 
 # download the tiny shakespeare dataset
 input_file_path = os.path.join(os.path.dirname(__file__), "input.txt")
@@ -35,8 +36,8 @@ def encode(s):
     return [stoi[c] for c in s]  # encoder: take a string, output a list of integers
 
 
-def decode(l):
-    "".join([itos[i] for i in l])  # decoder: take a list of integers, output a string
+def decode(it):
+    return "".join([itos[i] for i in it])  # decoder: take a list of integers, output a string
 
 
 # create the train and test splits

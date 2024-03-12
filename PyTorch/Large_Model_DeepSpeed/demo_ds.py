@@ -1,13 +1,13 @@
 # Copyright (C) 2021-2022 Habana Labs, Ltd. an Intel Company
 
-import torch
-from torch.utils.data import Dataset
-from torch.utils.data.dataloader import DataLoader
-from mingpt.utils import set_seed
 import argparse
-import deepspeed
 import pickle
 
+import deepspeed
+import torch
+from mingpt.utils import set_seed
+from torch.utils.data import Dataset
+from torch.utils.data.dataloader import DataLoader
 
 set_seed(3407)
 
@@ -126,7 +126,7 @@ for a, b in zip(x, y):
     print(int(a), int(b))
 
 # create a GPT instance
-from mingpt.model import GPT
+from mingpt.model import GPT  # noqa: E402
 
 model_config = GPT.get_default_config()
 model_config.model_type = "gpt-nano"
@@ -165,7 +165,7 @@ fp16 = model_engine.fp16_enabled()
 print(f"fp16={fp16}")
 
 # create a Trainer object
-from mingpt.trainer import Trainer
+from mingpt.trainer import Trainer  # noqa: E402
 
 train_config = Trainer.get_default_config()
 train_config.learning_rate = 5e-4  # the model we're using is so small that we can go a bit faster
