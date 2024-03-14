@@ -199,7 +199,7 @@ class NanoGPT(LightningModule):
         return loss
 
     def generate(
-        self, idx: torch.Tensor, max_new_tokens: int, temperature: float = 1.0, top_k: Optional[int] = None
+        self, idx: torch.Tensor, max_new_tokens: int, temperature: float = 1.0, do_sample:bool = False, top_k: Optional[int] = None
     ) -> torch.Tensor:
         return self.nanogpt.generate(idx, max_new_tokens, temperature, top_k)
 
@@ -247,7 +247,7 @@ class FSDPMinGPT(MinGPT):
 
 class DeepSpeedNanoGPT(NanoGPT):
     # TODO: activation checkpointing (requires overriding forward)
-    def __init__(self, fused_adam: bool = True, offload: bool = False, **kwargs: Any):
+    def __init__(self, fused_adam: bool = False, offload: bool = False, **kwargs: Any):
         if fused_adam and offload:
             raise RuntimeError(
                 "Cannot use FusedAdam and CPUAdam at the same time! "
