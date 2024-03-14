@@ -7,10 +7,10 @@ from lightning_utilities import module_available
 
 if module_available("lightning"):
     import lightning.pytorch as L
-    from lightning.pytorch.plugins import DeepSpeedPrecisionPlugin
+    from lightning.pytorch.plugins import DeepSpeedPrecision
 elif module_available("pytorch_lightning"):
     import pytorch_lightning as L
-    from pytorch_lightning.plugins import DeepSpeedPrecisionPlugin
+    from pytorch_lightning.plugins import DeepSpeedPrecision
 
 import gc
 
@@ -157,7 +157,6 @@ def main(args):
         else HPUParallelStrategy(bucket_cap_mb=125, gradient_as_bucket_view=True, static_graph=True),
         callbacks=callback_list,
         accumulate_grad_batches=1,
-        precision="bf16-mixed" if args.strategy == "deepspeed" else "16-mixed",  # 16,
         max_epochs=args.max_epochs,
         num_nodes=1,
         check_val_every_n_epoch=5000,
@@ -166,7 +165,7 @@ def main(args):
         limit_val_batches=10,
         max_steps=args.max_steps,
         gradient_clip_val=1.0,
-        plugins=[DeepSpeedPrecisionPlugin(precision="bf16-mixed")] if args.strategy == "deepspeed" else None,
+        plugins=[DeepSpeedPrecision(precision="bf16-mixed")] if args.strategy == "deepspeed" else None,
     )
 
     trainer.fit(model, train_loader)
