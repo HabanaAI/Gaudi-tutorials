@@ -9,7 +9,7 @@ The tutorials provide step-by-step instructions for PyTorch and PyTorch Lightnin
 2. Run the Intel Gaudi PyTorch Docker image.  Refer to the Docker section of the [Installation Guide](https://docs.habana.ai/en/latest/Installation_Guide/Bare_Metal_Fresh_OS.html#pull-and-launch-docker-image-intel-gaudi-vault) for more information.  Running the docker image will allow you access to the entire software stack.
 3. Clone this tutorial in your $HOME directory:  `cd ~ && git clone https://www.github.com/habanaai/Gaudi-tutorials`
 4. Install Jupyterlab: `python3 -m pip install jupyterlab`
-5. Run the Jupyterlab Server, using the same port mapping the ssh command:  `python3 -m jupyterlab_server --IdentityProvider.token='' --ServerApp.password='' --allow-root --port 8888 --ServerApp.root_dir=$HOME`
+5. Run the Jupyterlab Server, using the same port mapping as the ssh command:  `python3 -m jupyterlab_server --IdentityProvider.token='' --ServerApp.password='' --allow-root --port 8888 --ServerApp.root_dir=$HOME & `
 
 The tutorials will cover the following domains and tasks:
 
