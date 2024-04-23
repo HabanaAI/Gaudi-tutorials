@@ -1,0 +1,12 @@
+pandas
+pyarrow
+pytest
+sqlalchemy 
+psycopg2-binary 
+requests
+langchain
+langchain-experimental
+langchain-community
+text-generation
+pgvector
+gradio
