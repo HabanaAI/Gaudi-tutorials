@@ -13,6 +13,7 @@ RAG application with Local GPT modified to run on Intel Gaudi
 
 ### Intermediate  
 GPU migration Tool  
+Inference with Stable Diffusion
 
 ### Getting Started  
 Quick Start Overall review of Model-References and Hugging Face  
