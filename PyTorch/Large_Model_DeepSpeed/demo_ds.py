@@ -15,7 +15,11 @@ set_seed(3407)
 def add_argument():
     parser = argparse.ArgumentParser(description="minGPT")
 
-    # data
+    # Intel Gaudi
+    parser.add_argument(
+        "--use_hpu", default=True, action="store_true", help="use Intel Gaudi for training"
+    )
+
     # cuda
     parser.add_argument(
         "--with_cuda", default=False, action="store_true", help="use CPU in case there's no GPU support"
