@@ -1,0 +1,14 @@
+pandas
+pyarrow
+pytest
+pickleshare
+sqlalchemy 
+ipywidgets
+psycopg2-binary 
+requests
+langchain
+langchain-experimental
+langchain-community
+text-generation
+pgvector
+gradio>=4.31.5
