@@ -8,7 +8,7 @@ the basic steps to setup a pipeline for Intel Gaudi are:
 * Choose the Hugging Face [task](https://huggingface.co/tasks) and model that you want to use.  Note that the list of optimized Intel Gaudi models can be found [here](https://github.com/huggingface/optimum-habana?tab=readme-ov-file#validated-models)
 * Setup the pipeline with the associated tasks, model, and device_type set to "hpu"; which allows the pipeline to run on Intel Gaudi.
 
-The Jupyter Notebooks in the folder will show different examples of how to setup and run the pipelines with the following tasks
+The Jupyter Notebooks in the folder will show different examples of how to setup and run the pipelines with the following tasks:
 * translation
 * image-classification
 * text-generation
