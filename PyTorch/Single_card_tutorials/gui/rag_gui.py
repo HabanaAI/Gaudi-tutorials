@@ -45,9 +45,11 @@ def simple_chat_gui(generate_fn):
       	position: absolute;
       	left: 50%;
       	transform: translate(-50%);
-      	top: 30%;
+      	top: 35%;
         text-align: center;
-        
+        font-family: 'IntelOne';
+        font-weight: 300;
+        font-style: normal;
     }
     
     .banner img {
@@ -58,7 +60,7 @@ def simple_chat_gui(generate_fn):
     
     .badges {
         display: flex;
-        margin-left: 40px;
+        margin-left: 60px;
         
     }
     #component-6 {height: 300px !important}
@@ -70,6 +72,15 @@ def simple_chat_gui(generate_fn):
         visibility: hidden;
     
     }
+
+    .show-api {
+        pointer-events: none;
+        visibility: hidden;
+    }
+    .built-with {
+        pointer-events: none;
+        visibility: hidden;
+    }
     
     .gradio-container { font-family: IntelOne }
     
@@ -79,10 +90,9 @@ def simple_chat_gui(generate_fn):
     <div class="banner">
     <div class="badges">
     <img src="file/gui/assets/gaudi-badge-3000.png">
-    <img src="file/gui/assets/xeon-processor-badge.png">
     </div>
     <div class="title">
-    <h2 >RAG on Intel® Gaudi</h2>
+    <h2 >RAG on Intel® Gaudi® 2 AI Accelerator</h2>
     </div>
     
     </div>
