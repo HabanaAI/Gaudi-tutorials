@@ -29,6 +29,8 @@ The tutorials will cover the following domains and tasks:
 
 ### Getting Started
 - Quick Start	Overall review of Model-References, Hugging Face and DeepSpeed
+- Inference
+- Fine Tuning
+- Running Stable Diffusion
 - Training a Classifier	Basic PyTorch Tutorial
-- Quickstart_tutorial, Basic PyTorch Tutorial
 - Introduction to Lightning	Running simple PyTorch Lightning model, using Gaudi plug-in
