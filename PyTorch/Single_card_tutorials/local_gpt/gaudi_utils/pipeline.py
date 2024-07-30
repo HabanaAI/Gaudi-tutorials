@@ -290,7 +290,7 @@ class GaudiTextGenerationPipeline:
             hpu_graphs=True,
             profiling_steps=0,
             profiling_warmup_steps=0,
-            stopping_criteria=self.stopping_criteria
+            ignore_eos = False
         ).cpu()
 
         output_text = self.tokenizer.decode(output[0], skip_special_tokens=True)
