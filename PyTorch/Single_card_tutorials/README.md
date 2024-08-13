@@ -9,11 +9,12 @@ The tutorials will cover the following domains and tasks:
 ### Advanced  
 Fine Tuning with LORA and Inference on Hugging Face Llama 2 7B model  
 Full RAG application with TGI-gaudi  
-RAG application with Local GPT modified to run on Intel Gaudi  
 
 ### Intermediate  
 GPU migration Tool  
 Inference with Stable Diffusion
+Inference with Hugging Face 
+Fine Tuning with Hugging Face
 
 ### Getting Started  
 Quick Start Overall review of Model-References and Hugging Face  
