@@ -8,6 +8,7 @@ langchain
 langchain-experimental
 langchain-community
 langchain_huggingface
+langchain-postgres
 text-generation
 pgvector
 gradio
