@@ -1,8 +1,8 @@
-# Intel Gaudi Tutorials
+# Intel&reg; Gaudi&reg; Tutorials
 
-These are the source files for the tutorials on https://developer.habana.ai/.
+These are the source files for the tutorials on [Developer Website](https://www.intel.com/content/www/us/en/developer/platform/gaudi/tutorials.html)
 
-The tutorials provide step-by-step instructions for PyTorch and PyTorch Lightning on the Intel Gaudi AI Processor, from beginner level to advanced users.
+The tutorials provide step-by-step instructions for PyTorch and PyTorch Lightning on the Intel Gaudi AI Processor, from beginner level to advanced users.  These tutorials should be run with a full Intel Gaudi Node of 8 cards. 
 
 ## IMPORTANT: To run these Jupyter Notebooks you will need to follow these steps:
 1. Get access to an Intel Gaudi 2 Accelerator card or node.  See the [Get Access](https://developer.habana.ai/get-access/) page on the Developer Website.  Be sure to use port forwarding `ssh -L 8888:localhost:8888 -L 7860:localhost:7860 -L 6006:localhost:6006 ... user@ipaddress` to be able to access the notebook, run the Gradio interface, and use Tensorboard.   Some of the tutorials use all of these features.
@@ -22,7 +22,6 @@ The tutorials will cover the following domains and tasks:
 - Full RAG application with TGI-gaudi
 - Getting Started with vLLM
 - Getting Started with TGI-Gaudi
-- RAG application with LocalGPT modified to run on Intel Gaudi
 - How to setup and use DeepSpeed for Training Large Language Models 
 
 ### Intermediate
