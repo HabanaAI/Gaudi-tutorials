@@ -22,6 +22,7 @@ The tutorials will cover the following domains and tasks:
 - Full RAG application with TGI-gaudi
 - Getting Started with vLLM
 - Getting Started with TGI-Gaudi
+- RAG application with LocalGPT modified to run on Intel Gaudi
 - How to setup and use DeepSpeed for Training Large Language Models 
 
 ### Intermediate
