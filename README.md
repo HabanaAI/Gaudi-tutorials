@@ -1,6 +1,6 @@
 # Intel&reg; Gaudi&reg; Tutorials
 
-These are the source files for the tutorials on [Developer Website](https://www.intel.com/content/www/us/en/developer/platform/gaudi/tutorials.html)
+These are the source files for the tutorials on the [Developer Website](https://www.intel.com/content/www/us/en/developer/platform/gaudi/tutorials.html)
 
 The tutorials provide step-by-step instructions for PyTorch and PyTorch Lightning on the Intel Gaudi AI Processor, from beginner level to advanced users.  These tutorials should be run with a full Intel Gaudi Node of 8 cards. 
 
