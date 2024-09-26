@@ -36,15 +36,8 @@ The tutorials will cover the following domains and tasks:
 - [BERT Fine Tuning using PyTorch Lightning](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/Lightning/Finetune%20Transformers/finetune-transformers.ipynb)
 
 ### Getting Started
-- Quick Start: Overall review of Model-References, Hugging Face and DeepSpeed
-- Inference
-- Fine Tuning
-- Training a Classifier	Basic PyTorch Tutorial
-- Introduction to Lightning	Running simple PyTorch Lightning model, using Gaudi plug-in
-
-## Getting Started
 - [Quick Start: Overall review of Model-References, Hugging Face and DeepSpeed](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/Intel_Gaudi_Quickstart/Intel_Gaudi_Quick_Start.ipynb)
 - [Inference](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/Inference/Intel_Gaudi_Inference.ipynb)
 - [Fine Tuning](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/Fine_Tuning/Intel_Gaudi_Fine_Tuning.ipynb)
 - [Training a Classifier Basic PyTorch Tutorial](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/Training%20a%20Classifier/cifar10_tutorial.ipynb)
-- [Introduction to Lightning Running simple PyTorch Lightning model, using Gaudi plug-in](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/Lightning/Introduction/mnist-hello-world.ipynb)
+- [Introduction to Lightning, Running a simple PyTorch Lightning model, using Gaudi plug-in](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/Lightning/Introduction/mnist-hello-world.ipynb)
