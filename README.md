@@ -18,22 +18,22 @@ docker exec -it Gaudi_Docker bash
 The tutorials will cover the following domains and tasks:
 
 ### Advanced
-- Fine Tuning with LORA and Inference on Hugging Face Llama 2 70B model  
-- Full RAG application with TGI-gaudi
-- Getting Started with vLLM
-- Getting Started with TGI-Gaudi
-- RAG application with LocalGPT modified to run on Intel Gaudi
-- How to setup and use DeepSpeed for Training Large Language Models 
+- [Fine Tuning with LORA and Inference on Hugging Face Llama 2 70B model](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/llama2_fine_tuning_inference/llama2_fine_tuning_inference.ipynb)
+- [Full RAG application with TGI-gaudi](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/RAG_Application/RAG-on-Intel-Gaudi.ipynb)
+- [Getting Started with vLLM](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/Getting_Started_with_vLLM/Getting_Started_with_vLLM.ipynb)
+- [Getting Started with TGI-Gaudi](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/TGI_Gaudi_tutorial/TGI_on_Intel_Gaudi.ipynb)
+- [RAG application with LocalGPT modified to run on Intel Gaudi](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/localGPT_inference/LocalGPT_Inference.ipynb)
+- [How to setup and use DeepSpeed for Training Large Language Models](https://github.com/HabanaAI/Gaudi-tutorials/tree/main/PyTorch/Large_Model_DeepSpeed)
 
 ### Intermediate
-- GPU migration Tool
-- Debug for Dynamic Shapes
-- Running Simple Inference examples with HPU Graph
-- Using Hugging Face Pipelines for Inference
-- How to use the Gaudi Tensorboard Plug-in or Perfetto for Profiling
-- Transformer Reinforcement Learning with Hugging Face
-- Running DeepSpeed on PyTorch Lightning with GPT2
-- BERT Fine Tuning use PyTorch Lightning
+- [GPU migration Tool](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/GPU_Migration/GPU_Migration.ipynb)
+- [Debug for Dynamic Shapes](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/Detecting_Dynamic_Shapes/Detecting_Dynamic_Shapes.ipynb)
+- [Running Simple Inference examples with HPU Graph](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/Inference/Gaudi_inference_ex2.ipynb)
+- [Using Hugging Face Pipelines for Inference](https://github.com/HabanaAI/Gaudi-tutorials/tree/main/PyTorch/Hugging_Face_pipelines)
+- [How to use the Gaudi Tensorboard Plug-in or Perfetto for Profiling](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/Profiling_and_Optimization/Profiler_and_Optimization.ipynb)
+- [Transformer Reinforcement Learning with Hugging Face](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/Transformer_Reinforcement_Learning/Transformer_Reinforcement_Learning.ipynb)
+- [Running DeepSpeed on PyTorch Lightning with GPT2](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/Lightning/DeepSpeed_Lightning/DeepSpeed_Lightning.ipynb)
+- [BERT Fine Tuning using PyTorch Lightning](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/Lightning/Finetune%20Transformers/finetune-transformers.ipynb)
 
 ### Getting Started
 - Quick Start: Overall review of Model-References, Hugging Face and DeepSpeed
@@ -41,3 +41,10 @@ The tutorials will cover the following domains and tasks:
 - Fine Tuning
 - Training a Classifier	Basic PyTorch Tutorial
 - Introduction to Lightning	Running simple PyTorch Lightning model, using Gaudi plug-in
+
+## Getting Started
+- [Quick Start: Overall review of Model-References, Hugging Face and DeepSpeed](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/Intel_Gaudi_Quickstart/Intel_Gaudi_Quick_Start.ipynb)
+- [Inference](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/Inference/Intel_Gaudi_Inference.ipynb)
+- [Fine Tuning](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/Fine_Tuning/Intel_Gaudi_Fine_Tuning.ipynb)
+- [Training a Classifier Basic PyTorch Tutorial](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/Training%20a%20Classifier/cifar10_tutorial.ipynb)
+- [Introduction to Lightning Running simple PyTorch Lightning model, using Gaudi plug-in](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/Lightning/Introduction/mnist-hello-world.ipynb)
