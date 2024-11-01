@@ -17,7 +17,7 @@ The PyTorch minGPT example is based on the source code forked from GitHub reposi
 
 Please follow the instructions provided in the [Gaudi Installation Guide](https://docs.habana.ai/en/latest/Installation_Guide/GAUDI_Installation_Guide.html) to set up the environment including the `$PYTHON` environment variable. The guide will walk you through the process of setting up your system to run the model on Gaudi.
 
-### Clone Habana Model-References
+### Clone Gaudi Tutorials
 
 In the docker container, clone this repository and switch to the branch that matches your SynapseAI version. You can run the [`hl-smi`](https://docs.habana.ai/en/latest/Management_and_Monitoring/System_Management_Tools_Guide/System_Management_Tools.html#hl-smi-utility-options) utility to determine the SynapseAI version.
 
@@ -31,7 +31,7 @@ cd Gaudi-tutorials/PyTorch/Large_Model_DeepSpeed/
 Please follow the instructions provided in the [Gaudi DeepSpeed User Guide](https://docs.habana.ai/en/latest/PyTorch/DeepSpeed/DeepSpeed_User_Guide.html) to install the DeepSpeed on Gaudi.
 
 ```bash
-pip install git+https://github.com/HabanaAI/DeepSpeed.git@1.14.0
+pip install git+https://github.com/HabanaAI/DeepSpeed.git@1.18.0
 ```
 
 ## Memory Consumptions Under Different DeepSpeed Technologies
@@ -51,14 +51,15 @@ Change the model type from *gpt-nano* to *gpt2*
 ```
 --- a/Gaudi-tutorials/PyTorch/Large_Model_DeepSpeed/demo_ds.py
 +++ b/Gaudi-tutorials/PyTorch/Large_Model_DeepSpeed/demo_ds.py
-@@ -146,7 +146,7 @@ for a, b in zip(x,y):
- from mingpt.model import GPT
-
+@@ -133,7 +133,7 @@ for a, b in zip(x, y):
+ from mingpt.model import GPT  # noqa: E402
+ 
  model_config = GPT.get_default_config()
--model_config.model_type = 'gpt-nano'
-+model_config.model_type = 'gpt2'
+-model_config.model_type = "gpt-nano"
++model_config.model_type = "gpt2"
  model_config.vocab_size = train_dataset.get_vocab_size()
  model_config.block_size = train_dataset.get_block_size()
+ if args.activation_checkpoint:
 ```
 
 2. Run minGPT with DeepSpeed ZeRO0
@@ -158,14 +159,15 @@ Change the model type from *gpt-nano* to *gpt2-xl*
 ```
 --- a/PyTorch/examples/DeepSpeed/minGPT/demo_ds.py
 +++ b/PyTorch/examples/DeepSpeed/minGPT/demo_ds.py
-@@ -146,7 +146,7 @@ for a, b in zip(x,y):
- from mingpt.model import GPT
-
+@@ -133,7 +133,7 @@ for a, b in zip(x, y):
+ from mingpt.model import GPT  # noqa: E402
+ 
  model_config = GPT.get_default_config()
--model_config.model_type = 'gpt-nano'
-+model_config.model_type = 'gpt2-xl'
+-model_config.model_type = "gpt-nano"
++model_config.model_type = "gpt2-xl"
  model_config.vocab_size = train_dataset.get_vocab_size()
  model_config.block_size = train_dataset.get_block_size()
+ if args.activation_checkpoint:
 ```
 
 1. Run minGPT with DeepSpeed ZeRO0
