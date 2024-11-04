@@ -39,9 +39,6 @@ DOCUMENT_MAP = {
 # Embedding Model: The default model uses sentence-transformers
 EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
 
-# Embedding input size, applicable only to gaudi's/hpus. Decreasing input size gives better latency. If -1, input size defaults to max_length of embedding model
-EMBEDDING_INPUT_SIZE = -1
-
 # LLM HF id and base name (if applicable)
 LLM_ID = "meta-llama/Llama-2-70b-chat-hf"
 LLM_BASE_NAME = None
