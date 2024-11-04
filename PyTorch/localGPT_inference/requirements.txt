@@ -4,8 +4,7 @@ chromadb==0.4.6
 llama-cpp-python==0.1.66
 pdfminer.six==20221105
 pickleshare
-InstructorEmbedding==1.0.1
-sentence-transformers==2.2.2
+sentence-transformers==3.0.1
 faiss-cpu==1.7.4
 protobuf==3.20.2
 auto-gptq==0.2.2
