@@ -4,7 +4,13 @@ import os
 from chromadb.config import Settings
 
 # https://python.langchain.com/en/latest/modules/indexes/document_loaders/examples/excel.html?highlight=xlsx#microsoft-excel
-from langchain.document_loaders import CSVLoader, Docx2txtLoader, PDFMinerLoader, TextLoader, UnstructuredExcelLoader
+from langchain_community.document_loaders import (
+    CSVLoader,
+    Docx2txtLoader,
+    PDFMinerLoader,
+    TextLoader,
+    UnstructuredExcelLoader,
+)
 
 # load_dotenv()
 ROOT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
@@ -38,9 +44,6 @@ DOCUMENT_MAP = {
 
 # Embedding Model: The default model uses sentence-transformers
 EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
-
-# Embedding input size, applicable only to gaudi's/hpus. Decreasing input size gives better latency. If -1, input size defaults to max_length of embedding model
-EMBEDDING_INPUT_SIZE = -1
 
 # LLM HF id and base name (if applicable)
 LLM_ID = "meta-llama/Llama-2-70b-chat-hf"

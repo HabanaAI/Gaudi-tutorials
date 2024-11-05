@@ -1,11 +1,14 @@
+
 # Natural Language Processing
-langchain==0.0.329
-chromadb==0.4.6
+langchain-chroma==0.1.4
+langchain-huggingface==0.1.0
+langchain-community==0.3.1
+langchain==0.3.1
+chromadb==0.5.17
 llama-cpp-python==0.1.66
 pdfminer.six==20221105
 pickleshare
-InstructorEmbedding==1.0.1
-sentence-transformers==2.2.2
+sentence-transformers==3.0.1
 faiss-cpu==1.7.4
 protobuf==3.20.2
 auto-gptq==0.2.2
