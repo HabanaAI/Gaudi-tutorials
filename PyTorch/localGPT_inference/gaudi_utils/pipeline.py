@@ -259,6 +259,8 @@ class GaudiTextGenerationPipeline:
             torch.distributed.barrier()
 
     def __call__(self, prompt: List[str]):
+        prompt_len = len(prompt[0])
+
         model_inputs = self.tokenizer.encode_plus(
             prompt[0], return_tensors="pt", max_length=self.max_padding_length, padding="max_length", truncation=True
         )
@@ -279,7 +281,7 @@ class GaudiTextGenerationPipeline:
         output_text = self.tokenizer.decode(output[0], skip_special_tokens=True)
         del output, model_inputs
 
-        return [{"generated_text": output_text}]
+        return [{"generated_text": output_text[prompt_len:]}]
 
     def get_process_rank(self):
         """

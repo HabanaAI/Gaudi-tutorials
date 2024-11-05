@@ -14,12 +14,12 @@ from constants import (
 )
 from huggingface_hub import hf_hub_download
 
-from langchain.chains import RetrievalQA
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.llms import HuggingFacePipeline, LlamaCpp
-from langchain.memory import ConversationBufferMemory
-from langchain.prompts import PromptTemplate
-from langchain.vectorstores import Chroma
+from langchain.chains import create_retrieval_chain
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain_huggingface import HuggingFaceEmbeddings, HuggingFacePipeline
+from langchain_community.llms import LlamaCpp
+from langchain_core.prompts import PromptTemplate
+from langchain_chroma import Chroma
 
 
 def load_model(device_type, model_id, temperature, top_p, model_basename=None):
@@ -244,21 +244,13 @@ just say that you don't know, don't try to make up an answer.
 
 {context}
 
-{history}
 Question: {question}
 Answer:"""
 
-    prompt = PromptTemplate(input_variables=["history", "context", "question"], template=template)
-    memory = ConversationBufferMemory(input_key="question", memory_key="history")
+    prompt = PromptTemplate(input_variables=["context", "question"], template=template)
 
     # Initialize langchain
-    qa = RetrievalQA.from_chain_type(
-        llm=llm,
-        chain_type="stuff",
-        retriever=retriever,
-        return_source_documents=True,
-        chain_type_kwargs={"prompt": prompt, "memory": memory},
-    )
+    qa = create_retrieval_chain(retriever, create_stuff_documents_chain(llm, prompt))
 
     if use_deepspeed:
         torch.distributed.barrier()
@@ -267,7 +259,8 @@ Answer:"""
         store = torch.distributed.FileStore("filestore", int(os.getenv("WORLD_SIZE")))
 
         # pre-flight run before starting interactive session
-        qa("What is this document about?")
+        query = "What is this document about?"
+        qa.invoke({"question": query, "input": query})
 
         torch.distributed.barrier()
 
@@ -291,12 +284,12 @@ Answer:"""
         if use_deepspeed:
             torch.distributed.barrier()
 
-        res = qa(query)
+        res = qa.invoke({"question": query, "input": query})
 
         if local_rank in [-1, 0]:
             end_time = time.perf_counter()
             logging.info(f"Query processing time: {end_time-start_time}s")
-            answer, docs = res["result"], res["source_documents"]
+            answer, docs = res["answer"], res["context"]
 
             print("\n\n> Question:")
             print(query)
