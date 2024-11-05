@@ -1,3 +1,7 @@
+import warnings
+
+warnings.filterwarnings("ignore")
+
 import logging
 import os
 import time
@@ -14,11 +18,11 @@ from constants import (
 )
 from huggingface_hub import hf_hub_download
 
-from langchain.chains import create_retrieval_chain
-from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain.chains import RetrievalQA
 from langchain_huggingface import HuggingFaceEmbeddings, HuggingFacePipeline
 from langchain_community.llms import LlamaCpp
 from langchain_core.prompts import PromptTemplate
+from langchain.memory import ConversationBufferMemory
 from langchain_chroma import Chroma
 
 
@@ -244,13 +248,21 @@ just say that you don't know, don't try to make up an answer.
 
 {context}
 
+{history}
 Question: {question}
 Answer:"""
 
-    prompt = PromptTemplate(input_variables=["context", "question"], template=template)
+    prompt = PromptTemplate(input_variables=["history", "context", "question"], template=template)
+    memory = ConversationBufferMemory(input_key="question", memory_key="history")
 
     # Initialize langchain
-    qa = create_retrieval_chain(retriever, create_stuff_documents_chain(llm, prompt))
+    qa = RetrievalQA.from_chain_type(
+        llm=llm,
+        chain_type="stuff",
+        retriever=retriever,
+        return_source_documents=True,
+        chain_type_kwargs={"prompt": prompt, "memory": memory},
+    )
 
     if use_deepspeed:
         torch.distributed.barrier()
@@ -259,8 +271,7 @@ Answer:"""
         store = torch.distributed.FileStore("filestore", int(os.getenv("WORLD_SIZE")))
 
         # pre-flight run before starting interactive session
-        query = "What is this document about?"
-        qa.invoke({"question": query, "input": query})
+        qa("What is this document about?")
 
         torch.distributed.barrier()
 
@@ -284,12 +295,12 @@ Answer:"""
         if use_deepspeed:
             torch.distributed.barrier()
 
-        res = qa.invoke({"question": query, "input": query})
+        res = qa(query)
 
         if local_rank in [-1, 0]:
             end_time = time.perf_counter()
             logging.info(f"Query processing time: {end_time-start_time}s")
-            answer, docs = res["answer"], res["context"]
+            answer, docs = res["result"], res["source_documents"]
 
             print("\n\n> Question:")
             print(query)
