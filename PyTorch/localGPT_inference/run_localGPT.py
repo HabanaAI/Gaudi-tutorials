@@ -1,3 +1,7 @@
+import warnings
+
+warnings.filterwarnings("ignore")
+
 import logging
 import os
 import time
@@ -7,7 +11,6 @@ import torch
 from auto_gptq import AutoGPTQForCausalLM
 from constants import (
     CHROMA_SETTINGS,
-    EMBEDDING_INPUT_SIZE,
     EMBEDDING_MODEL_NAME,
     LLM_BASE_NAME,
     LLM_ID,
@@ -16,11 +19,11 @@ from constants import (
 from huggingface_hub import hf_hub_download
 
 from langchain.chains import RetrievalQA
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.llms import HuggingFacePipeline, LlamaCpp
+from langchain_huggingface import HuggingFaceEmbeddings, HuggingFacePipeline
+from langchain_community.llms import LlamaCpp
+from langchain_core.prompts import PromptTemplate
 from langchain.memory import ConversationBufferMemory
-from langchain.prompts import PromptTemplate
-from langchain.vectorstores import Chroma
+from langchain_chroma import Chroma
 
 
 def load_model(device_type, model_id, temperature, top_p, model_basename=None):
@@ -205,7 +208,7 @@ def main(device_type, show_sources, temperature, top_p):
     This function implements the information retrieval task.
 
 
-    1. Loads an embedding model, can be HuggingFaceInstructEmbeddings or HuggingFaceEmbeddings
+    1. Loads a huggingface embedding model
     2. Loads the existing vectorestore that was created by inget.py
     3. Loads the local LLM using load_model function - You can now set different LLMs.
     4. Setup the Question Answer retreival chain.
@@ -226,15 +229,11 @@ def main(device_type, show_sources, temperature, top_p):
 
     # Load embeddings object for vectorstore retrieval
     if device_type == "hpu":
-        from gaudi_utils.embeddings import GaudiHuggingFaceEmbeddings
+        from optimum.habana.sentence_transformers.modeling_utils import adapt_sentence_transformers_to_gaudi
 
-        embeddings = GaudiHuggingFaceEmbeddings(
-            embedding_input_size=EMBEDDING_INPUT_SIZE,
-            model_name=EMBEDDING_MODEL_NAME,
-            model_kwargs={"device": device_type},
-        )
-    else:
-        embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_NAME, model_kwargs={"device": device_type})
+        adapt_sentence_transformers_to_gaudi()
+
+    embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_NAME, model_kwargs={"device": device_type})
 
     # Load chroma vectorstore
     db = Chroma(
