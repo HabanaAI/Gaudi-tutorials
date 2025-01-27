@@ -20,7 +20,9 @@ The tutorials will cover the following domains and tasks:
 ### Advanced
 - [Fine Tuning with LORA and Inference on Hugging Face Llama 2 70B model](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/llama2_fine_tuning_inference/llama2_fine_tuning_inference.ipynb)
 - [Full RAG application with TGI-gaudi](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/RAG_Application/RAG-on-Intel-Gaudi.ipynb)
-- [Getting Started with vLLM](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/Getting_Started_with_vLLM/Getting_Started_with_vLLM.ipynb)
+- [Getting Started with vLLM](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/vLLM_Tutorials/Getting_Started_with_vLLM/Getting_Started_with_vLLM.ipynb)
+- [Understanding vLLM on Gaudi](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/vLLM_Tutorials/Understanding_vLLM_on_Gaudi/Understanding_vLLM_on_Gaudi.ipynb)
+- [Benchmarking on vLLM](http://localhost:9010/lab/tree/Gaudi-tutorials/PyTorch/vLLM_Tutorials/Benchmarking_on_vLLM/vLLM_Benchmark_Serving.ipynb)
 - [Getting Started with TGI-Gaudi](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/TGI_Gaudi_tutorial/TGI_on_Intel_Gaudi.ipynb)
 - [RAG application with LocalGPT modified to run on Intel Gaudi](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/localGPT_inference/LocalGPT_Inference.ipynb)
 - [How to setup and use DeepSpeed for Training Large Language Models](https://github.com/HabanaAI/Gaudi-tutorials/tree/main/PyTorch/Large_Model_DeepSpeed)
