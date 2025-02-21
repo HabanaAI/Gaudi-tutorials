@@ -33,4 +33,5 @@ RUN pip install jupyter
 EXPOSE 8888
 
 # Run Jupyter Notebook when the container starts
-CMD ["jupyter", "notebook"]
+ENTRYPOINT ["ssh", "-L", "8888:localhost:8888", "-L", "7860:localhost:7860", "-L", "6006:localhost:6006", "-J", "guest@ipaddress", "user@ipaddress"]
+CMD ["sh", "./run_notebooks.sh:"]

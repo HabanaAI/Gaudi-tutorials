@@ -8,7 +8,7 @@ fi
 
 # Get the base directory path from the argument
 BASE_DIR=$1
-LOG_FILE="error_log.txt"
+LOG_FILE="$BASE_DIR/error_log.txt"
 
 # Clear the log file if it exists or create a new one
 > "$LOG_FILE"
@@ -53,5 +53,4 @@ for DIR in "$BASE_DIR"/*/; do
     fi
   fi
 done
-
 echo "Script execution completed. Check the log file at: $LOG_FILE"
