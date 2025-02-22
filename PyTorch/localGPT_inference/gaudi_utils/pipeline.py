@@ -11,7 +11,7 @@ from habana_frameworks.torch.hpu import wrap_in_hpu_graph
 from huggingface_hub import snapshot_download
 from optimum.habana.transformers.modeling_utils import adapt_transformers_to_gaudi
 from optimum.habana.utils import set_seed
-from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer, StoppingCriteria, StoppingCriteriaList
+from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer
 from transformers.utils import is_offline_mode
 
 
@@ -145,19 +145,6 @@ def get_ds_injection_policy(config):
     return policy
 
 
-class CustomStoppingCriteria(StoppingCriteria):
-    """ "
-    A custom stopping criteria which stops text generation when a stop token is generated.
-    """
-
-    def __init__(self, stop_token_id):
-        super().__init__()
-        self.stop_token_id = stop_token_id
-
-    def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor):
-        return self.stop_token_id in input_ids[0]
-
-
 class GaudiTextGenerationPipeline:
     """
     An end-to-end text-generation pipeline that can used to initialize LangChain classes. It supports both single-hpu and multi-hpu inference.
@@ -264,9 +251,7 @@ class GaudiTextGenerationPipeline:
         self.generation_config.num_return_sequences = kwargs.get("num_return_sequences", 1)
         self.generation_config.bad_words_ids = None
         self.generation_config.force_words_ids = None
-
-        # Define stopping criteria based on eos token id
-        self.stopping_criteria = StoppingCriteriaList([CustomStoppingCriteria(self.generation_config.eos_token_id)])
+        self.generation_config.ignore_eos = False
 
         self._postprocess_params = {}
 
@@ -274,6 +259,8 @@ class GaudiTextGenerationPipeline:
             torch.distributed.barrier()
 
     def __call__(self, prompt: List[str]):
+        prompt_len = len(prompt[0])
+
         model_inputs = self.tokenizer.encode_plus(
             prompt[0], return_tensors="pt", max_length=self.max_padding_length, padding="max_length", truncation=True
         )
@@ -289,13 +276,12 @@ class GaudiTextGenerationPipeline:
             hpu_graphs=True,
             profiling_steps=0,
             profiling_warmup_steps=0,
-            ignore_eos = False
         ).cpu()
 
         output_text = self.tokenizer.decode(output[0], skip_special_tokens=True)
         del output, model_inputs
 
-        return [{"generated_text": output_text}]
+        return [{"generated_text": output_text[prompt_len:]}]
 
     def get_process_rank(self):
         """

@@ -8,7 +8,7 @@ The tutorials provide step-by-step instructions for PyTorch and PyTorch Lightnin
 1. Get access to an Intel Gaudi 2 Accelerator card or node.  See the [Get Access](https://developer.habana.ai/get-access/) page on the Developer Website.  Be sure to use port forwarding `ssh -L 8888:localhost:8888 -L 7860:localhost:7860 -L 6006:localhost:6006 ... user@ipaddress` to be able to access the notebook, run the Gradio interface, and use Tensorboard.   Some of the tutorials use all of these features.
 2. Run the Intel Gaudi PyTorch Docker image.  Refer to the Docker section of the [Installation Guide](https://docs.habana.ai/en/latest/Installation_Guide/Bare_Metal_Fresh_OS.html#bare-metal-fresh-os-single-click) for more information.  Running the docker image will allow you access to the entire software stack without having to worry about detailed Software installation Steps.
 ```
-docker run -itd --name Gaudi_Docker --runtime=habana -e HABANA_VISIBLE_DEVICES=all -e OMPI_MCA_btl_vader_single_copy_mechanism=none --cap-add=sys_nice --net=host --ipc=host vault.habana.ai/gaudi-docker/1.18.0/ubuntu22.04/habanalabs/pytorch-installer-2.4.0
+docker run -itd --name Gaudi_Docker --runtime=habana -e HABANA_VISIBLE_DEVICES=all -e OMPI_MCA_btl_vader_single_copy_mechanism=none --cap-add=sys_nice --net=host --ipc=host vault.habana.ai/gaudi-docker/1.19.0/ubuntu22.04/habanalabs/pytorch-installer-2.5.1
 docker exec -it Gaudi_Docker bash
 ```
 3. Clone this tutorial in your $HOME directory:  `cd ~ && git clone https://www.github.com/habanaai/Gaudi-tutorials`
@@ -20,7 +20,9 @@ The tutorials will cover the following domains and tasks:
 ### Advanced
 - [Fine Tuning with LORA and Inference on Hugging Face Llama 2 70B model](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/llama2_fine_tuning_inference/llama2_fine_tuning_inference.ipynb)
 - [Full RAG application with TGI-gaudi](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/RAG_Application/RAG-on-Intel-Gaudi.ipynb)
-- [Getting Started with vLLM](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/Getting_Started_with_vLLM/Getting_Started_with_vLLM.ipynb)
+- [Getting Started with vLLM](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/vLLM_Tutorials/Getting_Started_with_vLLM/Getting_Started_with_vLLM.ipynb)
+- [Understanding vLLM on Gaudi](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/vLLM_Tutorials/Understanding_vLLM_on_Gaudi/Understanding_vLLM_on_Gaudi.ipynb)
+- [Benchmarking on vLLM](http://localhost:9010/lab/tree/Gaudi-tutorials/PyTorch/vLLM_Tutorials/Benchmarking_on_vLLM/vLLM_Benchmark_Serving.ipynb)
 - [Getting Started with TGI-Gaudi](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/TGI_Gaudi_tutorial/TGI_on_Intel_Gaudi.ipynb)
 - [RAG application with LocalGPT modified to run on Intel Gaudi](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/localGPT_inference/LocalGPT_Inference.ipynb)
 - [How to setup and use DeepSpeed for Training Large Language Models](https://github.com/HabanaAI/Gaudi-tutorials/tree/main/PyTorch/Large_Model_DeepSpeed)
