@@ -28,4 +28,8 @@ docker run -it --runtime=habana -e HABANA_VISIBLE_DEVICES=all -e OMPI_MCA_btl_va
 > ex: "-e HF_HOME=/mnt/huggingface -v /mnt:/mnt"
 
 ## How to run Benchmark scripts
-Benmark 
+Benchmark 
+
+
+![image](https://github.com/user-attachments/assets/03cbf628-e7f4-4dac-bdaa-cad76703146e)
+
