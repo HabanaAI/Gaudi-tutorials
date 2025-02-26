@@ -15,7 +15,6 @@ class RunCmd:
     def run(self, cmd):
         import subprocess
         
-        return 0, ''
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
         (output, err) = p.communicate()
         p_status = p.wait()
