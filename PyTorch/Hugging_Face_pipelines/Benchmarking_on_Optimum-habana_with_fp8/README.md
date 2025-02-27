@@ -42,5 +42,7 @@ GAUDI_VER=2 python Benchmark.py
 ```
 
 A html report will be generated under a folder with timestamp, and the html report will look like below the diagram.
-![image](https://github.com/user-attachments/assets/03cbf628-e7f4-4dac-bdaa-cad76703146e)
+
+![image](https://github.com/user-attachments/assets/6fdd36f6-b563-4339-8339-0b55e4916bf8)
+
 
