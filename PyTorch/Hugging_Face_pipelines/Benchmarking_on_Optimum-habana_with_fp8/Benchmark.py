@@ -13,8 +13,8 @@ unittest.TestLoader.sortTestMethodsUsing = None
 # unittest.TestLoader.sortTestMethodsUsing = lambda self, a, b: (a < b) - (a > b)
 class RunCmd:
     def run(self, cmd):
+        #return 0, ''
         import subprocess
-        
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
         (output, err) = p.communicate()
         p_status = p.wait()
@@ -29,7 +29,9 @@ class PerfUtility:
         return
 
     def load_input_data(self, model_name):
-        class_name = self.class_name
+        import os
+        gaudi_version = os.getenv('GAUDI_VER') or '3'
+        class_name = self.class_name + gaudi_version
         matched_items=[]
         with open(self.filename, "r") as file:
             try:
@@ -63,6 +65,7 @@ class PerfUtility:
         throughput, mem_allocated, max_mem_allocated, graph_compile = perf_report.parse_run_log(output)
 
         # 3.Add new row into report
+        #throughput = '0'
         new_row = {}
         perf_ratio = float(throughput) / float(data["ref_perf"])
         if perf_report.report_level >= 3:
@@ -188,6 +191,7 @@ class PerfReport:
 
 
 class OH_Benchmark(unittest.TestCase):
+    test_cases=4
     def setUp(self):
         self.perf_report = perf_report
         self.ip = "http://0.0.0.0"
@@ -268,6 +272,7 @@ class OH_Benchmark(unittest.TestCase):
             response_status_code = self.utils.model_test(i, perf_report)
         self.assertEqual(response_status_code, 0)
 
+    @unittest.skipIf(test_cases < 4 , "Skip over this routine")
     def test_4_llama3_1_405b(self):
 
         model_name = "Llama3.1_405b"
@@ -283,11 +288,15 @@ class OH_Benchmark(unittest.TestCase):
 
 if __name__ == "__main__":
     import sys
+    import os
 
-    if len(sys.argv) < 2:
-        raise IndexError("Please provide data json file.")
     report_level = 2  # low, medium, high
-    DataJsonFileName = sys.argv[1]  # "ChatQnA_Xeon.json"
+    DataJsonFileName = "Gaudi.json" #sys.argv[1]  # "ChatQnA_Xeon.json"
+
+    if os.path.isfile(DataJsonFileName) is False:
+        print("Missing Gaudi.json file")
+        exit(0)
+
     perf_report = PerfReport(DataJsonFileName, report_level)
     test_loader = unittest.TestLoader()
     suite = test_loader.loadTestsFromTestCase(OH_Benchmark)

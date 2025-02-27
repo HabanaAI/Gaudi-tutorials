@@ -30,10 +30,16 @@ docker run -it --runtime=habana -e HABANA_VISIBLE_DEVICES=all -e OMPI_MCA_btl_va
 ## How to run Benchmark scripts
 Benchmark script will run all the models with different input len, output len and batch size and generate a report to compare all published numbers in [Gaudi Model Performance](https://www.intel.com/content/www/us/en/developer/platform/gaudi/model-performance.html).  
 Different json file are provided for different Gaudi Software version like 1.19 and 1.20 on Gaudi3.
-To test 1.20 software on a machine with 8 Gaudi3 cards, just run the below command. 
+To do benchmarking on a machine with 8 Gaudi3 cards, just run the below command inside the docker instance. 
 ```bash
-python Benchmark.py Gaudi3_1-20.json
+python Benchmark.py
 ```
+
+To do benchmarking on a machine with 8 Gaudi2 cards, just run the below command instead inside the docker instance. 
+```bash
+GAUDI_VER=2 python Benchmark.py
+```
+
 A html report will be generated under a folder with timestamp, and the html report will look like below the diagram.
 ![image](https://github.com/user-attachments/assets/03cbf628-e7f4-4dac-bdaa-cad76703146e)
 
