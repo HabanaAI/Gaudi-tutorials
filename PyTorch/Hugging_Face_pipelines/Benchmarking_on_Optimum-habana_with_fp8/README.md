@@ -33,12 +33,12 @@ Benchmark script will run all the models with different input len, output len an
 Different json file are provided for different Gaudi Software version like 1.19 and 1.20 on Gaudi3.
 To do benchmarking on a machine with 8 Gaudi3 cards, just run the below command inside the docker instance. 
 ```bash
-python Benchmark.py
+python3 Benchmark.py
 ```
 ### Gaudi2
 To do benchmarking on a machine with 8 Gaudi2 cards, just run the below command instead inside the docker instance. 
 ```bash
-GAUDI_VER=2 python Benchmark.py
+GAUDI_VER=2 python3 Benchmark.py
 ```
 
 A html report will be generated under a folder with timestamp, and the html report will look like below the diagram.

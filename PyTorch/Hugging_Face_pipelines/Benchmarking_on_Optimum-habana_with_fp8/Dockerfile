@@ -12,7 +12,7 @@ RUN python3 -m pip install --upgrade-strategy eager optimum[habana]
 RUN python3 -m pip install git+https://github.com/HabanaAI/DeepSpeed.git@1.20.0
 RUN mkdir -p /workspace
 WORKDIR /workspace
-RUN git clone https://github.com/huggingface/optimum-habana && cd optimum-habana && git checkout v1.15.0
+RUN git clone https://github.com/huggingface/optimum-habana && cd optimum-habana && git checkout v1.16-release
 
 WORKDIR /workspace/optimum-habana/examples/text-generation
 RUN python3 -m pip install -r requirements.txt
