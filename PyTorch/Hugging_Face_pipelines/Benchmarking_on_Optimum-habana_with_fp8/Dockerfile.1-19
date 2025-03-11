@@ -20,4 +20,5 @@ RUN python3 -m pip install -r requirements.txt
 RUN python3 -m pip install -r requirements_lm_eval.txt
 COPY . .
 COPY Gaudi_1-19.json Gaudi.json
+COPY HQT_1-19.zip HQT.zip
 RUN python3 -m pip install -r requirements_bm.txt

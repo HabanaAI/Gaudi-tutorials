@@ -46,11 +46,38 @@ class PerfUtility:
     def model_test(self, data, perf_report):
         # 0. setup run env
         import os
+        hqt_output_exist = False
         src = "HQT" + os.sep + "hqt_output_" + data["model"] + '_' + data["num_cards"] + 'c'
         dst = "hqt_output"
-        if os.path.exists(dst):
+        if os.path.islink(dst):
             os.unlink(dst)
-        os.symlink(src,dst)
+        if os.path.exists(src):
+            os.symlink(src,dst)
+            hqt_output_exist = True
+        else:
+            print("No Tensor measurement output, Need redo the Tensor Measurement")
+
+        ref_perf = data["ref_perf"]
+        if ref_perf =="":
+            status = 0
+            if hqt_output_exist is False:
+                # 0.1 .Run the tensor measurement instruction
+                import shutil
+                import os
+                cmd = data["run_cmd"]
+                status, output = RunCmd().run(cmd)
+                output = output.decode("utf-8")
+                print(cmd)
+                # 0.1.1 copy generated hqt_output(dst) to HQT folder(src)
+                if os.path.exists(dst):
+                    if not os.path.exists(src):
+                        os.makedirs(src)
+                    file_names = os.listdir(dst)
+                    for file_name in file_names:
+                        shutil.move(os.path.join(dst, file_name), src)
+                    os.rmdir(dst)
+                # end 0.1 Tensor measurement
+            return status
 
         # 1.Run the instruction
         cmd = data["run_cmd"]
@@ -208,7 +235,7 @@ class OH_Benchmark(unittest.TestCase):
         self.classname = DataJsonFileName.split(".")[0]
         self.utils = PerfUtility(self.datafile)
         self.hostname = ''
-        if not os.path.exists("./HQT"):
+        if not os.path.exists("./HQT") and os.path.exists("./HQT.zip"):
             import zipfile
             zip = zipfile.ZipFile('HQT.zip')  # from zipfile import ZipFile
             zip.extractall('./')
