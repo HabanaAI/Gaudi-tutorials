@@ -21,12 +21,3 @@ git lfs install
 git clone "https://huggingface.co/$MODEL_NAME" "$CHECKPOINT_PATH"
 
 echo "Model $MODEL_NAME cloned to $CHECKPOINT_PATH"
-
-
-
-#cd /root
-#export CHECKPOINT_PATH=/root/models/Meta-Llama-3.1-8B-Instruct/
-#apt-get update
-#apt-get install git-lfs
-#git lfs install
-#git clone https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct $CHECKPOINT_PATH
