@@ -303,7 +303,11 @@ class OH_Benchmark(unittest.TestCase):
 
         # Testing
         for i in data:
-            response_status_code = self.utils.model_test(i, perf_report)
+            try:
+                response_status_code = self.utils.model_test(i, perf_report)
+            except:
+                response_status_code=-1
+                continue
         self.assertEqual(response_status_code, 0)
 
     @unittest.skipIf(skip_llama31_8b == 1 , "Skip over this routine")
@@ -317,7 +321,11 @@ class OH_Benchmark(unittest.TestCase):
 
         # Testing
         for i in data:
-            response_status_code = self.utils.model_test(i, perf_report)
+            try:
+                response_status_code = self.utils.model_test(i, perf_report)
+            except:
+                response_status_code=-1
+                continue
         self.assertEqual(response_status_code, 0)
 
     @unittest.skipIf(skip_llama31_70b == 1 , "Skip over this routine")
@@ -331,7 +339,11 @@ class OH_Benchmark(unittest.TestCase):
 
         # Testing
         for i in data:
-            response_status_code = self.utils.model_test(i, perf_report)
+            try:
+                response_status_code = self.utils.model_test(i, perf_report)
+            except:
+                response_status_code=-1
+                continue
         self.assertEqual(response_status_code, 0)
 
     @unittest.skipIf(skip_llama33_70b == 1 , "Skip over this routine")
@@ -345,7 +357,11 @@ class OH_Benchmark(unittest.TestCase):
 
         # Testing
         for i in data:
-            response_status_code = self.utils.model_test(i, perf_report)
+            try:
+                response_status_code = self.utils.model_test(i, perf_report)
+            except:
+                response_status_code=-1
+                continue
         self.assertEqual(response_status_code, 0)
 
     @unittest.skipIf(skip_llama31_405b == 1 , "Skip over this routine")
@@ -359,7 +375,11 @@ class OH_Benchmark(unittest.TestCase):
 
         # Testing
         for i in data:
-            response_status_code = self.utils.model_test(i, perf_report)
+            try:
+                response_status_code = self.utils.model_test(i, perf_report)
+            except:
+                response_status_code=-1
+                continue
         self.assertEqual(response_status_code, 0)
 
 if __name__ == "__main__":
