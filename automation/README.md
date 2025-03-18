@@ -8,8 +8,8 @@ This automation directory contains a Dockerfile, docker_build.sh and run_test.sh
 
 Before building the Docker image, ensure you have the following installed:
 
-Docker
-Access to the HabanaLabs container registry
+1. Docker
+2. Access to the HabanaLabs container registry
 
 ### Docker Build Arguments
 The Dockerfile allows customization through the following build arguments:
