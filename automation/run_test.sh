@@ -78,7 +78,7 @@ find "$BASE_DIR" -maxdepth 1 -type d | while read -r DIR; do
 
 jupyter nbconvert --to python /root/${NOTEBOOK_NAME}
 
-sed -i "s/<YOUR HUGGINGFACE TOKEN HERE>/g" /root/${NOTEBOOK_BASE}.py
+sed -i "s/Your_HuggingFace_Token/$TOKEN_KEY/g" /root/${NOTEBOOK_BASE}.py
 
 ipython3 /root/${NOTEBOOK_BASE}.py 2>&1 | tee /root/${NOTEBOOK_BASE}.out
 
