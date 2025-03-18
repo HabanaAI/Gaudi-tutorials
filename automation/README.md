@@ -76,7 +76,7 @@ The following tutorials have been successfully verified through automation.
 Work is in progress for the remaining tutorials.
 
 ### Note
-The following items are not functioning within the automation process, and the tutorials require modification accordingly.
+The following tutorials are not functioning within the automation process, and the tutorials require modification accordingly.
 1. vLLM_Tutorials
 2. TGI_Gaudi_tutorial
 3. RAG_Application
