@@ -2,7 +2,7 @@
 This section contains an example of how to quantize a Hugging Face models from fp32 to fp8 with Intel Gaudi and the Optimum for Intel Gaudi (aka Optimum Habana) library. An easy benchmarking python scripts with related Dockefile is also provided. Hugging Face pipelines take advantage of the Hugging Face Tasks in transformer models, such as text generation, translation, question answering and more. You can read more about Hugging Face pipelines on their main page [here](https://huggingface.co/docs/transformers/main_classes/pipelines)
 
 A jupyter notebook with fp8 instructions and a Benchmark.py for easy benchmarking are provided.
-For learning purpose, the jupyter notebook also instructions on bare metal to get started.
+For learning purpose, the jupyter notebook also has instructions on bare metal to get started.
 For Gaudi benchmarking purpose, Benchmark.py script will run Llama2 70b, Llama3.1 8b, Llama3.1 70b, and Llama3.1 405b inside docker and generate a report with performance comparsion against published numbers in [Gaudi Model Performance](https://www.intel.com/content/www/us/en/developer/platform/gaudi/model-performance.html). 
 
 ## Requirements
