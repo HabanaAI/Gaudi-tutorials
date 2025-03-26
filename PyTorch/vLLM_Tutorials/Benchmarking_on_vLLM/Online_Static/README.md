@@ -11,16 +11,17 @@ To run these models on your Gaudi machine:
 1) Clone this repository.
 2) Choose the model directory and cd into it.
 3) Edit the docker_envfile.env and enter your HF_TOKEN in Line 26.
-3) Launch run.sh which will start vLLM server and load the particular model.
-4) (Optional) User can run the perftest.sh script in a separate terminal to run a quick benchmark to get some metrics.
+4) Launch run.sh which will start vLLM server and load the particular model.
+5) (Optional) User can run the perftest.sh script in a separate terminal to run a quick benchmark to get some metrics.
 
 ### Important Files 
+
+Here is a list of important files in each model directory:
 
 |File name| Description|
 |:--------|------------|
 |run.sh |Main launcher script|
 |docker_envfile.env |File containing environment variables needed for the chosen model |
+|Dockerfile-1.20.0-xxxx| Dockerfile used by run.sh to create the docker container |
 |perftest.sh |Simple benchmark script for obtaining metrics
-|*.csv |File containing inputs for the client script (perftest.sh)
-|
-
+|*.csv |File containing inputs for the client script (perftest.sh)|
