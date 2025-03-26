@@ -5,12 +5,14 @@ These scripts are designed to be portable and runnable on any Gaudi machine with
 - Recipe for starting vLLM server.
 - Recipe to build container image.
 - Perf Test script to run a user-scale request on vLLM server with a report of the results.
+- The parameters of the vLLM server are pre-configured in the env files and server_cmd.sh scripts.
+- To test using a custom input, ensure that the context length (input + output tokens) does not exceed 2K or 4K, respectively, for this tutorial
 
 ## Quick Start
 To run these models on your Gaudi machine:
 1) Clone this repository.
 2) Choose the model directory and cd into it.
-3) Edit the docker_envfile.env and enter your HF_TOKEN in Line 26.
+3) Edit the docker_envfile.env and enter your HF_TOKEN in the placeholder in Line 26.
 4) Launch run.sh which will start vLLM server and load the particular model.
 5) (Optional) User can run the perftest.sh script in a separate terminal to run a quick benchmark to get some metrics.
 
