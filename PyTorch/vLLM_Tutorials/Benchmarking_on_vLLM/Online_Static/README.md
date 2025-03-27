@@ -18,7 +18,38 @@ To run these models on your Gaudi machine:
 6) When server is finally ready for serving, it will say 
 `Application Startup Complete.
 INFO:     Uvicorn running on http://0.0.0.0.:8000`
-7) (Optional) User can run the `./perftest.sh` script in a separate terminal to run a quick benchmark to get some metrics.
+7) (Optional) User can run the `./perftest.sh` script in a separate terminal to run a quick benchmark to get some metrics like example below:
+<pre>
+============ Serving Benchmark Result ============
+
+Successful requests:               320
+Benchmark duration (s):            58.27
+Total input tokens:                1199854
+Total generated tokens:            40960
+Request throughput (req/s):        5.49
+Output token throughput (tok/s):   702.88
+Total Token throughput (tok/s):    21292.51
+
+---------------Time to First Token----------------
+
+Mean TTFT (ms):                    2294.10
+Median TTFT (ms):                  2282.69
+P90 TTFT (ms):                     3772.42
+
+-----Time per Output Token (excl. 1st token)------
+
+Mean TPOT (ms):                    27.79
+Median TPOT (ms):                  27.72
+P90 TPOT (ms):                     39.37
+
+---------------Inter-token Latency----------------
+
+Mean ITL (ms):                     27.77
+Median ITL (ms):                   13.21
+P90 ITL (ms):                      17.35
+
+==================================================
+</pre>
 
 ### Important Files 
 
