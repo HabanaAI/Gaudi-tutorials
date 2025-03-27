@@ -1,0 +1,24 @@
+#!/bin/sh
+
+export PT_HPU_ENABLE_LAZY_COLLECTIVES=$PT_HPU_ENABLE_LAZY_COLLECTIVES
+export EXPERIMENTAL_WEIGHT_SHARING=$EXPERIMENTAL_WEIGHT_SHARING
+export VLLM_SKIP_WARMUP=$VLLM_SKIP_WARMUP
+export VLLM_GRAPH_RESERVED_MEM=$VLLM_GRAPH_RESERVED_MEM
+export VLLM_DECODE_BLOCK_BUCKET_STEP=$VLLM_DECODE_BLOCK_BUCKET_STEP
+export VLLM_PROMPT_SEQ_BUCKET_MAX=$VLLM_PROMPT_SEQ_BUCKET_MAX
+export VLLM_DECODE_BLOCK_BUCKET_MAX=$VLLM_DECODE_BLOCK_BUCKET_MAX
+export VLLM_ALLOW_LONG_MAX_MODEL_LEN=1
+
+python -m vllm.entrypoints.openai.api_server \
+        --model $model \
+        --block-size $block_size \
+        --dtype $dtype \
+        --tensor-parallel-size $number_of_cards \
+        --download_dir $HF_HOME \
+        --max-model-len $max_model_len \
+        --gpu-memory-util $gpu_memory_util \
+        --use-padding-aware-scheduling \
+        --max-num-seqs $max_num_seqs \
+        --max-num-prefill-seqs $max_num_prefill_seqs \
+        --num_scheduler_steps $num_scheduler_steps
+

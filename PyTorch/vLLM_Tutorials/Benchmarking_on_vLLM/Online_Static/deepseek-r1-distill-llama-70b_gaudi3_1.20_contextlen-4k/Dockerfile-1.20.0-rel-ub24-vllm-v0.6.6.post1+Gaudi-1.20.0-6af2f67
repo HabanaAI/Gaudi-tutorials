@@ -1,0 +1,21 @@
+FROM vault.habana.ai/gaudi-docker/1.20.0/ubuntu24.04/habanalabs/pytorch-installer-2.6.0
+
+# export BUILD_ARGS="--build-arg http_proxy --build-arg https_proxy --build-arg no_proxy"
+# export CNAME=pyt-2.6.0-1.20.0-rel-ub24-vllm-v0.6.6.post1_gaudi-1.20.0-6af2f67
+# docker build -f Dockerfile-1.20.0-rel-ub24-vllm-v0.6.6.post1+Gaudi-1.20.0-6af2f67 -t ${CPREFIX}${CNAME} $BUILD_ARGS .
+
+WORKDIR /root
+
+## Install vllm-fork inside the container
+RUN git clone https://github.com/HabanaAI/vllm-fork.git && \
+    cd vllm-fork && \
+    git checkout v0.6.6.post1+Gaudi-1.20.0 && \
+    git checkout 6af2f67 && \
+    pip install -v -e . && \
+    pip install datasets
+
+RUN ln -sf /usr/bin/python3 /usr/bin/python
+
+EXPOSE 22
+
+CMD ["/bin/bash", "-c", "service ssh restart; sleep infinity"]
