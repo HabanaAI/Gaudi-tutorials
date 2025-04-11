@@ -13,4 +13,5 @@ The Jupyter Notebooks in the folder will show different examples of how to setup
 * image-classification
 * text-generation
 * visual-question-answering
+* Benchmarking_on_Optimum-habana_with_fp8\run_text_generation_with_fp8
 
