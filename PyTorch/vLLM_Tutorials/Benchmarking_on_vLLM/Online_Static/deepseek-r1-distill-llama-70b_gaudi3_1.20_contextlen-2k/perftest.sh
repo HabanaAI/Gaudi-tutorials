@@ -4,7 +4,8 @@ userscalecsv=/workdir/${client_config}
 
 input_tok=$(sed -n '2p' $userscalecsv | cut -d, -f 3)
 output_tok=$(sed -n '2p' $userscalecsv | cut -d, -f 4)
-con_req=$(sed -n '2p' $userscalecsv | cut -d, -f 5)
+con_req=$(sed -n '2p' $userscalecsv | cut -d, -f 5 | tr -d '[:space:]')
+num_prompts=$(( con_req*numprompt_mult ))
 
 cd /root
 python3 vllm-fork/benchmarks/benchmark_serving.py \
@@ -18,7 +19,7 @@ python3 vllm-fork/benchmarks/benchmark_serving.py \
                  --sonnet-output-len $output_tok \
                  --ignore-eos \
                  --trust-remote-code \
-                 --num-prompts 320 \
+                 --num-prompts $num_prompts \
                  --max-concurrency $con_req \
                  --metric-percentiles 90 \
-2>&1 | tee -a client_1.log
+2>&1 | tee -a perftest.log
