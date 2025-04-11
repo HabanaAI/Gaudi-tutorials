@@ -19,7 +19,7 @@ To run these models on your Gaudi machine:
 6) When server is finally ready for serving, it will say
 `Application Startup Complete.
 INFO:     Uvicorn running on http://0.0.0.0.:8000`
-7) (Optional) User can run the `bash./perftest.sh` script in a separate terminal to run a quick benchmark to get some metrics like example below:
+7) (Optional) User can run the `docker exec vllm-server /workdir/perftest.sh` script in a separate terminal to run a quick benchmark to get some metrics like example below:
 <pre>
 ============ Serving Benchmark Result ============
 
