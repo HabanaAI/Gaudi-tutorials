@@ -1,7 +1,7 @@
 # Static Online Serving Examples
 This folder contains scripts and configuration files to enable a user to run automated inference on different models on vLLM in online serving mode.
 
-These scripts are designed to be portable and runnable on any Gaudi machine with minimal pre-requisites. Each folder contains :
+These scripts are designed to be portable and runnable on any Gaudi machine with minimal pre-requisites. Each folder contains:
 - Recipe to build Gaudi container image.
 - Recipe for starting vLLM server on Gaudi.
 - Perf Test script to run a user-scale request on vLLM server with a report of the results.
@@ -11,9 +11,9 @@ These scripts are designed to be portable and runnable on any Gaudi machine with
 ## Quick Start
 To run these models on your Gaudi machine:
 1) Clone this repository.
-2) Choose any one model example directory and cd into it.
+2) Choose any one model example directory and `cd` into it.
 3) Edit the `docker_envfile.env` and enter your `HF_TOKEN` in the placeholder variable. Optionally, you can set which cards to use by changing `HABANA_VISIBLE_DEVICES`
-4) Run command `sudo bash ./run.sh` which will build the Docker container for the vLLM server and load the particular model you have chosen in Step 2.
+4) Run command `bash ./run.sh` which will build the Docker container for the vLLM server and load the particular model you have chosen in Step 2.
 5) Wait **~15 minutes** or more for the server to start and warmup. Ignore the
  `pulsecheck   | No successful response. HTTP status code: 000. Retrying in 5 seconds...` messages in the meantime.
 6) When server is finally ready for serving, it will say
@@ -61,5 +61,5 @@ Here is a list of important files in each model directory:
 |run.sh |Main launcher script|
 |docker_envfile.env |File containing environment variables needed for the chosen model |
 |Dockerfile-1.20.0-xxxx| Dockerfile used by run.sh to create the docker container |
-|perftest.sh |Simple benchmark script for obtaining metrics
+|perftest.sh |Simple benchmark script for obtaining metrics |
 |*.csv |File containing inputs for the client script (perftest.sh)|
