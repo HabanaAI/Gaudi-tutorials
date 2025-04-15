@@ -22,4 +22,4 @@ python3 vllm-fork/benchmarks/benchmark_serving.py \
                  --num-prompts $num_prompts \
                  --max-concurrency $con_req \
                  --metric-percentiles 90 \
-2>&1 | tee -a perftest.log
+2>&1 | tee -a perftest_inp${input_tok}_out${output_tok}_user${con_req}.log

@@ -12,7 +12,7 @@ These scripts are designed to be portable and runnable on any Gaudi machine with
 To run these models on your Gaudi machine:
 1) Clone this repository.
 2) Choose any one model example directory and cd into it.
-3) Edit the docker_envfile.env and enter your HF_TOKEN in the placeholder variable.
+3) Edit the `docker_envfile.env` and enter your `HF_TOKEN` in the placeholder variable. Optionally, you can set which cards to use by changing `HABANA_VISIBLE_DEVICES`
 4) Run command `sudo bash ./run.sh` which will build the Docker container for the vLLM server and load the particular model you have chosen in Step 2.
 5) Wait **~15 minutes** or more for the server to start and warmup. Ignore the
  `pulsecheck   | No successful response. HTTP status code: 000. Retrying in 5 seconds...` messages in the meantime.
