@@ -332,7 +332,7 @@
       "input_len": "128",
       "output_len": "128",
       "bs": "2816",
-      "run_cmd": "HF_DATASETS_TRUST_REMOTE_CODE=true QUANT_CONFIG=./quantization_config//maxabs_quant.json   TQDM_DISABLE=1 python3  run_generation.py --model_name_or_path meta-llama/Llama-3.1-8B-Instruct --attn_softmax_bf16 --trim_logits --warmup 2 --use_kv_cache --use_hpu_graphs --limit_hpu_graphs --bucket_size=128 --bucket_internal --max_new_tokens 128 --max_input_tokens 128  --bf16 --batch_size 2816  --flash_attention_causal_mask  --use_flash_attention --flash_attention_recompute --attn_batch_split 2 ",
+      "run_cmd": "HF_DATASETS_TRUST_REMOTE_CODE=true QUANT_CONFIG=./quantization_config//maxabs_quant.json   TQDM_DISABLE=1 python3  run_generation.py --model_name_or_path meta-llama/Llama-3.1-8B-Instruct --attn_softmax_bf16 --trim_logits --warmup 2 --use_kv_cache --use_hpu_graphs --limit_hpu_graphs --bucket_size=128 --bucket_internal --max_new_tokens 128 --max_input_tokens 128  --bf16 --batch_size 2816  --flash_attention_causal_mask  --use_flash_attention --flash_attention_recompute --attn_batch_split 3 ",
       "ref_perf": "19907"
     },
     {
@@ -341,7 +341,7 @@
       "input_len": "128",
       "output_len": "2048",
       "bs": "512",
-      "run_cmd": "HF_DATASETS_TRUST_REMOTE_CODE=true QUANT_CONFIG=./quantization_config//maxabs_quant.json   TQDM_DISABLE=1 python3  run_generation.py --model_name_or_path meta-llama/Llama-3.1-8B-Instruct --attn_softmax_bf16 --trim_logits --warmup 2 --use_kv_cache --use_hpu_graphs --limit_hpu_graphs --bucket_size=128 --bucket_internal --max_new_tokens 2048 --max_input_tokens 128  --bf16 --batch_size 512  --flash_attention_causal_mask  --use_flash_attention --flash_attention_recompute --attn_batch_split 2 ",
+      "run_cmd": "HF_DATASETS_TRUST_REMOTE_CODE=true QUANT_CONFIG=./quantization_config//maxabs_quant.json   TQDM_DISABLE=1 python3  run_generation.py --model_name_or_path meta-llama/Llama-3.1-8B-Instruct --attn_softmax_bf16 --trim_logits --warmup 2 --use_kv_cache --use_hpu_graphs --limit_hpu_graphs --bucket_size=128 --bucket_internal --max_new_tokens 2048 --max_input_tokens 128  --bf16 --batch_size 512  --flash_attention_causal_mask  --use_flash_attention --flash_attention_recompute ",
       "ref_perf": "14866"
     },
     {
@@ -350,7 +350,7 @@
       "input_len": "2048",
       "output_len": "128",
       "bs": "179",
-      "run_cmd": "HF_DATASETS_TRUST_REMOTE_CODE=true QUANT_CONFIG=./quantization_config//maxabs_quant.json   TQDM_DISABLE=1 python3  run_generation.py --model_name_or_path meta-llama/Llama-3.1-8B-Instruct --attn_softmax_bf16 --trim_logits --warmup 2 --use_kv_cache --use_hpu_graphs --limit_hpu_graphs --bucket_size=128 --bucket_internal --max_new_tokens 128 --max_input_tokens 2048  --bf16 --batch_size 179  --flash_attention_causal_mask  --use_flash_attention --flash_attention_recompute --attn_batch_split 2 ",
+      "run_cmd": "HF_DATASETS_TRUST_REMOTE_CODE=true QUANT_CONFIG=./quantization_config//maxabs_quant.json   TQDM_DISABLE=1 python3  run_generation.py --model_name_or_path meta-llama/Llama-3.1-8B-Instruct --attn_softmax_bf16 --trim_logits --warmup 2 --use_kv_cache --use_hpu_graphs --limit_hpu_graphs --bucket_size=128 --bucket_internal --max_new_tokens 128 --max_input_tokens 2048  --bf16 --batch_size 179  --flash_attention_causal_mask  --use_flash_attention --flash_attention_recompute --attn_batch_split 3 ",
       "ref_perf": "2099"
     },
     {
@@ -359,7 +359,7 @@
       "input_len": "2048",
       "output_len": "2048",
       "bs": "256",
-      "run_cmd": "HF_DATASETS_TRUST_REMOTE_CODE=true QUANT_CONFIG=./quantization_config//maxabs_quant.json   TQDM_DISABLE=1 python3  run_generation.py --model_name_or_path meta-llama/Llama-3.1-8B-Instruct --attn_softmax_bf16 --trim_logits --warmup 2 --use_kv_cache --use_hpu_graphs --limit_hpu_graphs --bucket_size=128 --bucket_internal --max_new_tokens 2048 --max_input_tokens 2048  --bf16 --batch_size 256  --flash_attention_causal_mask  --use_flash_attention --flash_attention_recompute --attn_batch_split 2 ",
+      "run_cmd": "HF_DATASETS_TRUST_REMOTE_CODE=true QUANT_CONFIG=./quantization_config//maxabs_quant.json   TQDM_DISABLE=1 python3  run_generation.py --model_name_or_path meta-llama/Llama-3.1-8B-Instruct --attn_softmax_bf16 --trim_logits --warmup 2 --use_kv_cache --use_hpu_graphs --limit_hpu_graphs --bucket_size=128 --bucket_internal --max_new_tokens 2048 --max_input_tokens 2048  --bf16 --batch_size 256  --flash_attention_causal_mask  --use_flash_attention --flash_attention_recompute ",
       "ref_perf": "6060"
     },
     {
@@ -377,7 +377,7 @@
       "input_len": "128",
       "output_len": "128",
       "bs": "1792",
-      "run_cmd": "HF_DATASETS_TRUST_REMOTE_CODE=true QUANT_CONFIG=./quantization_config//maxabs_quant.json   TQDM_DISABLE=1 python3 ../gaudi_spawn.py --use_deepspeed --world_size 2 run_generation.py --model_name_or_path meta-llama/Llama-3.1-70B-Instruct --attn_softmax_bf16 --trim_logits --warmup 2 --use_kv_cache --use_hpu_graphs --limit_hpu_graphs --bucket_size=128 --bucket_internal --max_new_tokens 128 --max_input_tokens 128  --bf16 --batch_size 1792  --flash_attention_causal_mask  --use_flash_attention --flash_attention_recompute ",
+      "run_cmd": "HF_DATASETS_TRUST_REMOTE_CODE=true QUANT_CONFIG=./quantization_config//maxabs_quant.json   TQDM_DISABLE=1 python3 ../gaudi_spawn.py --use_deepspeed --world_size 2 run_generation.py --model_name_or_path meta-llama/Llama-3.1-70B-Instruct --attn_softmax_bf16 --trim_logits --warmup 2 --use_kv_cache --use_hpu_graphs --limit_hpu_graphs --bucket_size=128 --bucket_internal --max_new_tokens 128 --max_input_tokens 128  --bf16 --batch_size 1792  --flash_attention_causal_mask  --use_flash_attention --flash_attention_recompute  --attn_batch_split 2 ",
       "ref_perf": "3421"
     },
     {
@@ -395,7 +395,7 @@
       "input_len": "2048",
       "output_len": "128",
       "bs": "142",
-      "run_cmd": "HF_DATASETS_TRUST_REMOTE_CODE=true QUANT_CONFIG=./quantization_config//maxabs_quant.json   TQDM_DISABLE=1 python3 ../gaudi_spawn.py --use_deepspeed --world_size 2 run_generation.py --model_name_or_path meta-llama/Llama-3.1-70B-Instruct --attn_softmax_bf16 --trim_logits --warmup 2 --use_kv_cache --use_hpu_graphs --limit_hpu_graphs --bucket_size=128 --bucket_internal --max_new_tokens 128 --max_input_tokens 2048  --bf16 --batch_size 142  --flash_attention_causal_mask  --use_flash_attention --flash_attention_recompute ",
+      "run_cmd": "HF_DATASETS_TRUST_REMOTE_CODE=true QUANT_CONFIG=./quantization_config//maxabs_quant.json   TQDM_DISABLE=1 python3 ../gaudi_spawn.py --use_deepspeed --world_size 2 run_generation.py --model_name_or_path meta-llama/Llama-3.1-70B-Instruct --attn_softmax_bf16 --trim_logits --warmup 2 --use_kv_cache --use_hpu_graphs --limit_hpu_graphs --bucket_size=128 --bucket_internal --max_new_tokens 128 --max_input_tokens 2048  --bf16 --batch_size 142  --flash_attention_causal_mask  --use_flash_attention --flash_attention_recompute  --attn_batch_split 2 ",
       "ref_perf": "462"
     },
     {
@@ -404,7 +404,7 @@
       "input_len": "2048",
       "output_len": "2048",
       "bs": "139",
-      "run_cmd": "HF_DATASETS_TRUST_REMOTE_CODE=true QUANT_CONFIG=./quantization_config//maxabs_quant.json   TQDM_DISABLE=1 python3 ../gaudi_spawn.py --use_deepspeed --world_size 2 run_generation.py --model_name_or_path meta-llama/Llama-3.1-70B-Instruct --attn_softmax_bf16 --trim_logits --warmup 2 --use_kv_cache --use_hpu_graphs --limit_hpu_graphs --bucket_size=128 --bucket_internal --max_new_tokens 2048 --max_input_tokens 2048  --bf16 --batch_size 139  --flash_attention_causal_mask  --use_flash_attention --flash_attention_recompute ",
+      "run_cmd": "HF_DATASETS_TRUST_REMOTE_CODE=true QUANT_CONFIG=./quantization_config//maxabs_quant.json   TQDM_DISABLE=1 python3 ../gaudi_spawn.py --use_deepspeed --world_size 2 run_generation.py --model_name_or_path meta-llama/Llama-3.1-70B-Instruct --attn_softmax_bf16 --trim_logits --warmup 2 --use_kv_cache --use_hpu_graphs --limit_hpu_graphs --bucket_size=128 --bucket_internal --max_new_tokens 2048 --max_input_tokens 2048  --bf16 --batch_size 139  --flash_attention_causal_mask  --use_flash_attention --flash_attention_recompute  ",
       "ref_perf": "1665"
     },
     {
@@ -431,7 +431,7 @@
       "input_len": "128",
       "output_len": "2048",
       "bs": "768",
-      "run_cmd": "HF_DATASETS_TRUST_REMOTE_CODE=true QUANT_CONFIG=./quantization_config//maxabs_quant.json   TQDM_DISABLE=1 python3 ../gaudi_spawn.py --use_deepspeed --world_size 8 run_generation.py --model_name_or_path meta-llama/Llama-3.1-70B-Instruct --attn_softmax_bf16 --trim_logits --warmup 2 --use_kv_cache --use_hpu_graphs --limit_hpu_graphs --bucket_size=128 --bucket_internal --max_new_tokens 2048 --max_input_tokens 128  --bf16 --batch_size 600  --flash_attention_causal_mask  --use_flash_attention --flash_attention_recompute --attn_batch_split 2 ",
+      "run_cmd": "HF_DATASETS_TRUST_REMOTE_CODE=true QUANT_CONFIG=./quantization_config//maxabs_quant.json   TQDM_DISABLE=1 python3 ../gaudi_spawn.py --use_deepspeed --world_size 8 run_generation.py --model_name_or_path meta-llama/Llama-3.1-70B-Instruct --attn_softmax_bf16 --trim_logits --warmup 2 --use_kv_cache --use_hpu_graphs --limit_hpu_graphs --bucket_size=128 --bucket_internal --max_new_tokens 2048 --max_input_tokens 128  --bf16 --batch_size 768  --flash_attention_causal_mask  --use_flash_attention --flash_attention_recompute ",
       "ref_perf": "13639"
     },
     {
@@ -449,7 +449,7 @@
       "input_len": "2048",
       "output_len": "2048",
       "bs": "476",
-      "run_cmd": "HF_DATASETS_TRUST_REMOTE_CODE=true QUANT_CONFIG=./quantization_config//maxabs_quant.json   TQDM_DISABLE=1 python3 ../gaudi_spawn.py --use_deepspeed --world_size 8 run_generation.py --model_name_or_path meta-llama/Llama-3.1-70B-Instruct --attn_softmax_bf16 --trim_logits --warmup 2 --use_kv_cache --use_hpu_graphs --limit_hpu_graphs --bucket_size=128 --bucket_internal --max_new_tokens 2048 --max_input_tokens 2048  --bf16 --batch_size 476  --flash_attention_causal_mask  --use_flash_attention --flash_attention_recompute --attn_batch_split 2 ",
+      "run_cmd": "HF_DATASETS_TRUST_REMOTE_CODE=true QUANT_CONFIG=./quantization_config//maxabs_quant.json   TQDM_DISABLE=1 python3 ../gaudi_spawn.py --use_deepspeed --world_size 8 run_generation.py --model_name_or_path meta-llama/Llama-3.1-70B-Instruct --attn_softmax_bf16 --trim_logits --warmup 2 --use_kv_cache --use_hpu_graphs --limit_hpu_graphs --bucket_size=128 --bucket_internal --max_new_tokens 2048 --max_input_tokens 2048  --bf16 --batch_size 476  --flash_attention_causal_mask  --use_flash_attention --flash_attention_recompute ",
       "ref_perf": "6715"
     }
   ]
