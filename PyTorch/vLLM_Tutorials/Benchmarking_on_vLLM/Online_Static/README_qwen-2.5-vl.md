@@ -44,9 +44,7 @@ These variables are only applicable for multi-modal models.
 
 |Environment Variable  |Purpose    |Interaction      |Impact       |Default Value|
 |----------------------|------------|----------------|----------|-------------|
-|`VLLM_MULTIMODAL_BUCKETS`|Defines series of buckets that correlate to image sizes covered|Range is dependent on min_pixels and max_pixels|Longer sequence means more coverage for different images and reduced recompilations at runtime but slower warmups.
-
-Smaller sequence mean faster warmups but potentially more recompilations at runtime|1600, 3136, 4096, 6400, 7744, 9216, 12544|
+|`VLLM_MULTIMODAL_BUCKETS`|Defines series of buckets that correlate to image sizes covered|Range is dependent on min_pixels and max_pixels|Longer sequence means more coverage for different images and reduced recompilations at runtime but slower warmups. Smaller sequence mean faster warmups but potentially more recompilations at runtime|1600, 3136, 4096, 6400, 7744, 9216, 12544|
 |`VLLM_GRAPH_MULTIMODAL_PROMPT_RATIO`|Ratio of text vs video memory in the prefill graphs memory pool|Affected by `VLLM_GRAPH_RESERVED_MEM` and `VLLM_GRAPH_PROMPT_RATIO`|Higher values skew the prefill graphs memory in favor of text part of the prompt suitable when fewer images and more text and vice versa|0.3|
 
 
