@@ -5,7 +5,7 @@ This document is meant to summarize the multi-modal specific changes that have b
 The Qwen 2.5-VL model is currently available as a special [branch](https://github.com/HabanaAI/vllm-fork/pull/1109/files) in the vllm-fork repository. Use these commands to clone this branch and install the special version of transformers.
 
 ```bash
-$ git clone https://github.com/HabanaAI/vllm-fork.git -b ig/qwen2_5-vl_visionTransformer
+$ git clone https://github.com/HabanaAI/vllm-fork.git -b qwen2_5-vl_visionTransformer_merging
 $ cd vllm-fork
 $ pip install --upgrade pip
 $ pip install -r requirements-hpu.txt
@@ -19,7 +19,7 @@ $ pip install datasets
 - Videos as input not currently supported.
 
 ## Input pre-requisites
-Due to the model's design constraints, the input images must be a multiple of 112 in both width and height dimensions. The above installation commands install this special [version](https://github.com/HabanaAI/vllm-fork/blob/ig/qwen2_5-vl_visionTransformer/requirements-hpu-qwen2_5_vl.txt#L1) of the transformer that aligns regular sized images for the user automatically.
+Due to the model's design constraints, the input images must be a multiple of 112 in both width and height dimensions. The above installation commands install this special [version](https://github.com/HabanaAI/vllm-fork/blob/qwen2_5-vl_visionTransformer_merging/requirements-hpu-qwen2_5_vl.txt#L1) of the transformer that aligns regular sized images for the user automatically.
 
 ## Changes Introduced
 
@@ -29,12 +29,12 @@ A user may face OOM errors when trying text with image(s) especially in case of 
 Two broad scenarios are described with different methods recommended to avoid OOMs:
 
 - If OOM happens right in the beginning of vLLM startup:
-  - OOM is proabably occuring due to non-availability of free device memory. 
+  - OOM is likely occurring due to non-availability of free device memory. 
   - Decrease `--gpu_memory_utilization` to between `0.3-0.5`
   - This will increase available free device memory that is needed for pre-processing of images.
 
 - If OOM occurs in HPU Graph capturing stage:
-  - When using `VLLM_SKIP_WARMUP=true`, OOM is probably occuring due to lack of available HPU graphs capture memory.
+  - When using `VLLM_SKIP_WARMUP=true`, OOM is probably occurring due to lack of available HPU graphs capture memory.
   - Increase `VLLM_GRAPH_RESERVED_MEM` (default: 0.1) to `0.4-0.6`.
   - This reduces the memory pre-allocated for KV Cache in favor of capturing HPU Graphs at runtime.
 
@@ -56,4 +56,4 @@ As an example, assuming a configuration for minimum pixels in a server deploymen
 #### `VLLM_GRAPH_MULTIMODAL_PROMPT_RATIO`
 The environment variable `VLLM_GRAPH_MULTIMODAL_PROMPT_RATIO` determines the ratio of text vs video memory in the memory pool reserved for prefill graphs. The size of prefill graphs memory pool is itself controlled by other variables `VLLM_GRAPH_RESERVED_MEM` and `VLLM_GRAPH_PROMPT_RATIO`.
 
-For example, let us say there is 100GB free device memory available after loading model weights, profiling and applying `--gpu_memory_utilization` flag. Setting `VLLM_GRAPH_RESERVED_MEM=0.1` reserves 10GB as 'usable graph memory' for HPU Graphs and `VLLM_GRAPH_PROMPT_RATIO=0.2` reserves 20% of 'usable graph memory' for prefill graphs (i.e. 20% of 10GB which is 2GB), while 80% is allocated for decode graphs. Now, setting `VLLM_GRAPH_MULTIMODAL_PROMPT_RATIO=0.3` will split this 2GB of prefill graph memory between text (30% of 2GB) and video (70% of 2GB) to accomodate the respective parts of the prompt.
+For example, let us say there is 100GB free device memory available after loading model weights, profiling and applying `--gpu_memory_utilization` flag. Setting `VLLM_GRAPH_RESERVED_MEM=0.1` reserves 10GB as 'usable graph memory' for HPU Graphs and `VLLM_GRAPH_PROMPT_RATIO=0.2` reserves 20% of 'usable graph memory' for prefill graphs (i.e. 20% of 10GB which is 2GB), while 80% is allocated for decode graphs. Now, setting `VLLM_GRAPH_MULTIMODAL_PROMPT_RATIO=0.3` will split this 2GB of prefill graph memory between text (30% of 2GB) and video (70% of 2GB) to accommodate the respective parts of the prompt.
