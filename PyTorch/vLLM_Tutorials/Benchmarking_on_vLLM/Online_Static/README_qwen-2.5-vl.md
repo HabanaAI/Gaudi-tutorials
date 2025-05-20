@@ -2,17 +2,19 @@
 This document is meant to summarize the multi-modal specific changes that have been introduced in vLLM for Intel Gaudi while enabling Qwen 2.5 VL model. This covers topics such as multi-modal specific environment variables, Out of Memory error handling strategy and other guidelines.
 
 ## Installation
-The Qwen 2.5-VL model is currently available as a special [branch](https://github.com/HabanaAI/vllm-fork/pull/1109/files) in the vllm-fork repository. Use these commands to clone this branch and install the special version of transformers.
+The Qwen 2.5-VL model is currently available as a special [branch](https://github.com/HabanaAI/vllm-fork/pull/1163/files) in the vllm-fork repository. Use these commands to clone this branch and install the special version of transformers.
 
 ```bash
 $ git clone https://github.com/HabanaAI/vllm-fork.git -b qwen2_5-vl_visionTransformer_merging
 $ cd vllm-fork
 $ pip install --upgrade pip
 $ pip install -r requirements-hpu.txt
-$ pip install -r requirements-hpu-qwen2_5_vl.txt
 $ python setup.py develop
 $ pip install datasets
 ```
+> [!NOTE]
+> Currently the images are expected to be 112x112 aligned. To enforce such alignment: `pip install git+https://github.com/malkomes/transformers.git@ac372cd18f836c41f57cdce46094db00019d4280`
+
 
 ## Supported Features
 - Text with image(s) and text-only prompts supported.
@@ -42,12 +44,12 @@ Two broad scenarios are described with different methods recommended to avoid OO
 ### New Multi-modal Bucketing Environment Parameters
 These variables are only applicable for multi-modal models.
 
-| Environment Variable                 | Purpose                                                         | Interaction                                                                                                         | Impact                                                                                                                                                                                                 | Default Value                             |
-| ------------------------------------ | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------- |
-| `VLLM_MULTIMODAL_BUCKETS`            | Defines series of buckets that correlate to image sizes covered | Range is dependent on min_pixels and max_pixels                                                                     | Longer sequence means more coverage for different images and reduced recompilations at runtime but slower warmups. Smaller sequence mean faster warmups but potentially more recompilations at runtime | 1600, 3136, 4096, 6400, 7744, 9216, 12544 |
-| `VLLM_GRAPH_MULTIMODAL_PROMPT_RATIO` | Ratio of text vs video memory in the prefill graphs memory pool | Affected by `VLLM_GRAPH_RESERVED_MEM` and `VLLM_GRAPH_PROMPT_RATIO`                                                 | Higher values skew the prefill graphs memory in favor of text part of the prompt suitable when fewer images and more text and vice versa                                                               | 0.3                                       |
-| `VLLM_FP32_SOFTMAX`                  | Enables FP32 softmax for the LLM model                        | Helps improve the accuray of the langugae model. Setting this to `=1` could have low/marginal performance impact. | `=0`                                                                                                                                                                                                   |
-| `VLLM_FP32_SOFTMAX_VISION`           | Enables FP32 softmax for the vision model                     | Helps improve the accuray of the vision model. Setting this to `=1` could have noticable performance impact.      | `=0`                                                                                                                                                                                                   |
+| Environment Variable                 | Purpose                                                         | Interaction                                                                                                       | Impact                                                                                                                                                                                                 | Default Value                             |
+| ------------------------------------ | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------- |
+| `VLLM_MULTIMODAL_BUCKETS`            | Defines series of buckets that correlate to image sizes covered | Range is dependent on min_pixels and max_pixels                                                                   | Longer sequence means more coverage for different images and reduced recompilations at runtime but slower warmups. Smaller sequence mean faster warmups but potentially more recompilations at runtime | 1600, 3136, 4096, 6400, 7744, 9216, 12544 |
+| `VLLM_GRAPH_MULTIMODAL_PROMPT_RATIO` | Ratio of text vs video memory in the prefill graphs memory pool | Affected by `VLLM_GRAPH_RESERVED_MEM` and `VLLM_GRAPH_PROMPT_RATIO`                                               | Higher values skew the prefill graphs memory in favor of text part of the prompt suitable when fewer images and more text and vice versa                                                               | 0.3                                       |
+| `VLLM_FP32_SOFTMAX`                  | Enables FP32 softmax for the LLM model                          | Helps improve the accuray of the langugae model. Setting this to `=1` could have low/marginal performance impact. | `=0`                                                                                                                                                                                                   |
+| `VLLM_FP32_SOFTMAX_VISION`           | Enables FP32 softmax for the vision model                       | Helps improve the accuray of the vision model. Setting this to `=1` could have noticable performance impact.      | `=0`                                                                                                                                                                                                   |
 
 
 #### `VLLM_MULTIMODAL_BUCKETS`
