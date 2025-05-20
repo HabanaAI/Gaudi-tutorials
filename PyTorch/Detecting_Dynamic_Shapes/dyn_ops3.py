@@ -2,6 +2,8 @@
 
 import os
 
+os.environ['PT_HPU_LAZY_MODE'] = '1'
+
 import habana_frameworks.torch.core as htcore
 import torchvision
 import torchvision.transforms as T
