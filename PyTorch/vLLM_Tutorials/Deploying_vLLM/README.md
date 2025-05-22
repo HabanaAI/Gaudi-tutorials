@@ -102,41 +102,6 @@ Median ITL (ms):                         15.38
 P90 ITL (ms):                            18.49
 ==================================================
 </pre>
-
-# Running vLLM server with custom parameters
-1) The follow variables come with defaults but can be overridden with appropriate values
- -  -e tensor_parallel_size (Optional number of cards to use. If not set, a default will be chosen)
- -  -e max_model_len (Optional, set a length that suits your workload. If not set, a default will be chosen)
-
-2) Example for bringing up a vLLM server with a custom max model length and tensor parallel size. Proxy variables and volumes added for reference.
-```bash
-docker run -it --rm \
-    -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
-    -e HF_HOME=/mnt/hf_cache \
-    -v /mnt/hf_cache:/mnt/hf_cache \
-    --cap-add=sys_nice \
-    --ipc=host \
-    -e HF_TOKEN=YOUR_TOKEN_HERE \
-    -e HABANA_VISIBLE_DEVICES=all \
-    -p 8000:8000 \
-    -e model=meta-llama/Llama-3.1-70B-Instruct \
-    -e tensor_parallel_size=8 \
-    -e max_model_len=8192 \
-    --name vllm-server \
-    vllm-v0.7.2-gaudi-ub24:1.21.0-555
-```
-3) Example for running meta-llama/Llama-3.1-405B-Instruct
-```bash
-docker run -it --rm \
-    --cap-add=sys_nice \
-    --ipc=host \
-    -e HF_TOKEN=YOUR_TOKEN_HERE \
-    -e HABANA_VISIBLE_DEVICES=all \
-    -p 8000:8000 \
-    -e meta-llama/Llama-3.1-405B-Instruct \
-    --name vllm-server \
-    vllm-v0.7.2-gaudi-ub24:1.21.0-555
-```
 <pre>
 # meta-llama/Llama-3.1-405B-Instruct
 ============ Serving Benchmark Result ============
@@ -161,3 +126,25 @@ Median ITL (ms):                         60.01
 P90 ITL (ms):                            61.32
 ==================================================
 </pre>
+# Running vLLM server with custom parameters
+1) The follow variables come with defaults but can be overridden with appropriate values
+ -  -e tensor_parallel_size (Optional number of cards to use. If not set, a default will be chosen)
+ -  -e max_model_len (Optional, set a length that suits your workload. If not set, a default will be chosen)
+
+2) Example for bringing up a vLLM server with a custom max model length and tensor parallel size. Proxy variables and volumes added for reference.
+```bash
+docker run -it --rm \
+    -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
+    -e HF_HOME=/mnt/hf_cache \
+    -v /mnt/hf_cache:/mnt/hf_cache \
+    --cap-add=sys_nice \
+    --ipc=host \
+    -e HF_TOKEN=YOUR_TOKEN_HERE \
+    -e HABANA_VISIBLE_DEVICES=all \
+    -p 8000:8000 \
+    -e model=meta-llama/Llama-3.1-70B-Instruct \
+    -e tensor_parallel_size=8 \
+    -e max_model_len=8192 \
+    --name vllm-server \
+    vllm-v0.7.2-gaudi-ub24:1.21.0-555
+```
