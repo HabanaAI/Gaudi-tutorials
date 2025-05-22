@@ -25,7 +25,7 @@ To run these models on your Gaudi machine:
 1) First, obtain the Dockerfile and benchmark scripts from the AICE Internal GitHub repository using the command below
 ```bash
 git clone https://github.com/HabanaAI/Gaudi-tutorials
-cd Gaudi-tutorials/vLLM_Container
+cd Gaudi-tutorials/PyTorch/vLLM_Tutorials/Deploying_vLLM
 ```
 2) Depending on the base OS you are running, select the appropriate Dockerfile. The examples in this page are for Ubuntu 24.04
  - Ubuntu 22.04: Dockerfile-1.21.0-ub22-vllm-v0.7.2+Gaudi
@@ -79,6 +79,7 @@ curl -s --noproxy '*' http://${target}:8000/v1/completions -H 'Content-Type: app
  
 8) (Optional) Run the `docker exec vllm-server /root/scripts/perftest.sh` command in a **separate terminal** to run a quick benchmark script for obtaining basic metrics like the example below for Gaudi3:
 <pre>
+# meta-llama/Llama-3.1-8B-Instruct
 ============ Serving Benchmark Result ============
 Successful requests:                     640
 Benchmark duration (s):                  359.63
@@ -124,3 +125,39 @@ docker run -it --rm \
     --name vllm-server \
     vllm-v0.7.2-gaudi-ub24:1.21.0-555
 ```
+3) Example for running meta-llama/Llama-3.1-405B-Instruct
+```bash
+docker run -it --rm \
+    --cap-add=sys_nice \
+    --ipc=host \
+    -e HF_TOKEN=YOUR_TOKEN_HERE \
+    -e HABANA_VISIBLE_DEVICES=all \
+    -p 8000:8000 \
+    -e meta-llama/Llama-3.1-405B-Instruct \
+    --name vllm-server \
+    vllm-v0.7.2-gaudi-ub24:1.21.0-555
+```
+<pre>
+# meta-llama/Llama-3.1-405B-Instruct
+============ Serving Benchmark Result ============
+Successful requests:                     640
+Benchmark duration (s):                  1514.01
+Total input tokens:                      1195639
+Total generated tokens:                  1310720
+Request throughput (req/s):              0.42
+Output token throughput (tok/s):         865.73
+Total Token throughput (tok/s):          1655.44
+---------------Time to First Token----------------
+Mean TTFT (ms):                          15474.97
+Median TTFT (ms):                        15500.01
+P90 TTFT (ms):                           27013.06
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          66.39
+Median TPOT (ms):                        66.38
+P90 TPOT (ms):                           71.97
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           66.39
+Median ITL (ms):                         60.01
+P90 ITL (ms):                            61.32
+==================================================
+</pre>
