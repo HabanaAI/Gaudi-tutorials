@@ -22,23 +22,20 @@ This folder contains scripts and configuration files that can be used to build a
 ## Quick Start
 To run these models on your Gaudi machine:
 
-1) First, obtain the Dockerfile and benchmark scripts from the Gaudi-Tutorial GitHub repository using the command below
+1) First, obtain the Dockerfile and benchmark scripts from the AICE Internal GitHub repository using the command below
+```bash
+git clone https://github.com/HabanaAI/Gaudi-tutorials
+cd Gaudi-tutorials/vLLM_Container
 ```
-git clone https://github.com/intel-sandbox/applications.ai.aice
-cd applications.ai.aice/nim-bu
-```
-
 2) Depending on the base OS you are running, select the appropriate Dockerfile. The examples in this page are for Ubuntu 24.04
  - Ubuntu 22.04: Dockerfile-1.21.0-ub22-vllm-v0.7.2+Gaudi
  - Ubuntu 24.04: Dockerfile-1.21.0-ub24-vllm-v0.7.2+Gaudi
 
 3) To build the `vllm-v0.7.2-gaudi` image from the Dockerfile, use the command below.
-```
+```bash
 ## Set the next line if you are using a HTTP proxy on your build machine
 BUILD_ARGS="--build-arg http_proxy --build-arg https_proxy --build-arg no_proxy"
-CNAME=vllm-v0.7.2-gaudi-ub24:1.21.0-555
-CPREFIX=gar-registry.caas.intel.com/aice/
-docker build -f Dockerfile-1.21.0-ub24-vllm-v0.7.2+Gaudi $BUILD_ARGS -t ${CPREFIX}${CNAME} .
+docker build -f Dockerfile-1.21.0-ub24-vllm-v0.7.2+Gaudi $BUILD_ARGS -t vllm-v0.7.2-gaudi-ub24:1.21.0-555 .
 ```
 
 4) Set the follow variables with appropriate values
@@ -50,28 +47,22 @@ docker build -f Dockerfile-1.21.0-ub24-vllm-v0.7.2+Gaudi $BUILD_ARGS -t ${CPREFI
 > Please export HF_HOME environment variable pointing to the external disk housing Huggingface hub folder.
 > In the meantime, export the mount point of the external disk into docker instance.
 > ex: "-e HF_HOME=/mnt/huggingface -v /mnt/huggingface:/mnt"
- 
-5) Start the vLLM server with a default context of 4K and default TP from table above
-```
-CNAME=vllm-v0.7.2-gaudi-ub24:1.21.0-555
-CPREFIX=gar-registry.caas.intel.com/aice/
+
+5)  Start the vLLM server with a default context of 4K and default TP from table above
+```bash
 docker run -it --rm \
-    -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
-    -e HF_HOME=/mnt/hf_cache \    
-    -v /mnt/hf_cache:/mnt/hf_cache \
     --cap-add=sys_nice \
     --ipc=host \
-    --runtime=habana \
     -e HF_TOKEN=YOUR_TOKEN_HERE \
     -e HABANA_VISIBLE_DEVICES=all \
     -p 8000:8000 \
     -e model=meta-llama/Llama-3.1-8B-Instruct \
     --name vllm-server \
-    ${CPREFIX}${CNAME}
+    vllm-v0.7.2-gaudi-ub24:1.21.0-555
 ```
 
 6) (Optional) check your vLLM server by running this command in a **separate terminal**
-```
+```bash
 model=meta-llama/Llama-3.1-8B-Instruct
 target=localhost
 curl_query="What is DeepLearning?"
@@ -80,9 +71,10 @@ curl -s --noproxy '*' http://${target}:8000/v1/completions -H 'Content-Type: app
 ```
 
 7) Expect to see an output similar to this:
-<code>
+```json
 {"id":"cmpl-694ba4a409444b2a8e2348657a073721","object":"text_completion","created":1747731763,"model":"meta-llama/Llama-3.1-8B-Instruct","choices":[{"index":0,"text":" Deep learning is a subset of machine learning that uses artificial neural networks to analyze data. It is a type of machine learning that is inspired by the structure and function of the human brain. Deep learning algorithms are designed to learn and improve on their own by analyzing large amounts of data, and they can be used for a wide range of tasks, including image and speech recognition, natural language processing, and predictive modeling.\nDeep learning is a type of machine learning that is particularly well-suited to tasks that involve complex patterns and relationships in data. It is often used in applications such as:\nImage and speech recognition: Deep learning algorithms can be used to","logprobs":null,"finish_reason":"length","stop_reason":null,"prompt_logprobs":null}],"usage":{"prompt_tokens":6,"total_tokens":134,"completion_tokens":128,"prompt_tokens_details":null}}
-</code>
+
+```
 &nbsp;
  
 8) (Optional) Run the `docker exec vllm-server /root/scripts/perftest.sh` command in a **separate terminal** to run a quick benchmark script for obtaining basic metrics like the example below for Gaudi3:
@@ -111,21 +103,18 @@ P90 ITL (ms):                            18.49
 </pre>
 
 # Running vLLM server with custom parameters
-1) Set the follow variables come with defaults but can be overridden with appropriate values
+1) The follow variables come with defaults but can be overridden with appropriate values
  -  -e tensor_parallel_size (Optional number of cards to use. If not set, a default will be chosen)
  -  -e max_model_len (Optional, set a length that suits your workload. If not set, a default will be chosen)
 
 2) Example for bringing up a vLLM server with a custom max model length and tensor parallel size. Proxy variables and volumes added for reference.
-```
-CNAME=vllm-v0.7.2-gaudi-ub24:1.21.0-555
-CPREFIX=gar-registry.caas.intel.com/aice/
+```bash
 docker run -it --rm \
     -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
-    -e HF_HOME=/mnt/hf_cache \    
+    -e HF_HOME=/mnt/hf_cache \
     -v /mnt/hf_cache:/mnt/hf_cache \
     --cap-add=sys_nice \
     --ipc=host \
-    --runtime=habana \
     -e HF_TOKEN=YOUR_TOKEN_HERE \
     -e HABANA_VISIBLE_DEVICES=all \
     -p 8000:8000 \
@@ -133,5 +122,5 @@ docker run -it --rm \
     -e tensor_parallel_size=8 \
     -e max_model_len=8192 \
     --name vllm-server \
-    ${CPREFIX}${CNAME}
+    vllm-v0.7.2-gaudi-ub24:1.21.0-555
 ```
