@@ -53,6 +53,7 @@ docker build -f Dockerfile-1.21.0-ub24-vllm-v0.7.2+Gaudi $BUILD_ARGS -t vllm-v0.
 docker run -it --rm \
     --cap-add=sys_nice \
     --ipc=host \
+    --runtime=habana \
     -e HF_TOKEN=YOUR_TOKEN_HERE \
     -e HABANA_VISIBLE_DEVICES=all \
     -p 8000:8000 \
@@ -139,6 +140,7 @@ docker run -it --rm \
     -v /mnt/hf_cache:/mnt/hf_cache \
     --cap-add=sys_nice \
     --ipc=host \
+    --runtime=habana \
     -e HF_TOKEN=YOUR_TOKEN_HERE \
     -e HABANA_VISIBLE_DEVICES=all \
     -p 8000:8000 \
