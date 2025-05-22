@@ -51,6 +51,7 @@ docker build -f Dockerfile-1.21.0-ub24-vllm-v0.7.2+Gaudi $BUILD_ARGS -t vllm-v0.
 5)  Start the vLLM server with a default context of 4K and default TP from table above
 ```bash
 docker run -it --rm \
+    -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
     --cap-add=sys_nice \
     --ipc=host \
     --runtime=habana \
