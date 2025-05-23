@@ -1,5 +1,9 @@
 # Copyright (c) 2023, Habana Labs Ltd.  All rights reserved.
 
+import os
+
+os.environ['PT_HPU_LAZY_MODE'] = '1'
+
 import torch
 from habana_frameworks.torch.utils.experimental import detect_recompilation_auto_model
 
