@@ -48,7 +48,7 @@ docker build -f Dockerfile-1.21.0-ub24-vllm-v0.7.2+Gaudi $BUILD_ARGS -t vllm-v0.
 > In the meantime, export the mount point of the external disk into docker instance.
 > ex: "-e HF_HOME=/mnt/huggingface -v /mnt/huggingface:/mnt"
 
-5)  Start the vLLM server with a default context of 4K and default TP from table above
+5) Start the vLLM server with a default context of 4K and default TP from table above
 ```bash
 docker run -it --rm \
     -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
@@ -77,7 +77,8 @@ curl -s --noproxy '*' http://${target}:8000/v1/completions -H 'Content-Type: app
 {"id":"cmpl-694ba4a409444b2a8e2348657a073721","object":"text_completion","created":1747731763,"model":"meta-llama/Llama-3.1-8B-Instruct","choices":[{"index":0,"text":" Deep learning is a subset of machine learning that uses artificial neural networks to analyze data. It is a type of machine learning that is inspired by the structure and function of the human brain. Deep learning algorithms are designed to learn and improve on their own by analyzing large amounts of data, and they can be used for a wide range of tasks, including image and speech recognition, natural language processing, and predictive modeling.\nDeep learning is a type of machine learning that is particularly well-suited to tasks that involve complex patterns and relationships in data. It is often used in applications such as:\nImage and speech recognition: Deep learning algorithms can be used to","logprobs":null,"finish_reason":"length","stop_reason":null,"prompt_logprobs":null}],"usage":{"prompt_tokens":6,"total_tokens":134,"completion_tokens":128,"prompt_tokens_details":null}}
 </code>
 &nbsp; 
-8) (Optional) Run the perftest.sh command in a **separate terminal** to for obtaining basic metrics like the example below for Gaudi3:
+
+8) (Optional) Run the perftest.sh command in a **separate terminal** to for obtaining basic metrics like the example below for Gaudi3:  
 ```bash
 docker exec vllm-server /root/scripts/perftest.sh
 ```
@@ -142,7 +143,6 @@ P90 ITL (ms):                            61.32
 ## Examples:
 docker exec vllm-server /root/scripts/perftest.sh 1024 3192
 docker exec vllm-server /root/scripts/perftest.sh 1024 3192 100
-
 ``` 
 &nbsp;
 
@@ -212,4 +212,8 @@ docker run -it --rm \
     -e max_model_len=8192 \
     --name vllm-server2 \
     ${CPREFIX}${CNAME}
+```
+4) To view vllm-server logs, run this in a separate terminal:
+```bash
+docker logs -v vllm-server
 ```
