@@ -73,13 +73,11 @@ curl -s --noproxy '*' http://${target}:8000/v1/completions -H 'Content-Type: app
 ```
 
 7) Expect to see an output similar to this:
-```json
+<code>
 {"id":"cmpl-694ba4a409444b2a8e2348657a073721","object":"text_completion","created":1747731763,"model":"meta-llama/Llama-3.1-8B-Instruct","choices":[{"index":0,"text":" Deep learning is a subset of machine learning that uses artificial neural networks to analyze data. It is a type of machine learning that is inspired by the structure and function of the human brain. Deep learning algorithms are designed to learn and improve on their own by analyzing large amounts of data, and they can be used for a wide range of tasks, including image and speech recognition, natural language processing, and predictive modeling.\nDeep learning is a type of machine learning that is particularly well-suited to tasks that involve complex patterns and relationships in data. It is often used in applications such as:\nImage and speech recognition: Deep learning algorithms can be used to","logprobs":null,"finish_reason":"length","stop_reason":null,"prompt_logprobs":null}],"usage":{"prompt_tokens":6,"total_tokens":134,"completion_tokens":128,"prompt_tokens_details":null}}
-
-```
-&nbsp;
+</code>
  
-8) (Optional) Run the `docker exec vllm-server /root/scripts/perftest.sh` command in a **separate terminal** to run a quick benchmark script for obtaining basic metrics like the example below for Gaudi3:
+8) (Optional) Run the perftest.sh command in a **separate terminal** to for obtaining basic metrics like the example below for Gaudi3:
 ```bash
 docker exec vllm-server /root/scripts/perftest.sh
 ```
@@ -131,11 +129,13 @@ Median ITL (ms):                         60.01
 P90 ITL (ms):                            61.32
 ==================================================
 </pre>
+
 > Note:  
-> The perftest.sh script runs with the following defaults
+> The perftest.sh script runs with the following defaults  
 >   INPUT_TOKENS=2048  
->   OUTPUT_TOKENS=2048
->   CONCURRENT_REQUESTS=64
+>   OUTPUT_TOKENS=2048  
+>   CONCURRENT_REQUESTS=64  
+
 9) Optionally, you can run perftest.sh with custom parameters like so:
 ```bash
 ## Usage: docker exec vllm-server /root/scripts/perftest.sh <INPUT_TOKENS> <OUTPUT_TOKENS> <CONCURRENT_REQUESTS>
