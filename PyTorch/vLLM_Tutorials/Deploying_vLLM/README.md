@@ -151,3 +151,47 @@ docker run -it --rm \
     --name vllm-server \
     vllm-v0.7.2-gaudi-ub24:1.21.0-555
 ```
+3) Example for bringing up two Llama-70B instances with the recommended number of TP/cards. Each instance should have unique HABANA_VISIBLE_DEVICES and host port values.
+For information on how to set HABANA_VISIBLE_DEVICES for a specific TP size, see [docs.habana.ai - Multiple Tenants](https://docs.habana.ai/en/latest/Orchestration/Multiple_Tenants_on_HPU/Multiple_Dockers_each_with_Single_Workload.html)
+```
+CNAME=vllm-v0.7.2-gaudi-ub24:1.21.0-555
+CPREFIX=gar-registry.caas.intel.com/aice/
+HOST_PORT1=8000
+docker run -it --rm \
+    -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
+    -e HF_HOME=/mnt/hf_cache \
+    -v /mnt/hf_cache:/mnt/hf_cache \
+    --cap-add=sys_nice \
+    --ipc=host \
+    --runtime=habana \
+    -e HF_TOKEN=YOUR_TOKEN_HERE \
+    -e HABANA_VISIBLE_DEVICES=0,1,2,3 \
+    -p $HOST_PORT1:8000 \
+    -e model=meta-llama/Llama-3.1-70B-Instruct \
+    -e tensor_parallel_size=4 \
+    -e max_model_len=8192 \
+    --name vllm-server \
+    ${CPREFIX}${CNAME}
+```
+
+```
+## Run in Separate terminal
+CNAME=vllm-v0.7.2-gaudi-ub24:1.21.0-555
+CPREFIX=gar-registry.caas.intel.com/aice/
+HOST_PORT2=9222
+docker run -it --rm \
+    -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
+    -e HF_HOME=/mnt/hf_cache \
+    -v /mnt/hf_cache:/mnt/hf_cache \
+    --cap-add=sys_nice \
+    --ipc=host \
+    --runtime=habana \
+    -e HF_TOKEN=YOUR_TOKEN_HERE \
+    -e HABANA_VISIBLE_DEVICES=4,5,6,7
+    -p $HOST_PORT2:8000 \
+    -e model=meta-llama/Llama-3.1-70B-Instruct \
+    -e tensor_parallel_size=4 \
+    -e max_model_len=8192 \
+    --name vllm-server \
+    ${CPREFIX}${CNAME}
+```
