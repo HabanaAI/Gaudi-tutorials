@@ -188,7 +188,7 @@ docker run -it --rm \
     -e model=meta-llama/Llama-3.1-70B-Instruct \
     -e tensor_parallel_size=4 \
     -e max_model_len=8192 \
-    --name vllm-server \
+    --name vllm-server1 \
     ${CPREFIX}${CNAME}
 ```
 
@@ -210,6 +210,6 @@ docker run -it --rm \
     -e model=meta-llama/Llama-3.1-70B-Instruct \
     -e tensor_parallel_size=4 \
     -e max_model_len=8192 \
-    --name vllm-server \
+    --name vllm-server2 \
     ${CPREFIX}${CNAME}
 ```
