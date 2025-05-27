@@ -80,6 +80,9 @@ curl -s --noproxy '*' http://${target}:8000/v1/completions -H 'Content-Type: app
 &nbsp;
  
 8) (Optional) Run the `docker exec vllm-server /root/scripts/perftest.sh` command in a **separate terminal** to run a quick benchmark script for obtaining basic metrics like the example below for Gaudi3:
+```bash
+docker exec vllm-server /root/scripts/perftest.sh
+```
 <pre>
 # meta-llama/Llama-3.1-8B-Instruct
 ============ Serving Benchmark Result ============
@@ -128,6 +131,21 @@ Median ITL (ms):                         60.01
 P90 ITL (ms):                            61.32
 ==================================================
 </pre>
+> Note:  
+> The perftest.sh script runs with the following defaults
+>   INPUT_TOKENS=2048  
+>   OUTPUT_TOKENS=2048
+>   CONCURRENT_REQUESTS=64
+9) Optionally, you can run perftest.sh with custom parameters like so:
+```bash
+## Usage: docker exec vllm-server /root/scripts/perftest.sh <INPUT_TOKENS> <OUTPUT_TOKENS> <CONCURRENT_REQUESTS>
+## Examples:
+docker exec vllm-server /root/scripts/perftest.sh 1024 3192
+docker exec vllm-server /root/scripts/perftest.sh 1024 3192 100
+
+``` 
+&nbsp;
+
 # Running vLLM server with custom parameters
 1) The follow variables come with defaults but can be overridden with appropriate values
  -  -e tensor_parallel_size (Optional number of cards to use. If not set, a default will be chosen)
