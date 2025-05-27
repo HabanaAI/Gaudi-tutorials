@@ -215,5 +215,5 @@ docker run -it --rm \
 ```
 4) To view vllm-server logs, run this in a separate terminal:
 ```bash
-docker logs -v vllm-server
+docker logs -f vllm-server
 ```
