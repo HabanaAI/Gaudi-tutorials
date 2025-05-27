@@ -32,4 +32,5 @@ RUN chmod +x /root/scripts/*.sh
 EXPOSE 22
 
 # Start our script 
+WORKDIR /root/scripts
 ENTRYPOINT ["/root/scripts/entrypoint.sh"]
