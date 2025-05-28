@@ -173,7 +173,6 @@ docker run -it --rm \
 For information on how to set HABANA_VISIBLE_DEVICES for a specific TP size, see [docs.habana.ai - Multiple Tenants](https://docs.habana.ai/en/latest/Orchestration/Multiple_Tenants_on_HPU/Multiple_Dockers_each_with_Single_Workload.html)
 ```
 CNAME=vllm-v0.7.2-gaudi-ub24:1.21.0-555
-CPREFIX=gar-registry.caas.intel.com/aice/
 HOST_PORT1=8000
 docker run -it --rm \
     -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
@@ -195,7 +194,6 @@ docker run -it --rm \
 ```
 ## Run in Separate terminal
 CNAME=vllm-v0.7.2-gaudi-ub24:1.21.0-555
-CPREFIX=gar-registry.caas.intel.com/aice/
 HOST_PORT2=9222
 docker run -it --rm \
     -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \

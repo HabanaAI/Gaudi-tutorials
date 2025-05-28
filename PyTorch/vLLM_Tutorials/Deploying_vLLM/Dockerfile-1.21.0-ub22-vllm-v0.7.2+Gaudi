@@ -1,7 +1,6 @@
 FROM vault.habana.ai/gaudi-docker/1.21.0/ubuntu24.04/habanalabs/pytorch-installer-2.6.0
 
 # BUILD_ARGS="--build-arg http_proxy --build-arg https_proxy --build-arg no_proxy"
-# CPREFIX="gar-registry.caas.intel.com/aice/"
 # CNAME=vllm-v0.7.2-gaudi-ub22:1.21.0-555
 # docker pull vault.habana.ai/gaudi-docker/1.21.0/ubuntu24.04/habanalabs/pytorch-installer-2.6.0
 # docker build -f Dockerfile-1.21.0-ub22-vllm-v0.7.2+Gaudi -t ${CPREFIX}${CNAME} $BUILD_ARGS .
