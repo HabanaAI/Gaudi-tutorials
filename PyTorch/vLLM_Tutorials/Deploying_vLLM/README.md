@@ -169,7 +169,7 @@ docker run -it --rm \
     --name vllm-server \
     vllm-v0.7.2-gaudi-ub24:1.21.0-555
 ```
-3) Example for bringing up two Llama-70B instances with the recommended number of TP/cards. Each instance should have unique HABANA_VISIBLE_DEVICES, host port values and  instance names.
+3) Example for bringing up two Llama-70B instances with the recommended number of TP/cards. Each instance should have unique values for HABANA_VISIBLE_DEVICES, host port and instance name.
 For information on how to set HABANA_VISIBLE_DEVICES for a specific TP size, see [docs.habana.ai - Multiple Tenants](https://docs.habana.ai/en/latest/Orchestration/Multiple_Tenants_on_HPU/Multiple_Dockers_each_with_Single_Workload.html)
 ```
 CNAME=vllm-v0.7.2-gaudi-ub24:1.21.0-555
