@@ -38,17 +38,17 @@ BUILD_ARGS="--build-arg http_proxy --build-arg https_proxy --build-arg no_proxy"
 docker build -f Dockerfile-1.21.0-ub24-vllm-v0.7.2+Gaudi $BUILD_ARGS -t vllm-v0.7.2-gaudi-ub24:1.21.0-555 .
 ```
 
-4) Set the follow variables with appropriate values
+4) Set the following variables with appropriate values
  -  -e model= (choose from table above)
  -  -e HF_TOKEN= (Generate a token from https://huggingface.co)
 
 > Note: 
 > The Huggingface model file size might be large. Using an external disk to house the Huggingface hub folder is recommended.
-> Please export HF_HOME environment variable pointing to the external disk housing Huggingface hub folder.
-> In the meantime, export the mount point of the external disk into docker instance.
-> ex: "-e HF_HOME=/mnt/huggingface -v /mnt/huggingface:/mnt"
+> Export the HF_HOME environment variable pointing to the external disk housing the Huggingface hub folder.
+> You can do this by adding parameters to the docker run command.  
+> Example: "-e HF_HOME=/mnt/huggingface -v /mnt/huggingface:/mnt"
 
-5) Start the vLLM server with a default context of 4K and default TP from table above
+5) Start the vLLM server with a default context of 4K and default TP from the table above
 ```bash
 docker run -it --rm \
     -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
@@ -78,7 +78,7 @@ curl -s --noproxy '*' http://${target}:8000/v1/completions -H 'Content-Type: app
 </code>
 &nbsp; 
 
-8) (Optional) Run the perftest.sh command in a **separate terminal** to for obtaining basic metrics like the example below for Gaudi3:  
+8) (Optional) Run the perftest.sh command in a **separate terminal** for obtaining basic metrics like the example below for Gaudi3:  
 ```bash
 docker exec vllm-server /root/scripts/perftest.sh
 ```
