@@ -188,7 +188,7 @@ docker run -it --rm \
     -e tensor_parallel_size=4 \
     -e max_model_len=8192 \
     --name vllm-server1 \
-    ${CPREFIX}${CNAME}
+    ${CNAME}
 ```
 
 ```
@@ -209,7 +209,7 @@ docker run -it --rm \
     -e tensor_parallel_size=4 \
     -e max_model_len=8192 \
     --name vllm-server2 \
-    ${CPREFIX}${CNAME}
+    ${CNAME}
 ```
 4) To view vllm-server logs, run this in a separate terminal:
 ```bash
