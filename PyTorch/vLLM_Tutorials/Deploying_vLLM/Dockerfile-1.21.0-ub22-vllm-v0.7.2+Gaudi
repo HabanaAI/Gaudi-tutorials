@@ -26,6 +26,7 @@ RUN pip install datasets &&\
 
 ## Copy the glue logic
 RUN mkdir -p /root/scripts
+RUN mkdir -p /root/logs
 COPY entrypoint.sh generate_vars.py settings_vllm.csv template_vllm_server.sh varlist* perftest* /root/scripts
 RUN chmod +x /root/scripts/*.sh
 
