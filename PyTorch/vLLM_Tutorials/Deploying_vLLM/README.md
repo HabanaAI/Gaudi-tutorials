@@ -147,7 +147,7 @@ docker exec vllm-server /root/scripts/perftest.sh 1024 3192 100
 &nbsp;
 
 # Running vLLM server with custom parameters
-1) The follow variables come with defaults but can be overridden with appropriate values
+1) The following variables come with defaults but can be overridden with appropriate values
  -  -e tensor_parallel_size (Optional number of cards to use. If not set, a default will be chosen)
  -  -e max_model_len (Optional, set a length that suits your workload. If not set, a default will be chosen)
 
