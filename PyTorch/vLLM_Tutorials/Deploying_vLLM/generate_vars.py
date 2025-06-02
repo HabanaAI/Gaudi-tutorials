@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import ast
 import math
 import os
 import pandas as pd
@@ -176,10 +177,12 @@ def overwrite_params(dict_before_updates):
     with open('varlist_userupd.txt') as ovp_file:
         for line in ovp_file:
             param = line.strip()
-            if os.environ.get(param) is not None: 
+            if os.environ.get(param) is not None:
                 try:
-                    dict_before_updates[param] = eval(os.environ[param])
-                except:
+                    # Use ast.literal_eval to safely evaluate the environment variable
+                    dict_before_updates[param] = ast.literal_eval(os.environ[param])
+                except (ValueError, SyntaxError):
+                    # If literal_eval fails, fall back to using the raw string value
                     dict_before_updates[param] = os.environ[param]
 
                 print(f"Adding or updating {param} to {dict_before_updates[param]}")
