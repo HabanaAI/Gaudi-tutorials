@@ -18,6 +18,8 @@ This folder contains scripts and configuration files that can be used to build a
 |Qwen/Qwen2.5-32B-Instruct |1|
 |Qwen/Qwen2.5-72B-Instruct |4|
 |Qwen/Qwen2.5-7B-Instruct |1|
+|meta-llama/Llama-3.2-11B-Vision-Instruct |1|
+|meta-llama/Llama-3.2-90B-Vision-Instruct |4|
 ## Quick Start
 To run these models on your Gaudi machine:
 
@@ -53,7 +55,7 @@ docker build -f Dockerfile-1.21.1-ub24-vllm-v0.7.2+Gaudi $BUILD_ARGS -t vllm-v0.
 > You can do this by adding parameters to the docker run command.  
 > Example: "-e HF_HOME=/mnt/huggingface -v /mnt/huggingface:/mnt"
 
-5) Start the vLLM server with a default context of 4K and default TP from the table above
+5) Start the vLLM server with a default context (4k for text and 8k for vision models) and default TP as per the table above
 ```bash
 docker run -it --rm \
     -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
@@ -83,7 +85,7 @@ curl -s --noproxy '*' http://${target}:8000/v1/completions -H 'Content-Type: app
 </code>
 &nbsp; 
 
-8) (Optional) Run the perftest.sh command in a **separate terminal** for obtaining basic metrics like the example below for Gaudi3:  
+8.1) (Optional: For text based models) Run the perftest.sh command in a **separate terminal** for obtaining basic metrics like the example below for Gaudi3:  
 ```bash
 docker exec vllm-server /root/scripts/perftest.sh
 ```
@@ -141,6 +143,34 @@ P90 ITL (ms):                            61.32
 >   INPUT_TOKENS=2048  
 >   OUTPUT_TOKENS=2048  
 >   CONCURRENT_REQUESTS=64  
+
+8.2) (Optional: For vision models) Run the perftest_vision.sh command in a **separate terminal** for obtaining basic metrics like the example below for Gaudi3:  
+```bash
+docker exec vllm-server /root/scripts/perftest_vision.sh
+```
+<pre>
+# meta-llama/Llama-3.2-11B-Vision-Instruct
+============ Serving Benchmark Result ============
+Successful requests:                     500       
+Benchmark duration (s):                  121.53    
+Total input tokens:                      31710     
+Total generated tokens:                  64000     
+Request throughput (req/s):              4.11      
+Output token throughput (tok/s):         526.63    
+Total Token throughput (tok/s):          787.56    
+---------------Time to First Token----------------
+Mean TTFT (ms):                          5642.06   
+Median TTFT (ms):                        5589.81   
+P90 TTFT (ms):                           8825.33   
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          74.14     
+Median TPOT (ms):                        72.15     
+P90 TPOT (ms):                           101.27    
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           73.56     
+Median ITL (ms):                         34.46     
+P90 ITL (ms):                            88.77     
+==================================================
 
 9) Optionally, you can run perftest.sh with custom parameters like so:
 ```bash
