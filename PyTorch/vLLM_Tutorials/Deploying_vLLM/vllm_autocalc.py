@@ -20,7 +20,7 @@ def vllm_auto_calc(fd):
         print(f"Clamping TENSOR_PARALLEL_SIZE to {tensor_parallel_size_new}")
     fd['TENSOR_PARALLEL_SIZE'] = tensor_parallel_size_new
 
-    fd['MAX_MODEL_LEN'] = max(1, fd['MAX_MODEL_LEN'])
+    fd['MAX_MODEL_LEN'] = max(1, fd['MAX_MODEL_LEN']) 
 
     if fd['TENSOR_PARALLEL_SIZE'] > 1:
         fd['PT_HPU_ENABLE_LAZY_COLLECTIVES'] = True
@@ -134,10 +134,11 @@ def vllm_auto_calc(fd):
                                         0.5)
     fd['KV_CACHE_MEM'] = (fd['USABLE_MEM'] * fd['GPU_MEM_UTILIZATION'] *
                           (1 - fd['VLLM_GRAPH_RESERVED_MEM']))
-
+    
     if fd.get('MAX_NUM_SEQS') is None:
         fd['MAX_NUM_SEQS'] = (fd['TENSOR_PARALLEL_SIZE'] * fd['KV_CACHE_MEM'] /
                               fd['KV_CACHE_PER_SEQ'])
+        print("max num seq",fd['MAX_NUM_SEQS'] )
         if DTYPE == 'fp8':
             fd['MAX_NUM_SEQS'] = (max(
                 1,
@@ -153,8 +154,14 @@ def vllm_auto_calc(fd):
             raise ValueError(
                 "Not enough memory for kv cache increase TENSOR_PARALLEL_SIZE "
                 "or reduce MAX_MODEL_LEN or increase bucket step")
+
+        if fd['MODEL'] in ['meta-llama/Llama-3.2-11B-Vision-Instruct', 'meta-llama/Llama-3.2-90B-Vision-Instruct']:
+            if fd['MAX_NUM_SEQS'] > 128:
+                fd['MAX_NUM_SEQS'] = 128
+                print(f"{fd['MODEL']} currently does not support max-num-seqs > 128, hence limiting the max-num-seqs to 128")
     else:
         fd['MAX_NUM_SEQS'] = max(1, fd['MAX_NUM_SEQS'])
+
 
     fd['VLLM_DECODE_BLOCK_BUCKET_MAX'] = max(
         128, math.ceil((fd['MAX_NUM_SEQS'] * fd['MAX_MODEL_LEN']) / 128))
