@@ -18,7 +18,6 @@ This folder contains scripts and configuration files that can be used to build a
 |Qwen/Qwen2.5-32B-Instruct |1|
 |Qwen/Qwen2.5-72B-Instruct |4|
 |Qwen/Qwen2.5-7B-Instruct |1|
-
 ## Quick Start
 To run these models on your Gaudi machine:
 
@@ -27,19 +26,25 @@ To run these models on your Gaudi machine:
 git clone https://github.com/HabanaAI/Gaudi-tutorials
 cd Gaudi-tutorials/PyTorch/vLLM_Tutorials/Deploying_vLLM
 ```
+
+> **IMPORTANT**
+>     
+> **All build and run steps listed in this document need to be executed on Gaudi Hardware**
+>    
+
 2) Depending on the base OS you are running, select the appropriate Dockerfile. The examples in this page are for Ubuntu 24.04
- - Ubuntu 22.04: Dockerfile-1.21.0-ub22-vllm-v0.7.2+Gaudi
- - Ubuntu 24.04: Dockerfile-1.21.0-ub24-vllm-v0.7.2+Gaudi
+ - Ubuntu 22.04: Dockerfile-1.21.1-ub22-vllm-v0.7.2+Gaudi
+ - Ubuntu 24.04: Dockerfile-1.21.1-ub24-vllm-v0.7.2+Gaudi
 
 3) To build the `vllm-v0.7.2-gaudi` image from the Dockerfile, use the command below.
 ```bash
 ## Set the next line if you are using a HTTP proxy on your build machine
 BUILD_ARGS="--build-arg http_proxy --build-arg https_proxy --build-arg no_proxy"
-docker build -f Dockerfile-1.21.0-ub24-vllm-v0.7.2+Gaudi $BUILD_ARGS -t vllm-v0.7.2-gaudi-ub24:1.21.0-555 .
+docker build -f Dockerfile-1.21.1-ub24-vllm-v0.7.2+Gaudi $BUILD_ARGS -t vllm-v0.7.2-gaudi-ub24:1.21.1-16 .
 ```
 
 4) Set the following variables with appropriate values
- -  -e model= (choose from table above)
+ -  -e MODEL= (choose from table above)
  -  -e HF_TOKEN= (Generate a token from https://huggingface.co)
 
 > Note: 
@@ -58,14 +63,14 @@ docker run -it --rm \
     -e HF_TOKEN=YOUR_TOKEN_HERE \
     -e HABANA_VISIBLE_DEVICES=all \
     -p 8000:8000 \
-    -e model=meta-llama/Llama-3.1-8B-Instruct \
+    -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
     --name vllm-server \
-    vllm-v0.7.2-gaudi-ub24:1.21.0-555
+    vllm-v0.7.2-gaudi-ub24:1.21.1-16
 ```
 
 6) (Optional) check your vLLM server by running this command in a **separate terminal**
 ```bash
-model=meta-llama/Llama-3.1-8B-Instruct
+MODEL=meta-llama/Llama-3.1-8B-Instruct
 target=localhost
 curl_query="What is DeepLearning?"
 payload="{ \"model\": \"${model}\", \"prompt\": \"${curl_query}\", \"max_tokens\": 128, \"temperature\": 0 }"
@@ -132,7 +137,7 @@ P90 ITL (ms):                            61.32
 </pre>
 
 > Note:  
-> The perftest.sh script runs with the following defaults  
+> The perftest.sh script runs with the following defaults:
 >   INPUT_TOKENS=2048  
 >   OUTPUT_TOKENS=2048  
 >   CONCURRENT_REQUESTS=64  
@@ -148,10 +153,10 @@ docker exec vllm-server /root/scripts/perftest.sh 1024 3192 100
 
 # Running vLLM server with custom parameters
 1) The following variables come with defaults but can be overridden with appropriate values
- -  -e tensor_parallel_size (Optional number of cards to use. If not set, a default will be chosen)
- -  -e max_model_len (Optional, set a length that suits your workload. If not set, a default will be chosen)
+ -  -e TENSOR_PARALLEL_SIZE (Optional, number of cards to use. If not set, a default will be chosen)
+ -  -e MAX_MODEL_LEN (Optional, set a length that suits your workload. If not set, a default will be chosen)
 
-2) Example for bringing up a vLLM server with a custom max model length and tensor parallel size. Proxy variables and volumes added for reference.
+2) Example for bringing up a vLLM server with a custom max model length and tensor parallel (TP) size. Proxy variables and volumes added for reference.
 ```bash
 docker run -it --rm \
     -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
@@ -163,16 +168,16 @@ docker run -it --rm \
     -e HF_TOKEN=YOUR_TOKEN_HERE \
     -e HABANA_VISIBLE_DEVICES=all \
     -p 8000:8000 \
-    -e model=meta-llama/Llama-3.1-70B-Instruct \
-    -e tensor_parallel_size=8 \
-    -e max_model_len=8192 \
+    -e MODEL=meta-llama/Llama-3.1-70B-Instruct \
+    -e TENSOR_PARALLEL_SIZE=8 \
+    -e MAX_MODEL_LEN=8192 \
     --name vllm-server \
-    vllm-v0.7.2-gaudi-ub24:1.21.0-555
+    vllm-v0.7.2-gaudi-ub24:1.21.1-16
 ```
 3) Example for bringing up two Llama-70B instances with the recommended number of TP/cards. Each instance should have unique values for HABANA_VISIBLE_DEVICES, host port and instance name.
 For information on how to set HABANA_VISIBLE_DEVICES for a specific TP size, see [docs.habana.ai - Multiple Tenants](https://docs.habana.ai/en/latest/Orchestration/Multiple_Tenants_on_HPU/Multiple_Dockers_each_with_Single_Workload.html)
 ```
-CNAME=vllm-v0.7.2-gaudi-ub24:1.21.0-555
+CNAME=vllm-v0.7.2-gaudi-ub24:1.21.1-16
 HOST_PORT1=8000
 docker run -it --rm \
     -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
@@ -184,16 +189,16 @@ docker run -it --rm \
     -e HF_TOKEN=YOUR_TOKEN_HERE \
     -e HABANA_VISIBLE_DEVICES=0,1,2,3 \
     -p $HOST_PORT1:8000 \
-    -e model=meta-llama/Llama-3.1-70B-Instruct \
-    -e tensor_parallel_size=4 \
-    -e max_model_len=8192 \
+    -e MODEL=meta-llama/Llama-3.1-70B-Instruct \
+    -e TENSOR_PARALLEL_SIZE=4 \
+    -e MAX_MODEL_LEN=8192 \
     --name vllm-server1 \
     ${CNAME}
 ```
 
 ```
 ## Run in Separate terminal
-CNAME=vllm-v0.7.2-gaudi-ub24:1.21.0-555
+CNAME=vllm-v0.7.2-gaudi-ub24:1.21.1-16
 HOST_PORT2=9222
 docker run -it --rm \
     -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
@@ -205,9 +210,9 @@ docker run -it --rm \
     -e HF_TOKEN=YOUR_TOKEN_HERE \
     -e HABANA_VISIBLE_DEVICES=4,5,6,7
     -p $HOST_PORT2:8000 \
-    -e model=meta-llama/Llama-3.1-70B-Instruct \
-    -e tensor_parallel_size=4 \
-    -e max_model_len=8192 \
+    -e MODEL=meta-llama/Llama-3.1-70B-Instruct \
+    -e TENSOR_PARALLEL_SIZE=4 \
+    -e MAX_MODEL_LEN=8192 \
     --name vllm-server2 \
     ${CNAME}
 ```
