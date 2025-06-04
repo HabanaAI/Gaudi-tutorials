@@ -14,7 +14,7 @@ LOG_FILE=$LOG_DIR/$LOG_FILE
 HF_HOME="${HF_HOME:-/root/.cache/huggingface}"
 export HF_HOME
 
-python3 generate_vars.py settings_vllm.csv
+python3 vllm_autocalc.py settings_vllm.csv
 if [[ $? -ne 0 ]]; then
 	echo "Settings Error. Exiting!"
 	exit -1
