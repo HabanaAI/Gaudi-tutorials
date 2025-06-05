@@ -20,9 +20,6 @@ The document is based on the following:
 > [!NOTE]
 > The tutorial is intended to be a reference example only. It may not be tuned for optimal performance.
 
-> [!WARNING]
-> The number of available Intel® Gaudi® AI accelerator in your contianer should be (at least) equal to number of deployed models.
-
 ## Create a Model Repository
 
 The first step is to create a model repository according to the structure detailed in Setting up the model repository and Model repository.
@@ -62,9 +59,6 @@ ImageName=triton-installer-2.6.0-ubuntu22.04:1.21.0-555
 docker run -it --runtime=habana --name triton_backend --rm -e HABANA_VISIBLE_DEVICES=all -e OMPI_MCA_btl_vader_single_copy_mechanism=none --cap-add=sys_nice \
 --net=host --ipc=host -v $PWD/model_repository/:/root/model_repository/ ${ImageName}
 ```
-
-> [!NOTE]
-> In the command above, the shared `model_repository` directory created ealier is used.  
 
 > [!NOTE]
 > In the command above, change the `ImageName` as needed for different driver version.
@@ -122,7 +116,8 @@ pip install tritonclient gevent geventhttpclient -q
 python client.py --model_name qwen2
 ```
 
-Part of the respond appears as follow: 
+Part of the respond appears as follow:
+
 ```bash
 ----- Processing: model qwen2 ----- 
 -----Stats: model qwen2 ----- 
@@ -133,5 +128,33 @@ Output: [b"I am working on a project where I need to create a function that take
 > [!NOTE]
 > To use Triton on the client side with Intel® Gaudi®, no specific changes are required. Please refer to [Building a client application](https://github.com/triton-inference-server/tutorials/tree/main/Conceptual_Guide/Part_1-model_deployment#building-a-client-application) section and other details in the [client](https://github.com/triton-inference-server/client) documentation to customize your script.
 
-
 ## Host Multiple Models
+
+Thus far, only one model has been loaded. Triton is capable of loading multiple models as once. To do this, once can add a second model to the model repository:
+
+```bash
+cp -r llama2/ model_repository/
+```
+
+Again, re-run model launch command above, and wait for the confirmation of successful server launch, i.e.:
+
+```bash
+.
+.
+I0605 22:07:17.252902 1929 server.cc:676]
++--------+---------+--------+
+| Model  | Version | Status |
++--------+---------+--------+
+| llama2 | 1       | READY  |
+| qwen2  | 1       | READY  |
++--------+---------+--------+
+```
+
+Next, repeat the steps to query the server with `clinet.py` and update the model list passed via `--model_name`, i.e.
+
+```py
+python client.py --model_name qwen2,llama2
+```
+
+> [!WARNING]
+> The number of available Intel® Gaudi® AI accelerator in your contianer should be (at least) equal to number of deployed models.
