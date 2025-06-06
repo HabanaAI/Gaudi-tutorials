@@ -48,6 +48,7 @@ Since a Triton server is launched within a Docker container, a container image t
 git clone https://github.com/HabanaAI/Setup_and_Install/
 cd Setup_and_Install/dockerfiles/triton
 make build BUILD_OS=ubuntu22.04
+cd ../../..
 ```
 
 ## Launch the Triton Inference Server
@@ -61,7 +62,7 @@ docker run -it --runtime=habana --name triton_backend --rm -e HABANA_VISIBLE_DEV
 ```
 
 > [!NOTE]
-> In the command above, change the `ImageName` as needed for different driver version.
+> In the command above, change the `ImageName` for different driver versions, and the `$PWD/model_repository/` if needed.
 
 > [!WARNING]
 > For private models, one need to request access to the model and add the access token to the docker command `-e PRIVATE_REPO_TOKEN=<hf_your_huggingface_access_token>`.
