@@ -171,6 +171,7 @@ Mean ITL (ms):                           73.56
 Median ITL (ms):                         34.46     
 P90 ITL (ms):                            88.77     
 ==================================================
+</pre>
 
 9) Optionally, you can run perftest.sh with custom parameters like so:
 ```bash
