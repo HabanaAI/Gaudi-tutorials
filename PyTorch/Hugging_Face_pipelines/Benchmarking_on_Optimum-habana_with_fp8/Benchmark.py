@@ -4,20 +4,30 @@
 import json
 import os
 import unittest
-
+import subprocess
 import requests
 
 unittest.TestLoader.sortTestMethodsUsing = None
 
-
 # unittest.TestLoader.sortTestMethodsUsing = lambda self, a, b: (a < b) - (a > b)
 class RunCmd:
-    def run(self, cmd):
-        import subprocess
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
-        (output, err) = p.communicate()
+    def run(self, cmd, env_vars=None):
+        # Ensure cmd is a list of arguments
+        if isinstance(cmd, str):
+            import shlex
+            cmd = shlex.split(cmd)
+
+        # Print the command and environment variables for debugging
+        print("Running command:", cmd)
+        if env_vars:
+            print("With environment variables:", env_vars)
+
+        # Execute the command with the environment variables
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False, env=env_vars)
+        output, err = p.communicate()
         p_status = p.wait()
-        # print("Command exit status/return code : ", p_status)
+
+        # Return the status and output
         return p_status, output
 
 class PerfUtility:
@@ -65,7 +75,8 @@ class PerfUtility:
                 import shutil
                 import os
                 cmd = data["run_cmd"]
-                status, output = RunCmd().run(cmd)
+                env = data["env_vars"]
+                status, output = RunCmd().run(cmd, env)
                 output = output.decode("utf-8")
                 print(cmd)
                 # 0.1.1 copy generated hqt_output(dst) to HQT folder(src)
@@ -81,9 +92,10 @@ class PerfUtility:
 
         # 1.Run the instruction
         cmd = data["run_cmd"]
+        env = data["env_vars"]
         #print(cmd)
         #return 0
-        status, output = RunCmd().run(cmd)
+        status, output = RunCmd().run(cmd, env)
         output = output.decode("utf-8")
 
         # 2.Parsing the run log
@@ -277,8 +289,9 @@ class OH_Benchmark(unittest.TestCase):
     def test_1_perfspect(self):
         # PerfSpect Report
         if not os.path.exists("./perfspect"):
-            cmd = 'wget -qO- https://github.com/intel/PerfSpect/releases/latest/download/perfspect.tgz | tar xvz'
-            status, output = RunCmd().run(cmd)
+            p = subprocess.Popen('wget -qO- https://github.com/intel/PerfSpect/releases/latest/download/perfspect.tgz | tar xvz', stdout=subprocess.PIPE, shell=True)
+            output, err = p.communicate()
+            status = p.wait()
         cmd = './perfspect/perfspect report --gaudi --output ' + self.perf_report.result_folder_name
         status, output = RunCmd().run(cmd)
         import socket
