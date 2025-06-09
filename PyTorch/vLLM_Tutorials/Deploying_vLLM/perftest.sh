@@ -10,17 +10,17 @@ CONCURRENT_REQ=${CONCURRENT_REQ:-64}
 NP_MULTIPLIER=10
 NUM_PROMPTS=$(( CONCURRENT_REQ*NP_MULTIPLIER ))
 TOTAL_TOK=$(( INPUT_TOK + OUTPUT_TOK ))
-max_model_len=${max_model_len:-4352}
+MAX_MODEL_LEN=${MAX_MODEL_LEN:-4352}
 
-if [ "$TOTAL_TOK" -gt "$max_model_len" ]; then
-	echo "INPUT_TOK + OUTPUT_TOK > max_model_len ($max_model_len)"
+if [ "$TOTAL_TOK" -gt "$MAX_MODEL_LEN" ]; then
+	echo "INPUT_TOK + OUTPUT_TOK > MAX_MODEL_LEN ($MAX_MODEL_LEN)"
 	echo "Invalid input combination... exiting!"
         exit -1
 fi
 
 cd /root
 python3 vllm-fork/benchmarks/benchmark_serving.py \
-                 --model $model \
+                 --model $MODEL \
                  --base-url http://localhost:8000 \
                  --backend vllm \
                  --dataset-name sonnet \

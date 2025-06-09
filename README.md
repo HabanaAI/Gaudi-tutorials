@@ -43,3 +43,14 @@ The tutorials will cover the following domains and tasks:
 - [Fine Tuning](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/Fine_Tuning/Intel_Gaudi_Fine_Tuning.ipynb)
 - [Training a Classifier Basic PyTorch Tutorial](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/PyTorch/Training%20a%20Classifier/cifar10_tutorial.ipynb)
 - [Introduction to Lightning, Running a simple PyTorch Lightning model, using Gaudi plug-in](https://github.com/HabanaAI/Gaudi-tutorials/blob/main/Lightning/Introduction/mnist-hello-world.ipynb)
+
+## DISCLAIMER
+Intel is committed to the respect of human rights and avoiding complicity in human rights abuses, a policy reflected in the Intel Global Human Rights Principles. Accordingly, by accessing the Intel material on this platform you agree that you will not use the material in a product or application that causes or contributes to a violation of an internationally recognized human right.
+
+### License
+Intel® Gaudi® Tutorials is licensed under Apache License Version 2.0.
+
+### Datasets and Models
+To the extent that any data, datasets, or models are referenced by Intel or accessed using tools or code on this site such data, datasets and models are provided by the third party indicated as the source of such content. Intel does not create the data, datasets, or models, provide a license to any third-party data, datasets, or models referenced, and does not warrant their accuracy or quality. By accessing such data, dataset(s) or model(s) you agree to the terms associated with that content and that your use complies with the applicable license.
+
+Intel expressly disclaims the accuracy, adequacy, or completeness of any data, datasets or models, and is not liable for any errors, omissions, or defects in such content, or for any reliance thereon. Intel also expressly disclaims any warranty of non-infringement with respect to such data, dataset(s), or model(s). Intel is not liable for any liability or damages relating to your use of such data, datasets, or models.
