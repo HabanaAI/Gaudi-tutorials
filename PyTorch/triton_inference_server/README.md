@@ -4,7 +4,7 @@ This document provides instructions on deploying hugging face transformer models
 
 - Create a model repository
 - Build the conitaner image
-- Lunch a Triton Inference Server
+- Launch a Triton Inference Server
 - Query the server
 
 For the purpose of this tutorial, the following models will be deployed:
@@ -42,7 +42,7 @@ can be found [here](https://github.com/triton-inference-server/python_backend#us
 
 ## Build a Triton Container Image
 
-Since a Triton server is launched within a Docker container, a container image tailored for Intel® Gaudi® AI accelerator is needed. Based on the guidelines detailed in the [Setup_and_Install GitHub repository](https://github.com/HabanaAI/Setup_and_Install/tree/main/dockerfiles), once can build such image:
+Since a Triton server is launched within a Docker container, a container image tailored for Intel® Gaudi® AI accelerator is needed. Based on the guidelines detailed in the [Setup_and_Install GitHub repository](https://github.com/HabanaAI/Setup_and_Install/tree/main/dockerfiles), one can build such image:
 
 ```bash
 git clone https://github.com/HabanaAI/Setup_and_Install/
@@ -53,7 +53,7 @@ cd ../../..
 
 ## Launch the Triton Inference Server
 
-Once the image is built, once can launch the Triton Inference Server in a container with the following command:
+Once the image is built, one can launch the Triton Inference Server in a container with the following command:
 
 ```bash
 ImageName=triton-installer-2.6.0-ubuntu22.04:1.21.0-555
@@ -65,9 +65,9 @@ docker run -it --runtime=habana --name triton_backend --rm -e HABANA_VISIBLE_DEV
 > In the command above, change the `ImageName` for different driver versions, and the `$PWD/model_repository/` if needed.
 
 > [!WARNING]
-> For private models, one need to request access to the model and add the access token to the docker command `-e PRIVATE_REPO_TOKEN=<hf_your_huggingface_access_token>`.
+> To access private models, you must request permission and include the Hugging Face access token in the Docker command: `-e PRIVATE_REPO_TOKEN=<hf_your_huggingface_access_token>`.
 
-Inside the docker, install the necessary prerequisites and lunch the server.
+Inside the docker, Install the necessary prerequisites and launch the server.
 
 ```bash
 pip install optimum[habana]
@@ -75,7 +75,7 @@ pip uninstall triton -y
 PT_HPU_LAZY_MODE=1 TORCH_DEVICE_BACKEND_AUTOLOAD=0 tritonserver --model-repository /root/model_repository/
 ```
 
-Once the server is successfully  launched, the following outputs will be in the console:
+Once the server is successfully launched, the following outputs will be in the console:
 
 ```bash
 I0605 19:30:49.849066 98 grpc_server.cc:2495] Started GRPCInferenceService at 0.0.0.0:8001
@@ -96,7 +96,7 @@ docker exec -it triton_backend bash
 curl -v localhost:8000/v2/health/ready 
 ```
 
-A sucessful respond appears as:
+A successful response appears as follows:
 
 ```bash
 * Mark bundle as not supporting multiuse
@@ -107,7 +107,7 @@ A sucessful respond appears as:
 * Connection #0 to host localhost left intact
 ```
 
-Finally install the `clinet.py` prerequisites and query the server
+Finally install the `client.py` prerequisites and query the server
 
 ```bash
 pip install tritonclient gevent geventhttpclient -q 
@@ -117,7 +117,7 @@ pip install tritonclient gevent geventhttpclient -q
 python client.py --model_name qwen2
 ```
 
-Part of the respond appears as follow:
+If the execution is successful, part of the response would be:
 
 ```bash
 ----- Processing: model qwen2 ----- 
@@ -131,17 +131,15 @@ Output: [b"I am working on a project where I need to create a function that take
 
 ## Host Multiple Models
 
-Thus far, only one model has been loaded. Triton is capable of loading multiple models as once. To do this, once can add a second model to the model repository:
+Thus far, only one model has been loaded. Triton is capable of loading multiple models at once. To do so, add a second model to the model repository:
 
 ```bash
 cp -r llama2/ model_repository/
 ```
 
-Again, re-run model launch command above, and wait for the confirmation of successful server launch, i.e.:
+Re-run the server command and wait until the server has completed startup. If both models are started properly, the log should show the following output:
 
 ```bash
-.
-.
 I0605 22:07:17.252902 1929 server.cc:676]
 +--------+---------+--------+
 | Model  | Version | Status |
@@ -151,11 +149,11 @@ I0605 22:07:17.252902 1929 server.cc:676]
 +--------+---------+--------+
 ```
 
-Next, repeat the steps to query the server with `clinet.py` and update the model list passed via `--model_name`, i.e.
+Next, repeat the steps to query the server with `client.py` and update the model list passed via `--model_name`, i.e.
 
 ```py
 python client.py --model_name qwen2,llama2
 ```
 
 > [!WARNING]
-> The number of available Intel® Gaudi® AI accelerator in your contianer should be (at least) equal to number of deployed models.
+> The container will require access to at least one Intel® Gaudi® AI accelerator for each of the models deployed.
