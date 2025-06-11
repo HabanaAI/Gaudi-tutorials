@@ -3,7 +3,7 @@
 This document provides instructions on deploying hugging face transformer models on Triton Inference Server (TIS) with Intel® Gaudi® AI accelerator. The overal process involves:
 
 - Create a model repository
-- Build the conitaner image
+- Build the container image
 - Launch a Triton Inference Server
 - Query the server
 
@@ -20,9 +20,18 @@ The document is based on the following:
 > [!NOTE]
 > The tutorial is intended to be a reference example only. It may not be tuned for optimal performance.
 
+## Clone the tutorial
+
+The first step is to clone the repository
+
+```bash
+git clone https://github.com/HabanaAI/Gaudi-tutorials.git
+cd Gaudi-tutorials/PyTorch/triton_inference_server/
+```
+
 ## Create a Model Repository
 
-The first step is to create a model repository according to the structure detailed in Setting up the model repository and Model repository.
+Next, create a model repository according to the structure detailed in [setting up the model repository](https://github.com/triton-inference-server/tutorials/tree/main/Conceptual_Guide/Part_1-model_deployment#setting-up-the-model-repository) and [model repository](https://github.com/triton-inference-server/server/blob/main/docs/user_guide/model_repository.md).
 To use the example models here, create a directory called `model_repository` and copy the `qwen2` model  into it:
 
 ```bash
@@ -32,13 +41,18 @@ cp -r qwen2/ model_repository/
 
 The `qwen2` folder is organized in the way Triton expects and contains two important files needed to serve models in Triton:
 
-- **config.pbtxt**: This file contians information on the backend use, model input/output details, and custom  parameters to use for execution. More information on the full range of model configuration
+- `config.pbtxt`: This file contians information on the backend use, model input/output details, and custom  parameters to use for execution. More information on the full range of model configuration
 properties Triton supports can be found [here](https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/model_configuration.html).
-- **model.py**: This file includes how Triton should handle the model during the initialization, execution, finalization stages. The Gaudi® AI accelerator specific details are given here. More information regarding python backend usage
+- `model.py`: This file includes how Triton should handle the model during the initialization, execution, finalization stages. More information regarding python backend usage
 can be found [here](https://github.com/triton-inference-server/python_backend#usage).
 
+A summary of the modifications made to the original triton files to enable Gaudi® AI accelerator is:
+
+- `model.py`: The `habana_args` class contains arguments specific to Gaudi® AI accelerator for proper model initialization and output generatation.
+- `utils.py`: This file contains Gaudi® AI accelerator helper functions defining the model initialization similar to ones in optimum-habana examples, i.e [`AutoModelForCausalLM`](https://github.com/huggingface/optimum-habana/blob/df7db95e47be58e39eba3ba73cf7a68f6e81c46a/examples/language-modeling/run_clm.py#L492-L502), quantization, distibuted training, etc.
+
 > [!NOTE]
-> To enable a generic model on Gaudi, some modifications are required as detailed in [PyTorch Model Porting](https://docs.habana.ai/en/latest/PyTorch/PyTorch_Model_Porting/index.html#pytorch-user-guide) and [Getting Started with Inference on Intel Gaudi](https://docs.habana.ai/en/latest/PyTorch/Inference_on_PyTorch/Getting_Started_with_Inference.html#inference-using-native-fw).
+> To enable a generic model on Gaudi® AI accelerator, some modifications are required as detailed in [PyTorch Model Porting](https://docs.habana.ai/en/latest/PyTorch/PyTorch_Model_Porting/index.html#pytorch-user-guide) and [Getting Started with Inference on Intel Gaudi](https://docs.habana.ai/en/latest/PyTorch/Inference_on_PyTorch/Getting_Started_with_Inference.html#inference-using-native-fw).
 
 ## Build a Triton Container Image
 
