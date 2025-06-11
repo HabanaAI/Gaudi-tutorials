@@ -188,7 +188,8 @@ def get_model_from_csv(file_path):
     dataframe_csv = pd.read_csv(file_path)
     filtered_row = dataframe_csv.loc[dataframe_csv['MODEL'] ==
                                      os.environ['MODEL']]
-
+    filtered_row = filtered_row.loc[filtered_row['DTYPE'] ==
+                                     os.environ['DTYPE']]
     if filtered_row.empty:
         raise ValueError(
             f"No matching rows found for MODEL '{os.environ['MODEL']}' "
@@ -234,7 +235,10 @@ def main():
     # CONSTANTS
     hpu_mem = {'GAUDI2': 96, 'GAUDI3': 128}
     # TODO: Remove this hardcoded value in the future
-    DTYPE = "bfloat16"
+    if os.getenv('DTYPE') is None:
+        DTYPE = 'bfloat16'
+    else:
+        DTYPE = os.environ['DTYPE'] 
 
     # PRECHECKS
     if os.getenv('MODEL') is None:
