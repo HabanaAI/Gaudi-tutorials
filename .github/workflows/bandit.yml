@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - bandit_scan
+      - main
 
 env:
   COMMIT_ID: ${{ inputs.commit_id || github.sha }}
