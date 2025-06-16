@@ -3,9 +3,10 @@ name: Bandit Code Scan
 on:
   push:
     branches:
-      - bandit_scan
+      - bandit_check
       - main
-
+  workflow_dispatch:
+    
 env:
   COMMIT_ID: ${{ inputs.commit_id || github.sha }}
 
