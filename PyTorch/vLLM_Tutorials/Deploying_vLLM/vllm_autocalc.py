@@ -56,9 +56,14 @@ def vllm_auto_calc(fd):
         (2 * fd['MAX_MODEL_LEN'] * fd['NUM_HIDDEN_LAYERS'] * fd['HIDDEN_SIZE']
          * fd['NUM_KEY_VALUE_HEADS'] * fd['CACHE_DTYPE_BYTES']) /
         fd['NUM_ATTENTION_HEADS']) / (1024 * 1024 * 1024)
-    fd['EST_MAX_NUM_SEQS'] = (fd['TENSOR_PARALLEL_SIZE'] * fd['USABLE_MEM'] *
-                              fd['GPU_MEM_UTILIZATION'] /
-                              fd['KV_CACHE_PER_SEQ'])
+
+    if fd.get('MAX_NUM_SEQS') is None:
+        fd['EST_MAX_NUM_SEQS'] = (fd['TENSOR_PARALLEL_SIZE'] * fd['USABLE_MEM'] *
+                                  fd['GPU_MEM_UTILIZATION'] /
+                                  fd['KV_CACHE_PER_SEQ'])
+    else:
+        fd['EST_MAX_NUM_SEQS'] = max(1, fd['MAX_NUM_SEQS'])
+
     if fd['EST_MAX_NUM_SEQS'] < 1:
         raise ValueError(
             "Not enough memory for kv cache. "
