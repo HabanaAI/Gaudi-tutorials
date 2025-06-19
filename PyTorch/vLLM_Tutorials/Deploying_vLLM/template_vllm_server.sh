@@ -15,4 +15,5 @@ python3 -m vllm.entrypoints.openai.api_server \
         --max-num-seqs $MAX_NUM_SEQS \
         --max-num-prefill-seqs $MAX_NUM_PREFILL_SEQS \
         --num-scheduler-steps 1 \
+	--num_gpu_blocks_override $NUM_GPU_BLOCKS_OVERRIDE \
         --disable-log-requests

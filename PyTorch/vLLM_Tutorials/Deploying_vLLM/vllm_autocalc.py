@@ -71,8 +71,13 @@ def vllm_auto_calc(fd):
     print(f"Estimating graph memory for "
           f"{fd['EST_MAX_NUM_SEQS']:.0f} MAX_NUM_SEQS")
 
-    fd['EST_HPU_BLOCKS'] = (fd['MAX_MODEL_LEN'] * fd['EST_MAX_NUM_SEQS'] /
-                            fd['BLOCK_SIZE'])
+    if fd.get('NUM_GPU_BLOCKS_OVERRIDE') is None:
+        fd['EST_HPU_BLOCKS'] = (fd['MAX_MODEL_LEN'] * fd['EST_MAX_NUM_SEQS'] /
+                                fd['BLOCK_SIZE'])
+        fd['NUM_GPU_BLOCKS_OVERRIDE'] = int(fd['EST_HPU_BLOCKS'])
+    else:
+        fd['EST_HPU_BLOCKS'] = fd['NUM_GPU_BLOCKS_OVERRIDE']
+
     fd['DECODE_BS_RAMP_GRAPHS'] = 1 + int(
         math.log(
             fd['VLLM_DECODE_BS_BUCKET_STEP'] / fd['VLLM_DECODE_BS_BUCKET_MIN'],
