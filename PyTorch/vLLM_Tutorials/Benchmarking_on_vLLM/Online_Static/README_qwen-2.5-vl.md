@@ -1,6 +1,6 @@
 # Qwen 2.5 VL Multi-modal model in vLLM
 
-This document is meant to summarize the multi-modal specific changes that have been introduced in vLLM for Intel Gaudi while enabling Qwen 2.5 VL model. This covers topics such as multi-modal specific environment variables, Out of Memory error handling strategy and other guidelines.
+This document is meant to summarize the multi-modal specific changes that have been introduced in vLLM for Intel Gaudi while enabling Qwen 2.5 VL model. This covers topics such as multi-modal specific environment variables, OOM error handling strategy and other guidelines.
 
 ## Installation
 
@@ -37,7 +37,7 @@ Use the following cmd to launch the server
 VLLM_SKIP_WARMUP=true python -m vllm.entrypoints.openai.api_server --port 8080 --model Qwen/Qwen2.5-VL-3B-Instruct --tensor-parallel-size 1 --max-num-seqs 128 --dtype bfloat16 --gpu-memory-util 0.9 --max-num-batched-tokens 32768 --max-model-len 32768 --block-size 128
 ```
 
-a success lauch will appear as follow
+a successful launch generates the following output:
 
 ```bash
 .
