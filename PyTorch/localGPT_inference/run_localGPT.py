@@ -289,8 +289,7 @@ Answer:"""
         if query == "exit":
             break
 
-        if local_rank in [-1, 0]:
-            start_time = time.perf_counter()
+        start_time = time.perf_counter()
 
         if use_deepspeed:
             torch.distributed.barrier()
