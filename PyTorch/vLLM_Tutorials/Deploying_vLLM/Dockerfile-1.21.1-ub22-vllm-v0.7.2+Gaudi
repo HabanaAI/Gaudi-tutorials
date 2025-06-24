@@ -15,6 +15,8 @@ ENV OMPI_MCA_btl_vader_single_copy_mechanism=none
 RUN apt update && \
     apt install -y gettext moreutils jq && \
     ln -sf /usr/bin/python3 /usr/bin/python
+
+COPY 0001-Fix-number-of-blocks-for-pipeline-parallelism.-1305.patch /root
 WORKDIR /root
 
 # Install vllm-fork inside the container
@@ -22,6 +24,7 @@ ENV VLLM_TARGET_DEVICE=hpu
 RUN git clone https://github.com/HabanaAI/vllm-fork.git && \
     cd vllm-fork && \
     git checkout ${VLLM_FORK_COMMIT} && \
+    git apply ../0001-Fix-number-of-blocks-for-pipeline-parallelism.-1305.patch && \
     pip install -v -e .
 
 # Install additional Python packages
@@ -33,6 +36,7 @@ RUN mkdir -p /root/scripts
 COPY entrypoint.sh vllm_autocalc.py settings_vllm.csv template_vllm_server.sh varlist* perftest* /root/scripts
 RUN chmod +x /root/scripts/*.sh
 WORKDIR /root/scripts
+RUN mkdir -p /root/scripts/recipe_cache_commom
 
 # Set entrypoint script
 ENTRYPOINT ["/root/scripts/entrypoint.sh"]
