@@ -1,7 +1,7 @@
 # Copyright (c) 2025 Intel Corporation
 # SPDX-License-Identifier: Apache-2.0
 
-FROM vault.habana.ai/gaudi-docker/1.21.1/ubuntu22.04/habanalabs/pytorch-installer-2.6.0:latest
+FROM vault.habana.ai/gaudi-docker/1.21.0/ubuntu22.04/habanalabs/pytorch-installer-2.6.0:latest
 # Need node to build doc HTML. Taken from https://stackoverflow.com/a/67491580
 RUN apt-get update && apt-get install -y --no-install-recommends \
     software-properties-common \
