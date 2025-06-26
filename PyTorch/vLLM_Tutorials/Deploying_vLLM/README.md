@@ -269,7 +269,7 @@ docker run -it --rm \
     -p 8000:8000 \
     -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
     -e MAX_MODEL_LEN=2304 \
-    -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache_common/$MODEL_CACHE_DIR,False,2048" \
+    -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
     --name vllm-server \
     vllm-v0.7.2-gaudi-ub24:1.21.1-16
 ```
@@ -277,7 +277,7 @@ docker run -it --rm \
 2) Copy recipe to host after warmup is complete
 ```
 ## Copy recipe from container to host (run in different shell)
-docker cp vllm-server:/root/scripts/recipe_cache_common ./
+docker cp vllm-server:/root/scripts/recipe_cache ./
 docker stop vllm-server
 ```
 
@@ -295,12 +295,12 @@ docker create -it --rm \
     -p 8000:8000 \
     -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
     -e MAX_MODEL_LEN=32512 \
-    -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache_common/$MODEL_CACHE_DIR,False,2048" \
+    -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
     --name vllm-server \
     vllm-v0.7.2-gaudi-ub24:1.21.1-16
 
 ## Copy recipes to container
-docker cp ./recipe_cache_common/$MODEL_CACHE_DIR vllm-server:/root/scripts/recipe_cache_common/$MODEL_CACHE_DIR
+docker cp ./recipe_cache/$MODEL_CACHE_DIR vllm-server:/root/scripts/recipe_cache/$MODEL_CACHE_DIR
 
 docker start -a vllm-server
 ```
@@ -308,7 +308,7 @@ docker start -a vllm-server
 4) Copy recipe to host after warmup is complete
 ```
 ## Copy recipe from container (run in different shell)
-docker cp vllm-server:/root/scripts/recipe_cache_common ./
+docker cp vllm-server:/root/scripts/recipe_cache ./
 docker stop vllm-server
 ```
 
@@ -327,12 +327,12 @@ docker create -it --rm \
     -p 8000:8000 \
     -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
     -e MAX_MODEL_LEN=20480 \
-    -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache_common/$MODEL_CACHE_DIR,False,2048" \
+    -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
     --name vllm-server \
     vllm-v0.7.2-gaudi-ub24:1.21.1-16
 
 ## Copy recipes to container
-docker cp ./recipe_cache_common/$MODEL_CACHE_DIR vllm-server:/root/scripts/recipe_cache_common/$MODEL_CACHE_DIR
+docker cp ./recipe_cache/$MODEL_CACHE_DIR vllm-server:/root/scripts/recipe_cache/$MODEL_CACHE_DIR
 
 docker start -a vllm-server
 ```
@@ -341,7 +341,7 @@ docker start -a vllm-server
 1) Example to create recipe cache
 ```
 MODEL_CACHE_DIR=Llama-3.1-8B-Instruct_TP1_G3
-mkdir -p recipe_cache_common
+mkdir -p recipe_cache
 ## First run to create small context recipes
 docker run -it --rm \
     -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
@@ -355,8 +355,8 @@ docker run -it --rm \
     -p 8000:8000 \
     -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
     -e MAX_MODEL_LEN=2304 \
-    -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache_common/$MODEL_CACHE_DIR,False,2048" \
-    -v ./recipe_cache_common:/root/scripts/recipe_cache_common \
+    -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
+    -v ./recipe_cache:/root/scripts/recipe_cache \
     --name vllm-server \
     vllm-v0.7.2-gaudi-ub24:1.21.1-16
 
@@ -376,8 +376,8 @@ docker run -it --rm \
     -p 8000:8000 \
     -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
     -e MAX_MODEL_LEN=32512 \
-    -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache_common/$MODEL_CACHE_DIR,False,2048" \
-    -v ./recipe_cache_common:/root/scripts/recipe_cache_common \
+    -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
+    -v ./recipe_cache:/root/scripts/recipe_cache \
     --name vllm-server \
     vllm-v0.7.2-gaudi-ub24:1.21.1-16
 
@@ -397,8 +397,38 @@ docker run -it --rm \
     -p 8000:8000 \
     -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
     -e MAX_MODEL_LEN=2304 \
-    -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache_common/$MODEL_CACHE_DIR,False,2048" \
-    -v ./recipe_cache_common:/root/scripts/recipe_cache_common \
+    -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
+    -v /dev/shm:/root/scripts/recipe_cache \
+    -v ./recipe_cache:/root/scripts/recipe_cache \
     --name vllm-server \
     vllm-v0.7.2-gaudi-ub24:1.21.1-16
+```
+4) Use SharedMem (RAMDISK) for recepie_cache
+```
+MODEL_CACHE_DIR=llama3-8b_1c_g2_bf16_2048
+docker run -it --rm \
+    -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
+    -e HF_HOME=/mnt/hf_cache \
+    -v /mnt/hf_cache:/mnt/hf_cache \
+    --cap-add=sys_nice \
+    --ipc=host \
+    --runtime=habana \
+    -e HF_TOKEN=YOUR_TOKEN_HERE \
+    -e HABANA_VISIBLE_DEVICES=all \
+    -p 8000:8000 \
+    -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
+    -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
+    -v /dev/shm:/root/scripts/recipe_cache \
+    --entrypoint "/bin/bash" \
+    --name vllm-server \
+    vllm-v0.7.2-gaudi-ub24:1.21.1-16
+
+## On Host run this command
+docker cp ./recipe_cache/$MODEL_CACHE_DIR vllm-server:/mnt/shm/recipe_cache/$MODEL_CACHE_DIR
+
+## Connect to the container and start vllm-server
+docker exec -ut vllm-server bash
+./entrypoint.sh
+
+## It should now start with the warmup cache
 ```
