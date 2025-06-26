@@ -403,7 +403,7 @@ docker run -it --rm \
     --name vllm-server \
     vllm-v0.7.2-gaudi-ub24:1.21.1-16
 ```
-4) Use SharedMem (RAMDISK) for recepie_cache
+4) Use SharedMem (RAMDISK) for recipe_cache
 ```
 MODEL_CACHE_DIR=llama3-8b_1c_g2_bf16_2048
 docker run -it --rm \
