@@ -1,6 +1,9 @@
 #!/bin/bash
 
 #@VARS
+if [ -n "$PT_HPU_RECIPE_CACHE_CONFIG" ]; then # Checks if using recipe cache
+    EXTRA_ARGS+=" --num_gpu_blocks_override $NUM_GPU_BLOCKS_OVERRIDE"
+fi
 
 ## Start server
 python3 -m vllm.entrypoints.openai.api_server \
@@ -15,5 +18,4 @@ python3 -m vllm.entrypoints.openai.api_server \
         --max-num-seqs $MAX_NUM_SEQS \
         --max-num-prefill-seqs $MAX_NUM_PREFILL_SEQS \
         --num-scheduler-steps 1 \
-	--num_gpu_blocks_override $NUM_GPU_BLOCKS_OVERRIDE \
-        --disable-log-requests
+        --disable-log-requests ${${q}EXTRA_ARGS}

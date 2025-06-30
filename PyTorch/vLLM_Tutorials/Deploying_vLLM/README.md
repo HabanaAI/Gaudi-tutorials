@@ -396,16 +396,15 @@ docker run -it --rm \
     -e HABANA_VISIBLE_DEVICES=all \
     -p 8000:8000 \
     -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
-    -e MAX_MODEL_LEN=2304 \
+    -e MAX_MODEL_LEN=20480 \
     -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
-    -v /dev/shm:/root/scripts/recipe_cache \
     -v ./recipe_cache:/root/scripts/recipe_cache \
     --name vllm-server \
     vllm-v0.7.2-gaudi-ub24:1.21.1-16
 ```
 4) Use SharedMem (RAMDISK) for recipe_cache
 ```
-MODEL_CACHE_DIR=llama3-8b_1c_g2_bf16_2048
+MODEL_CACHE_DIR=Llama-3.1-8B-Instruct_TP1_G2_bf16
 docker run -it --rm \
     -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
     -e HF_HOME=/mnt/hf_cache \
@@ -424,7 +423,7 @@ docker run -it --rm \
     vllm-v0.7.2-gaudi-ub24:1.21.1-16
 
 ## On Host run this command
-docker cp ./recipe_cache/$MODEL_CACHE_DIR vllm-server:/mnt/shm/recipe_cache/$MODEL_CACHE_DIR
+docker cp ./recipe_cache/$MODEL_CACHE_DIR vllm-server:/root/scripts/recipe_cache/$MODEL_CACHE_DIR
 
 ## Connect to the container and start vllm-server
 docker exec -ut vllm-server bash

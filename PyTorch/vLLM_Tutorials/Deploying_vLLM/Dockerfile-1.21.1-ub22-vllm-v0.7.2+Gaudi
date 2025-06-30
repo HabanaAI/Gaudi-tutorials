@@ -36,7 +36,7 @@ RUN mkdir -p /root/scripts
 COPY entrypoint.sh vllm_autocalc.py settings_vllm.csv template_vllm_server.sh varlist* perftest* /root/scripts
 RUN chmod +x /root/scripts/*.sh
 WORKDIR /root/scripts
-RUN mkdir -p /root/scripts/recipe_cache_commom
+RUN mkdir -p /root/scripts/recipe_cache
 
 # Set entrypoint script
 ENTRYPOINT ["/root/scripts/entrypoint.sh"]
