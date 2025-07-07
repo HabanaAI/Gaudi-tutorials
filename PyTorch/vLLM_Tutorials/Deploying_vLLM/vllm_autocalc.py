@@ -48,26 +48,36 @@ def vllm_auto_calc(fd):
     else:
         print(f"Usable graph+kvcache memory {fd['USABLE_MEM']:.2f} GB")
 
-    fd['GPU_MEMORY_UTIL_TEMP'] = (1 -
-                                  fd['GPU_FREE_MEM_TARGET'] / fd['USABLE_MEM'])
-    fd['GPU_MEM_UTILIZATION'] = math.floor(
-        fd['GPU_MEMORY_UTIL_TEMP'] * 100) / 100
+    if fd.get('GPU_MEMORY_UTILIZATION') is None:
+        gpu_mem_util_temp = (1 - fd['GPU_FREE_MEM_TARGET'] / fd['USABLE_MEM'])
+        fd['GPU_MEM_UTILIZATION'] = math.floor(
+            gpu_mem_util_temp * 100) / 100
     fd['KV_CACHE_PER_SEQ'] = (
         (2 * fd['MAX_MODEL_LEN'] * fd['NUM_HIDDEN_LAYERS'] * fd['HIDDEN_SIZE']
          * fd['NUM_KEY_VALUE_HEADS'] * fd['CACHE_DTYPE_BYTES']) /
         fd['NUM_ATTENTION_HEADS']) / (1024 * 1024 * 1024)
-    fd['EST_MAX_NUM_SEQS'] = (fd['TENSOR_PARALLEL_SIZE'] * fd['USABLE_MEM'] *
-                              fd['GPU_MEM_UTILIZATION'] /
-                              fd['KV_CACHE_PER_SEQ'])
+
+    if fd.get('MAX_NUM_SEQS') is None:
+        fd['EST_MAX_NUM_SEQS'] = (fd['TENSOR_PARALLEL_SIZE'] * fd['USABLE_MEM'] *
+                                  fd['GPU_MEM_UTILIZATION'] /
+                                  fd['KV_CACHE_PER_SEQ'])
+    else:
+        fd['EST_MAX_NUM_SEQS'] = max(1, fd['MAX_NUM_SEQS'])
+
     if fd['EST_MAX_NUM_SEQS'] < 1:
         raise ValueError(
             "Not enough memory for kv cache. "
             "Increase TENSOR_PARALLEL_SIZE or reduce MAX_MODEL_LEN")
     print(f"Estimating graph memory for "
-          f"{fd['EST_MAX_NUM_SEQS']:.0f} MAX_NUM_SEQS")
+          f"{fd['EST_MAX_NUM_SEQS']:.2f} MAX_NUM_SEQS")
 
-    fd['EST_HPU_BLOCKS'] = (fd['MAX_MODEL_LEN'] * fd['EST_MAX_NUM_SEQS'] /
-                            fd['BLOCK_SIZE'])
+    if fd.get('NUM_GPU_BLOCKS_OVERRIDE') is None:
+        fd['EST_HPU_BLOCKS'] = (fd['MAX_MODEL_LEN'] * fd['EST_MAX_NUM_SEQS'] /
+                                fd['BLOCK_SIZE'])
+        fd['NUM_GPU_BLOCKS_OVERRIDE'] = int(fd['EST_HPU_BLOCKS'])
+    else:
+        fd['EST_HPU_BLOCKS'] = fd['NUM_GPU_BLOCKS_OVERRIDE']
+
     fd['DECODE_BS_RAMP_GRAPHS'] = 1 + int(
         math.log(
             fd['VLLM_DECODE_BS_BUCKET_STEP'] / fd['VLLM_DECODE_BS_BUCKET_MIN'],

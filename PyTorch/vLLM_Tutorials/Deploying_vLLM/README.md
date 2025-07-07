@@ -75,7 +75,7 @@ docker run -it --rm \
 MODEL=meta-llama/Llama-3.1-8B-Instruct
 target=localhost
 curl_query="What is DeepLearning?"
-payload="{ \"model\": \"${model}\", \"prompt\": \"${curl_query}\", \"max_tokens\": 128, \"temperature\": 0 }"
+payload="{ \"model\": \"${MODEL}\", \"prompt\": \"${curl_query}\", \"max_tokens\": 128, \"temperature\": 0 }"
 curl -s --noproxy '*' http://${target}:8000/v1/completions -H 'Content-Type: application/json' -d "$payload"
 ```
 
@@ -250,4 +250,184 @@ docker run -it --rm \
 4) To view vllm-server logs, run this in a separate terminal:
 ```bash
 docker logs -f vllm-server
+```
+
+# Using recipe cache to reduce warmp time (Docker copy method, allows saved recipe cache to be on any file system)
+1) Example to create recipe cache
+```
+MODEL_CACHE_DIR=Llama-3.1-8B-Instruct_TP1_G3
+## First run to create small context recipes
+docker run -it --rm \
+    -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
+    -e HF_HOME=/mnt/hf_cache \
+    -v /mnt/hf_cache:/mnt/hf_cache \
+    --cap-add=sys_nice \
+    --ipc=host \
+    --runtime=habana \
+    -e HF_TOKEN=YOUR_TOKEN_HERE \
+    -e HABANA_VISIBLE_DEVICES=all \
+    -p 8000:8000 \
+    -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
+    -e MAX_MODEL_LEN=2304 \
+    -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
+    --name vllm-server \
+    vllm-v0.7.2-gaudi-ub24:1.21.1-16
+```
+
+2) Copy recipe to host after warmup is complete
+```
+## Copy recipe from container to host (run in different shell)
+docker cp vllm-server:/root/scripts/recipe_cache ./
+docker stop vllm-server
+```
+
+3) Add long context recipes (warmup with small context cache in previous step)
+```
+docker create -it --rm \
+    -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
+    -e HF_HOME=/mnt/hf_cache \
+    -v /mnt/hf_cache:/mnt/hf_cache \
+    --cap-add=sys_nice \
+    --ipc=host \
+    --runtime=habana \
+    -e HF_TOKEN=YOUR_TOKEN_HERE \
+    -e HABANA_VISIBLE_DEVICES=all \
+    -p 8000:8000 \
+    -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
+    -e MAX_MODEL_LEN=32512 \
+    -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
+    --name vllm-server \
+    vllm-v0.7.2-gaudi-ub24:1.21.1-16
+
+## Copy recipes to container
+docker cp ./recipe_cache/$MODEL_CACHE_DIR vllm-server:/root/scripts/recipe_cache/$MODEL_CACHE_DIR
+
+docker start -a vllm-server
+```
+
+4) Copy recipe to host after warmup is complete
+```
+## Copy recipe from container (run in different shell)
+docker cp vllm-server:/root/scripts/recipe_cache ./
+docker stop vllm-server
+```
+
+5) Run any context within the range of context in previous step with recipe cache for fast warmup
+```
+## For example start a 20K context server with recipe cache for fast warmup
+docker create -it --rm \
+    -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
+    -e HF_HOME=/mnt/hf_cache \
+    -v /mnt/hf_cache:/mnt/hf_cache \
+    --cap-add=sys_nice \
+    --ipc=host \
+    --runtime=habana \
+    -e HF_TOKEN=YOUR_TOKEN_HERE \
+    -e HABANA_VISIBLE_DEVICES=all \
+    -p 8000:8000 \
+    -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
+    -e MAX_MODEL_LEN=20480 \
+    -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
+    --name vllm-server \
+    vllm-v0.7.2-gaudi-ub24:1.21.1-16
+
+## Copy recipes to container
+docker cp ./recipe_cache/$MODEL_CACHE_DIR vllm-server:/root/scripts/recipe_cache/$MODEL_CACHE_DIR
+
+docker start -a vllm-server
+```
+
+# Using recipe cache to reduce warmp time (Docker volume method, saved recipe cache should be on host file system and not NFS)
+1) Example to create recipe cache
+```
+MODEL_CACHE_DIR=Llama-3.1-8B-Instruct_TP1_G3
+mkdir -p recipe_cache
+## First run to create small context recipes
+docker run -it --rm \
+    -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
+    -e HF_HOME=/mnt/hf_cache \
+    -v /mnt/hf_cache:/mnt/hf_cache \
+    --cap-add=sys_nice \
+    --ipc=host \
+    --runtime=habana \
+    -e HF_TOKEN=YOUR_TOKEN_HERE \
+    -e HABANA_VISIBLE_DEVICES=all \
+    -p 8000:8000 \
+    -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
+    -e MAX_MODEL_LEN=2304 \
+    -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
+    -v ./recipe_cache:/root/scripts/recipe_cache \
+    --name vllm-server \
+    vllm-v0.7.2-gaudi-ub24:1.21.1-16
+
+## Stop/Interrupt the running container after warmup
+```
+2) Add long context recipes (warmup with small context cache in previous step)
+```
+docker run -it --rm \
+    -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
+    -e HF_HOME=/mnt/hf_cache \
+    -v /mnt/hf_cache:/mnt/hf_cache \
+    --cap-add=sys_nice \
+    --ipc=host \
+    --runtime=habana \
+    -e HF_TOKEN=YOUR_TOKEN_HERE \
+    -e HABANA_VISIBLE_DEVICES=all \
+    -p 8000:8000 \
+    -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
+    -e MAX_MODEL_LEN=32512 \
+    -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
+    -v ./recipe_cache:/root/scripts/recipe_cache \
+    --name vllm-server \
+    vllm-v0.7.2-gaudi-ub24:1.21.1-16
+
+## Stop/Interrupt the running container after warmup
+```
+3)  Run any context within the range of context in previous step with recipe cache for fast warmup
+```
+docker run -it --rm \
+    -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
+    -e HF_HOME=/mnt/hf_cache \
+    -v /mnt/hf_cache:/mnt/hf_cache \
+    --cap-add=sys_nice \
+    --ipc=host \
+    --runtime=habana \
+    -e HF_TOKEN=YOUR_TOKEN_HERE \
+    -e HABANA_VISIBLE_DEVICES=all \
+    -p 8000:8000 \
+    -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
+    -e MAX_MODEL_LEN=20480 \
+    -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
+    -v ./recipe_cache:/root/scripts/recipe_cache \
+    --name vllm-server \
+    vllm-v0.7.2-gaudi-ub24:1.21.1-16
+```
+4) Use SharedMem (RAMDISK) for recipe_cache
+```
+MODEL_CACHE_DIR=Llama-3.1-8B-Instruct_TP1_G2_bf16
+docker run -it --rm \
+    -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
+    -e HF_HOME=/mnt/hf_cache \
+    -v /mnt/hf_cache:/mnt/hf_cache \
+    --cap-add=sys_nice \
+    --ipc=host \
+    --runtime=habana \
+    -e HF_TOKEN=YOUR_TOKEN_HERE \
+    -e HABANA_VISIBLE_DEVICES=all \
+    -p 8000:8000 \
+    -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
+    -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
+    -v /dev/shm:/root/scripts/recipe_cache \
+    --entrypoint "/bin/bash" \
+    --name vllm-server \
+    vllm-v0.7.2-gaudi-ub24:1.21.1-16
+
+## On Host run this command
+docker cp ./recipe_cache/$MODEL_CACHE_DIR vllm-server:/root/scripts/recipe_cache/$MODEL_CACHE_DIR
+
+## Connect to the container and start vllm-server
+docker exec -ut vllm-server bash
+./entrypoint.sh
+
+## It should now start with the warmup cache
 ```
