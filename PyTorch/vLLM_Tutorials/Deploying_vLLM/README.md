@@ -285,7 +285,7 @@ docker logs -f vllm-server
 > **Usefr can provide DTYPE in server command for good practice. It is left as user discretion**
 >  
 
-1) For each model length, the recipe cache needs to be generated separately. To generate recpie for a a MAX_MODEL_LEN of 2k(small context), use this command:
+1) For each model length, the recipe cache needs to be generated separately. To generate recpie for a a MAX_MODEL_LEN of 2k(small context),use this command:
 ```
 MODEL_CACHE_DIR=Llama-3.1-8B-Instruct_TP1_G3_$DTYPE
 ## First run to create small context recipes
@@ -313,7 +313,7 @@ docker cp vllm-server:/root/scripts/recipe_cache ./
 docker stop vllm-server
 ```
 
-3) To generate recpie for a a MAX_MODEL_LEN of 32k(long context), use this command:
+3) To generate recpie for a MAX_MODEL_LEN of 32k(long context), use this command:
 ```
 docker create -it --rm \
     -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \

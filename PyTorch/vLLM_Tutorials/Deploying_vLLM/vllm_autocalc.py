@@ -254,8 +254,6 @@ def main():
     # CONSTANTS
     hpu_mem = {'GAUDI2': 96, 'GAUDI3': 128}
 
-    
-    
     if os.getenv('DTYPE') is None:
         DTYPE = 'bfloat16'
     else:
