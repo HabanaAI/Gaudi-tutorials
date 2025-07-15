@@ -281,8 +281,8 @@ docker logs -f vllm-server
 
 > **IMPORTANT**
 >     
-> **Docker copy method, allows saved recipe cache to be on any file system**
-> **Usefr can provide DTYPE in server command for good practice. It is left as user discretion**
+> **Docker copy method, allows saved recipe cache to be on any file system.**
+> **User can provide DTYPE in server command for good practice. It is left as user discretion**
 >  
 
 1) For each model length, the recipe cache needs to be generated separately. To generate recpie for a a MAX_MODEL_LEN of 2k(small context),use this command:
