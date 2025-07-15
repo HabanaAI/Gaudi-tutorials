@@ -69,6 +69,9 @@ docker run -it --rm \
     --name vllm-server \
     vllm-v0.7.2-gaudi-ub24:1.21.1-16
 ```
+> [!NOTE]
+> The default DTYPE is set as **bfloat16**.
+>
 
 6) (Optional) check your vLLM server by running this command in a **separate terminal**
 ```bash
@@ -186,10 +189,9 @@ docker exec vllm-server /root/scripts/perftest.sh 1024 3192 100
 1) The following variables come with defaults but can be overridden with appropriate values
  -  -e TENSOR_PARALLEL_SIZE (Optional, number of cards to use. If not set, a default will be chosen)
  -  -e MAX_MODEL_LEN (Optional, set a length that suits your workload. If not set, a default will be chosen)
- -  -e DTYPE (Optional, you can set it to "fp8" or "bfloat16" depending upon your choice. If not set, "bfloat16" will be choosen by     default)
+ -  -e DTYPE (Optional, you can set it to "fp8" or "bfloat16" depending upon your choice. If not set, "bfloat16" will be choosen by default)
 
-2) Example for bringing up a vLLM server with a custom max model length and tensor parallel (TP) size. Proxy variables and volumes added for reference.
-   In this example, we have choosen DTYPE=bfloat16.
+2.1) Example for bringing up a vLLM server with a custom max model length, tensor parallel (TP) size and **DTYPE=bfloat16**. Proxy variables and volumes added for reference.
 ```bash
 docker run -it --rm \
     -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
@@ -208,7 +210,7 @@ docker run -it --rm \
     --name vllm-server \
     vllm-v0.7.2-gaudi-ub24:1.21.1-16
 ```
-2.1) Example for bringing up a vLLM server and using DTYPE=fp8.
+2.2) Example for bringing up a vLLM server with a custom max model length, tensor parallel (TP) size and **DTYPE=fp8**.
 ```bash
 docker run -it --rm \
     -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
@@ -280,7 +282,7 @@ docker logs -f vllm-server
 > **IMPORTANT**
 >     
 > **Docker copy method, allows saved recipe cache to be on any file system**
-> **You can provide DTYPE in server command for good practice. It addition is left for youserlf. You can refer from above as how to add DTYPE**
+> **Usefr can provide DTYPE in server command for good practice. It is left as user discretion**
 >  
 
 1) For each model length, the recipe cache needs to be generated separately. To generate recpie for a a MAX_MODEL_LEN of 2k(small context), use this command:
@@ -371,7 +373,7 @@ docker start -a vllm-server
 
 > **IMPORTANT**
 >     
-> **Docker volume method, saved recipe cache should be on host file system and not NFS**
+> **Docker volume method, saved recipe cache should be on host file system and not NFS.**
 > **It is recommended to create a folder on the local disk (not NFS) to store the warm-up recpie cache**
 >
 
