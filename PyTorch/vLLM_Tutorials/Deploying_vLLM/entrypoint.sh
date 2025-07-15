@@ -2,7 +2,6 @@
 
 INPUT_CSV=settings_vllm.csv
 VARS_FILE=server_vars.txt
-INPUT_SH=template_vllm_server.sh
 OUTPUT_SH=vllm_server.sh
 LOG_DIR="${LOG_DIR:-/root/logs}"
 LOG_FILE=vllm_server.log
@@ -12,7 +11,14 @@ LOG_FILE=$LOG_DIR/$LOG_FILE
 
 ## PRE-CHECKS
 HF_HOME="${HF_HOME:-/root/.cache/huggingface}"
-export HF_HOME
+DTYPE="${DTYPE:-bfloat16}"
+export HF_HOME DTYPE
+
+if [ "$DTYPE" = "fp8" ]; then
+	INPUT_SH=template_vllm_server_fp8.sh
+else
+	INPUT_SH=template_vllm_server_bf16.sh
+fi
 
 python3 vllm_autocalc.py settings_vllm.csv
 if [[ $? -ne 0 ]]; then
