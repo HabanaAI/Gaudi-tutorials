@@ -34,7 +34,7 @@ RUN pip install datasets && \
 
 # Copy utility scripts and configuration
 RUN mkdir -p /root/scripts
-COPY entrypoint.sh vllm_autocalc.py settings_vllm.csv template_vllm_server_*.sh varlist* perftest* dataset/* /root/scripts
+COPY entrypoint.sh vllm_autocalc.py settings_vllm.csv  template_vllm_server_*.sh varlist* perftest* dataset/* /root/scripts
 RUN chmod +x /root/scripts/*.sh
 WORKDIR /root/scripts
 
