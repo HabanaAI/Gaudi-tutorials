@@ -3,7 +3,7 @@ This folder contains scripts and configuration files that can be used to build a
 
 # Supported Models:
 |Model Name | Recommended TP Size | DTYPE bfloat16 | DTYPE FP8 |
-|--|--|
+|--|--|--|--|
 |deepseek-ai/DeepSeek-R1-Distill-Llama-70B |4| Y| |N|
 |meta-llama/Llama-3.1-70B-Instruct |4| Y| |Y|
 |meta-llama/Llama-3.1-405B-Instruct |8| Y| |N|
@@ -13,7 +13,7 @@ This folder contains scripts and configuration files that can be used to build a
 |meta-llama/Llama-3.3-70B-Instruct |4| Y| |N|
 |mistralai/Mistral-7B-Instruct-v0.2 |1| Y| |N|
 |mistralai/Mixtral-8x22B-Instruct-v0.1 |4| Y| |N|
-|mistralai/Mixtral-8x7B-Instruct-v0.1 |2| Y| |N|
+|mistralai/Mixtral-8x7B-Instruct-v0.1 |2| Y| |Y|
 |Qwen/Qwen2.5-14B-Instruct |1| Y| |Y|
 |Qwen/Qwen2.5-32B-Instruct |1| Y| |N|
 |Qwen/Qwen2.5-72B-Instruct |4| Y| |N|
