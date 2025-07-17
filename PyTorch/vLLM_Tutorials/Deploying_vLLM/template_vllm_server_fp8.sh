@@ -7,15 +7,6 @@ MODEL_BASE=$(echo $MODEL | awk -F '/' '{print $2}')
 MODEL_BASE=${${q}MODEL_BASE,,}
 MODEL_FAMILY=$(echo $MODEL | awk -F '/' '{print $1}')
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-echo Hello${${q}MODEL_FAMILY}Abhinav
-
-=======
->>>>>>> parent of 4dbab81 (added measurement_version.txt)
-=======
-
->>>>>>> 4dbab81b4a2efffa3716f6ae50e3c4d4e234e5ed
 if [ -f "./measurement/${${q}MODEL_BASE}_tp${${q}TENSOR_PARALLEL_SIZE}_${${q}gnum}/${${q}MODEL_BASE}/maxabs_quant_$gnum.json" ]; then
 	echo "Measurement file found, skipping calibration"
 else
@@ -43,10 +34,8 @@ if [ -n "$PT_HPU_RECIPE_CACHE_CONFIG" ]; then # Checks if using recipe cache
 fi
 
 cd /root/scripts
-<<<<<<< HEAD
 ## Start vLLM FP8 server
 if [ "${${q}MODEL_FAMILY}" = "mistralai" ]; then
-        echo I am running mistral
         QUANT_CONFIG=./measurement/${${q}MODEL_BASE}_tp${${q}TENSOR_PARALLEL_SIZE}_${${q}gnum}/${${q}MODEL_BASE}/maxabs_quant_$gnum.json vllm serve $MODEL \
                 --quantization=${${q}QUANTIZATION} \
                 --tensor-parallel-size=$TENSOR_PARALLEL_SIZE \
@@ -60,7 +49,6 @@ if [ "${${q}MODEL_FAMILY}" = "mistralai" ]; then
                 --weights-load-device cpu \
                 --disable-log-requests ${${q}EXTRA_ARGS}
 else
-        echo I am NOT running mistral
         QUANT_CONFIG=./measurement/${${q}MODEL_BASE}_tp${${q}TENSOR_PARALLEL_SIZE}_${${q}gnum}/${${q}MODEL_BASE}/maxabs_quant_$gnum.json vllm serve $MODEL \
                 --quantization=${${q}QUANTIZATION} \
                 --kv_cache_dtype=${${q}KV_CACHE_DTYPE} \
@@ -75,24 +63,5 @@ else
                 --weights-load-device cpu \
                 --disable-log-requests ${${q}EXTRA_ARGS}
 fi
-=======
-## Start vLLM FP8 server  
-QUANT_CONFIG=./measurement/${${q}MODEL_BASE}_tp${${q}TENSOR_PARALLEL_SIZE}_${${q}gnum}/${${q}MODEL_BASE}/maxabs_quant_$gnum.json vllm serve $MODEL \
-        --quantization=${${q}QUANTIZATION} \
-        --kv_cache_dtype=${${q}KV_CACHE_DTYPE} \
-        --tensor-parallel-size=$TENSOR_PARALLEL_SIZE \
-        --max-model-len=$MAX_MODEL_LEN \
-        --dtype bfloat16 \
-        --gpu-memory-util $GPU_MEM_UTILIZATION \
-        --use-padding-aware-scheduling \
-        --max-num-seqs $MAX_NUM_SEQS \
-        --max-num-prefill-seqs $MAX_NUM_PREFILL_SEQS \
-        --num_scheduler_steps 1 \
-        --weights-load-device cpu \
-        --disable-log-requests ${${q}EXTRA_ARGS}
-<<<<<<< HEAD
->>>>>>> parent of 4dbab81 (added measurement_version.txt)
-=======
 
 
->>>>>>> 4dbab81b4a2efffa3716f6ae50e3c4d4e234e5ed
