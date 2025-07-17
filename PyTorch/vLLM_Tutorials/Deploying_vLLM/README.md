@@ -229,6 +229,8 @@ docker run -it --rm \
     --name vllm-server \
     vllm-v0.7.2-gaudi-ub24:1.21.1-16
 ```
+- FP8 inference requires model statistics measurements see [docs.habana.ai - Run Inference using FP8](https://docs.habana.ai/en/latest/PyTorch/Inference_on_PyTorch/Quantization/Inference_Using_FP8.html). In the above example model measurement files are automatically generated and stored inside the container at /root/scripts/measurement.
+- Persistent measurement folder can also be provided, for example by adding docker volume using command line option **-v ./measurement:/root/scripts/measurement** to the above example, then statistics measurement will be skipped if measurement file already exists.
 
 3) Example for bringing up two Llama-70B instances with the recommended number of TP/cards. Each instance should have unique values for HABANA_VISIBLE_DEVICES, host port and instance name.
 For information on how to set HABANA_VISIBLE_DEVICES for a specific TP size, see [docs.habana.ai - Multiple Tenants](https://docs.habana.ai/en/latest/Orchestration/Multiple_Tenants_on_HPU/Multiple_Dockers_each_with_Single_Workload.html)
