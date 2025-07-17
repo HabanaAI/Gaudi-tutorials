@@ -1,0 +1,39 @@
+From eb0018fcc8044936aa1da7f458670e25b9a96040 Mon Sep 17 00:00:00 2001
+From: Jakub Maksymczuk <jakub.maksymczuk@intel.com>
+Date: Fri, 23 May 2025 14:39:44 +0200
+Subject: [PATCH] Fix number of blocks for pipeline parallelism. (#1305)
+
+Before this fix we would get flat_pa error because the number of blocks
+in the last bucket was not well divisable for pipeline parallelism
+cases.
+In addition to that fix I removed a duplicated line in
+determine_num_available_blocks and moved it to cache initialization.
+---
+ vllm/worker/hpu_worker.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/vllm/worker/hpu_worker.py b/vllm/worker/hpu_worker.py
+index dcd7c9b87..464fb6644 100755
+--- a/vllm/worker/hpu_worker.py
++++ b/vllm/worker/hpu_worker.py
+@@ -359,8 +359,6 @@ class HPUWorker(LocalOrDistributedWorkerBase):
+         num_hpu_blocks = max(num_hpu_blocks, 0)
+         num_cpu_blocks = max(num_cpu_blocks, 0)
+ 
+-        self.model_runner.bucketing_ctx.num_hpu_blocks = num_hpu_blocks
+-
+         if self.model_runner.lora_manager:
+             self.model_runner.remove_all_loras()
+ 
+@@ -379,6 +377,8 @@ class HPUWorker(LocalOrDistributedWorkerBase):
+ 
+         self.cache_config.num_gpu_blocks = num_gpu_blocks
+         self.cache_config.num_cpu_blocks = num_cpu_blocks
++        self.model_runner.bucketing_ctx.num_hpu_blocks = (
++            num_gpu_blocks // self.parallel_config.pipeline_parallel_size)
+ 
+         with HabanaMemoryProfiler() as m:
+             self._init_cache_engine()
+-- 
+2.34.1
+
