@@ -6,6 +6,7 @@ unset VLLM_PROMPT_SEQ_BUCKET_MAX
 MODEL_BASE=$(echo $MODEL | awk -F '/' '{print $2}')
 MODEL_BASE=${${q}MODEL_BASE,,}
 
+
 if [ -f "./measurement/${${q}MODEL_BASE}_tp${${q}TENSOR_PARALLEL_SIZE}_${${q}gnum}/${${q}MODEL_BASE}/maxabs_quant_$gnum.json" ]; then
 	echo "Measurement file found, skipping calibration"
 else
@@ -21,7 +22,6 @@ else
 	fi
         cp /root/scripts/measurement/measurement_version.txt /root/scripts/measurement/${${q}MODEL_BASE}_tp${${q}TENSOR_PARALLEL_SIZE}_${${q}gnum}
 fi
-
 
 cd ./root
 
@@ -48,3 +48,5 @@ QUANT_CONFIG=./measurement/${${q}MODEL_BASE}_tp${${q}TENSOR_PARALLEL_SIZE}_${${q
         --num_scheduler_steps 1 \
         --weights-load-device cpu \
         --disable-log-requests ${${q}EXTRA_ARGS}
+
+
