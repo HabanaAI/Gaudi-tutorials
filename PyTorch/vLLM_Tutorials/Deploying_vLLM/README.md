@@ -2,7 +2,7 @@
 This folder contains scripts and configuration files that can be used to build a vLLM container with support for the following models:
 
 # Supported Models:
-|Model Name | Recommended TP Size | DTYPE bfloat16 | DTYPE FP8 |
+|Model Name | Recommended TP Size | **bfloat16** | **fp8** |
 |--|--|--|--|
 |deepseek-ai/DeepSeek-R1-Distill-Llama-70B |4| Y| N|
 |meta-llama/Llama-3.1-70B-Instruct |4| Y| Y|
