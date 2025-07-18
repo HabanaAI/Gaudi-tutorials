@@ -50,7 +50,7 @@ def vllm_auto_calc(fd):
 
     if fd.get('GPU_MEMORY_UTILIZATION') is None:
         gpu_mem_util_temp = (1 - fd['GPU_FREE_MEM_TARGET'] / fd['USABLE_MEM'])
-        fd['GPU_MEM_UTILIZATION'] = math.floor(
+        fd['GPU_MEMORY_UTILIZATION'] = math.floor(
             gpu_mem_util_temp * 100) / 100
     fd['KV_CACHE_PER_SEQ'] = (
         (2 * fd['MAX_MODEL_LEN'] * fd['NUM_HIDDEN_LAYERS'] * fd['HIDDEN_SIZE']
@@ -59,7 +59,7 @@ def vllm_auto_calc(fd):
 
     if fd.get('MAX_NUM_SEQS') is None:
         fd['EST_MAX_NUM_SEQS'] = (fd['TENSOR_PARALLEL_SIZE'] * fd['USABLE_MEM'] *
-                                  fd['GPU_MEM_UTILIZATION'] /
+                                  fd['GPU_MEMORY_UTILIZATION'] /
                                   fd['KV_CACHE_PER_SEQ'])
     else:
         fd['EST_MAX_NUM_SEQS'] = max(1, fd['MAX_NUM_SEQS'])
@@ -138,11 +138,11 @@ def vllm_auto_calc(fd):
         10) / 10
     fd['EST_GRAPH_RESERVE_MEM'] = math.ceil(
         fd['DECODE_GRAPH_TARGET_GB'] /
-        (fd['USABLE_MEM'] * fd['GPU_MEM_UTILIZATION'] *
+        (fd['USABLE_MEM'] * fd['GPU_MEMORY_UTILIZATION'] *
          (1 - fd['VLLM_GRAPH_PROMPT_RATIO'])) * 100) / 100
     fd['VLLM_GRAPH_RESERVED_MEM'] = min(max(fd['EST_GRAPH_RESERVE_MEM'], 0.01),
                                         0.5)
-    fd['KV_CACHE_MEM'] = (fd['USABLE_MEM'] * fd['GPU_MEM_UTILIZATION'] *
+    fd['KV_CACHE_MEM'] = (fd['USABLE_MEM'] * fd['GPU_MEMORY_UTILIZATION'] *
                           (1 - fd['VLLM_GRAPH_RESERVED_MEM']))
 
     if fd.get('MAX_NUM_SEQS') is None:

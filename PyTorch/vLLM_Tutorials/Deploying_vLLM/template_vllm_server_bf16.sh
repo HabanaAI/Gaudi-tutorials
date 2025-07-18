@@ -13,7 +13,7 @@ python3 -m vllm.entrypoints.openai.api_server \
         --tensor-parallel-size $TENSOR_PARALLEL_SIZE \
         --download_dir $HF_HOME \
         --max-model-len $MAX_MODEL_LEN \
-        --gpu-memory-utilization $GPU_MEM_UTILIZATION \
+        --gpu-memory-utilization $GPU_MEMORY_UTILIZATION \
         --use-padding-aware-scheduling \
         --max-num-seqs $MAX_NUM_SEQS \
         --max-num-prefill-seqs $MAX_NUM_PREFILL_SEQS \

@@ -37,7 +37,7 @@ QUANT_CONFIG=./measurement/${${q}MODEL_BASE}/maxabs_quant_$gnum.json vllm serve 
         --tensor-parallel-size=$TENSOR_PARALLEL_SIZE \
         --max-model-len=$MAX_MODEL_LEN \
         --dtype bfloat16 \
-        --gpu-memory-util $GPU_MEM_UTILIZATION \
+        --gpu-memory-utilization $GPU_MEMORY_UTILIZATION \
         --use-padding-aware-scheduling \
         --max-num-seqs $MAX_NUM_SEQS \
         --max-num-prefill-seqs $MAX_NUM_PREFILL_SEQS \
