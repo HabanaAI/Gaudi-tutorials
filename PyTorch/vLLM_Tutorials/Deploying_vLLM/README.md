@@ -218,7 +218,7 @@ docker run -it --rm \
 bash get_version.sh
 ```
 
-2.2.2) Run below command to up the server
+2.2.2) Run below command to bring up the server
 
 > Note:  
 > When runing the new LLM model for first time, measurement file gets created and and get stored in measurement folder as used **-v ./measurement:/root/scripts/measurement** docker volume.
@@ -236,7 +236,7 @@ docker run -it --rm \
     -e HABANA_VISIBLE_DEVICES=all \
     -p 8000:8000 \
     -e MODEL=meta-llama/Llama-3.1-70B-Instruct \
-    -e TENSOR_PARALLEL_SIZE=8 \
+    -e TENSOR_PARALLEL_SIZE=4 \
     -e DTYPE=fp8 \
     -e MAX_MODEL_LEN=8192 \
     -v ./measurement:/root/scripts/measurement \
