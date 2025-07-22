@@ -5,7 +5,7 @@ This folder contains scripts and configuration files that can be used to build a
 |Model Name | Recommended TP Size |
 |--|--|
 |deepseek-ai/DeepSeek-R1-Distill-Llama-70B |4|
-|meta-llama/Llama-3.1-70B-Instruct |4| 
+|meta-llama/Llama-3.1-70B-Instruct |4|
 |meta-llama/Llama-3.1-405B-Instruct |8|
 |meta-llama/Llama-3.1-8B-Instruct |1|
 |meta-llama/Llama-3.2-1B-Instruct |1|
