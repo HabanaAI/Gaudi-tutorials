@@ -205,7 +205,7 @@ docker run -it --rm \
     -e HABANA_VISIBLE_DEVICES=all \
     -p 8000:8000 \
     -e MODEL=meta-llama/Llama-3.1-70B-Instruct \
-    -e TENSOR_PARALLEL_SIZE=4 \
+    -e TENSOR_PARALLEL_SIZE=8 \
     -e MAX_MODEL_LEN=8192 \
     --name vllm-server \
     vllm-v0.7.2-gaudi-ub24:1.21.1-16
@@ -248,7 +248,7 @@ docker run -it --rm \
     -e HABANA_VISIBLE_DEVICES=4,5,6,7 \
     -p $HOST_PORT2:8000 \
     -e MODEL=meta-llama/Llama-3.1-70B-Instruct \
-    -e TENSOR_PARALLEL_SIZE=8 \
+    -e TENSOR_PARALLEL_SIZE=4 \
     -e MAX_MODEL_LEN=8192 \
     --name vllm-server2 \
     ${CNAME}
