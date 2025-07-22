@@ -15,6 +15,20 @@ def get_device_model():
 
 
 def vllm_auto_calc(fd):
+
+
+    if int(fd['VLLM_PROMPT_USE_FUSEDSDPA']) == 1:
+        GPU_FREE_MEM_TARGET = 1
+    else:
+        GPU_FREE_MEM_TARGET = 3
+    
+    
+
+    if DTYPE == "fp8":
+        fd['QUANT_DTYPE'] = 1
+        fd['CACHE_DTYPE_BYTES'] = fd['CACHE_DTYPE_BYTES_FP8']
+        fd['TENSOR_PARALLEL_SIZE'] = fd['TENSOR_PARALLEL_SIZE_FP8']
+
     tensor_parallel_size_new = max(1, min(8, fd['TENSOR_PARALLEL_SIZE']))
     if tensor_parallel_size_new != fd['TENSOR_PARALLEL_SIZE']:
         print(f"Clamping TENSOR_PARALLEL_SIZE to {tensor_parallel_size_new}")
@@ -49,7 +63,7 @@ def vllm_auto_calc(fd):
         print(f"Usable graph+kvcache memory {fd['USABLE_MEM']:.2f} GB")
 
     if fd.get('GPU_MEMORY_UTILIZATION') is None:
-        gpu_mem_util_temp = (1 - fd['GPU_FREE_MEM_TARGET'] / fd['USABLE_MEM'])
+        gpu_mem_util_temp = (1 - (GPU_FREE_MEM_TARGET) / fd['USABLE_MEM'])
         fd['GPU_MEMORY_UTILIZATION'] = math.floor(
             gpu_mem_util_temp * 100) / 100
     fd['KV_CACHE_PER_SEQ'] = (
@@ -197,7 +211,6 @@ def vllm_auto_calc(fd):
             param = line.strip()
             if os.environ.get(param) is not None:
                 output_dict[param] = fd[param]
-
     return output_dict
 
 
@@ -206,8 +219,6 @@ def get_model_from_csv(file_path):
     dataframe_csv = pd.read_csv(file_path)
     filtered_row = dataframe_csv.loc[dataframe_csv['MODEL'] ==
                                      os.environ['MODEL']]
-    filtered_row = filtered_row.loc[filtered_row['DTYPE'] ==
-                                     os.environ['DTYPE']]
 
     if filtered_row.empty:
         raise ValueError(

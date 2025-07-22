@@ -5,6 +5,7 @@ unset VLLM_PROMPT_SEQ_BUCKET_MAX
 
 MODEL_BASE=$(echo $MODEL | awk -F '/' '{print $2}')
 MODEL_BASE=${${q}MODEL_BASE,,}
+MODEL_FAMILY=$(echo $MODEL | awk -F '/' '{print $1}')
 
 if [ -f "./measurement/${${q}MODEL_BASE}_tp${${q}TENSOR_PARALLEL_SIZE}_${${q}gnum}/${${q}MODEL_BASE}/maxabs_quant_$gnum.json" ]; then
 	echo "Measurement file found, skipping calibration"
@@ -23,8 +24,6 @@ else
 fi
 
 
-cd ./root
-
 QUANTIZATION="inc"
 KV_CACHE_DTYPE=${DTYPE}_${${q}QUANTIZATION}
 
@@ -33,11 +32,14 @@ if [ -n "$PT_HPU_RECIPE_CACHE_CONFIG" ]; then # Checks if using recipe cache
     EXTRA_ARGS+=" --num_gpu_blocks_override $NUM_GPU_BLOCKS_OVERRIDE"
 fi
 
+if [ $CACHE_DTYPE_BYTES != 2 ]; then
+        EXTRA_ARGS+=" --kv_cache_dtype=${${q}KV_CACHE_DTYPE}"
+fi
+
 cd /root/scripts
 ## Start vLLM FP8 server  
 QUANT_CONFIG=./measurement/${${q}MODEL_BASE}_tp${${q}TENSOR_PARALLEL_SIZE}_${${q}gnum}/${${q}MODEL_BASE}/maxabs_quant_$gnum.json vllm serve $MODEL \
         --quantization=${${q}QUANTIZATION} \
-        --kv_cache_dtype=${${q}KV_CACHE_DTYPE} \
         --tensor-parallel-size=$TENSOR_PARALLEL_SIZE \
         --max-model-len=$MAX_MODEL_LEN \
         --dtype bfloat16 \
@@ -47,4 +49,6 @@ QUANT_CONFIG=./measurement/${${q}MODEL_BASE}_tp${${q}TENSOR_PARALLEL_SIZE}_${${q
         --max-num-prefill-seqs $MAX_NUM_PREFILL_SEQS \
         --num_scheduler_steps 1 \
         --weights-load-device cpu \
-        --disable-log-requests ${${q}EXTRA_ARGS}
+        --disable-log-requests ${${q}EXTRA_ARGS} \
+
+

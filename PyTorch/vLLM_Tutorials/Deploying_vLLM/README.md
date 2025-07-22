@@ -1,25 +1,30 @@
-# VLLM container with multi-model support
+# vLLM model agnostic Container (Single Node)
 This folder contains scripts and configuration files that can be used to build a vLLM container with support for the following models:
 
 # Supported Models:
-|Model Name | Recommended TP Size | DTYPE bfloat16 | DTYPE FP8 |
+|Model Name | Recommended TP Size |
 |--|--|
-|deepseek-ai/DeepSeek-R1-Distill-Llama-70B |4| Y| |N|
-|meta-llama/Llama-3.1-70B-Instruct |4| Y| |Y|
-|meta-llama/Llama-3.1-405B-Instruct |8| Y| |N|
-|meta-llama/Llama-3.1-8B-Instruct |1| Y| |Y|
-|meta-llama/Llama-3.2-1B-Instruct |1| Y| |N|
-|meta-llama/Llama-3.2-3B-Instruct |1| Y| |N|
-|meta-llama/Llama-3.3-70B-Instruct |4| Y| |N|
-|mistralai/Mistral-7B-Instruct-v0.2 |1| Y| |N|
-|mistralai/Mixtral-8x22B-Instruct-v0.1 |4| Y| |N|
-|mistralai/Mixtral-8x7B-Instruct-v0.1 |2| Y| |N|
-|Qwen/Qwen2.5-14B-Instruct |1| Y| |Y|
-|Qwen/Qwen2.5-32B-Instruct |1| Y| |N|
-|Qwen/Qwen2.5-72B-Instruct |4| Y| |N|
-|Qwen/Qwen2.5-7B-Instruct |1| Y| |N|
-|meta-llama/Llama-3.2-11B-Vision-Instruct |1| Y| |N|
-|meta-llama/Llama-3.2-90B-Vision-Instruct |4| Y| |N|
+|deepseek-ai/DeepSeek-R1-Distill-Llama-70B |4|
+|meta-llama/Llama-3.1-70B-Instruct |4| 
+|meta-llama/Llama-3.1-405B-Instruct |8|
+|meta-llama/Llama-3.1-8B-Instruct |1|
+|meta-llama/Llama-3.2-1B-Instruct |1|
+|meta-llama/Llama-3.2-3B-Instruct |1|
+|meta-llama/Llama-3.3-70B-Instruct |4|
+|mistralai/Mistral-7B-Instruct-v0.2 |1|
+|mistralai/Mixtral-8x22B-Instruct-v0.1 |4|
+|mistralai/Mixtral-8x7B-Instruct-v0.1 |2| 
+|Qwen/Qwen2.5-14B-Instruct |1| 
+|Qwen/Qwen2.5-32B-Instruct |1| 
+|Qwen/Qwen2.5-72B-Instruct |4| 
+|Qwen/Qwen2.5-7B-Instruct |1| 
+|meta-llama/Llama-3.2-11B-Vision-Instruct |1| 
+|meta-llama/Llama-3.2-90B-Vision-Instruct |4| 
+
+> [!NOTE]
+> **fp8 for Vision model is not supported**
+>
+
 ## Quick Start
 To run these models on your Gaudi machine:
 
@@ -191,7 +196,7 @@ docker exec vllm-server /root/scripts/perftest.sh 1024 3192 100
  -  -e MAX_MODEL_LEN (Optional, set a length that suits your workload. If not set, a default will be chosen)
  -  -e DTYPE (Optional, you can set it to "fp8" or "bfloat16" depending upon your choice. If not set, "bfloat16" will be choosen by default)
 
-2.1) Example for bringing up a vLLM server with a custom max model length, tensor parallel (TP) size and **DTYPE=bfloat16**. Proxy variables and volumes added for reference.
+2) Example for bringing up a vLLM server with a custom max model length, tensor parallel (TP) size and **DTYPE=bfloat16**. Proxy variables and volumes added for reference.
 ```bash
 docker run -it --rm \
     -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
@@ -204,42 +209,9 @@ docker run -it --rm \
     -e HABANA_VISIBLE_DEVICES=all \
     -p 8000:8000 \
     -e MODEL=meta-llama/Llama-3.1-70B-Instruct \
-    -e TENSOR_PARALLEL_SIZE=8 \
+    -e TENSOR_PARALLEL_SIZE=4 \
     -e DTYPE=bfloat16 \
     -e MAX_MODEL_LEN=8192 \
-    --name vllm-server \
-    vllm-v0.7.2-gaudi-ub24:1.21.1-16
-```
-2.2) Example for bringing up a vLLM server with a custom max model length, tensor parallel (TP) size and **DTYPE=fp8**.
-
-2.2.1) This below command return the latest version of Repository Gaudi-tutorials. 
-
-```bash
-bash get_version.sh
-```
-
-2.2.2) Run below command to up the server
-
-> Note:  
-> When runing the new LLM model for first time, measurement file gets created and and get stored in measurement folder as used **-v ./measurement:/root/scripts/measurement** docker volume.
->   From subsequent runs on the models, it will check whether measurement files are available or not. If available it will skip creation of files else it create one  and store in the folder
->
-```bash
-docker run -it --rm \
-    -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
-    -e HF_HOME=/mnt/hf_cache \
-    -v /mnt/hf_cache:/mnt/hf_cache \
-    --cap-add=sys_nice \
-    --ipc=host \
-    --runtime=habana \
-    -e HF_TOKEN=YOUR_TOKEN_HERE \
-    -e HABANA_VISIBLE_DEVICES=all \
-    -p 8000:8000 \
-    -e MODEL=meta-llama/Llama-3.1-70B-Instruct \
-    -e TENSOR_PARALLEL_SIZE=8 \
-    -e DTYPE=fp8 \
-    -e MAX_MODEL_LEN=8192 \
-    -v ./measurement:/root/scripts/measurement \
     --name vllm-server \
     vllm-v0.7.2-gaudi-ub24:1.21.1-16
 ```
@@ -290,6 +262,40 @@ docker run -it --rm \
 ```bash
 docker logs -f vllm-server
 ```
+
+# Running vLLM server with **DTYPE=fp8**.
+
+1) Example for bringing up a vLLM server with a custom max model length, tensor parallel (TP) size and **DTYPE=fp8**.
+
+1.1) Run the command below to create measurement_version.txt which captures the current version of the repository. 
+
+```bash
+bash get_version.sh
+```
+
+1.2) Run below command to bring up the server
+
+```bash
+docker run -it --rm \
+    -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
+    -e HF_HOME=/mnt/hf_cache \
+    -v /mnt/hf_cache:/mnt/hf_cache \
+    --cap-add=sys_nice \
+    --ipc=host \
+    --runtime=habana \
+    -e HF_TOKEN=YOUR_TOKEN_HERE \
+    -e HABANA_VISIBLE_DEVICES=all \
+    -p 8000:8000 \
+    -e MODEL=meta-llama/Llama-3.1-70B-Instruct \
+    -e TENSOR_PARALLEL_SIZE=4 \
+    -e DTYPE=fp8 \
+    -e MAX_MODEL_LEN=8192 \
+    -v ./measurement:/root/scripts/measurement \
+    --name vllm-server \
+    vllm-v0.7.2-gaudi-ub24:1.21.1-16
+```
+- FP8 inference requires model statistics measurements see [docs.habana.ai - Run Inference using FP8](https://docs.habana.ai/en/latest/PyTorch/Inference_on_PyTorch/Quantization/Inference_Using_FP8.html). In the above example model measurement files are automatically generated and stored inside the container at /root/scripts/measurement.
+- Persistent measurement folder can also be provided, for example by adding docker volume using command line option **-v ./measurement:/root/scripts/measurement** as given in the above example, then statistics measurement will be skipped if measurement file already exists.
 
 # Using recipe cache to reduce warmup time(Docker Copy Method)
 
