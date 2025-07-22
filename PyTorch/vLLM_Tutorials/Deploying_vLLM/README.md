@@ -248,7 +248,7 @@ docker run -it --rm \
     -e HABANA_VISIBLE_DEVICES=4,5,6,7 \
     -p $HOST_PORT2:8000 \
     -e MODEL=meta-llama/Llama-3.1-70B-Instruct \
-    -e TENSOR_PARALLEL_SIZE=4 \
+    -e TENSOR_PARALLEL_SIZE=8 \
     -e MAX_MODEL_LEN=8192 \
     --name vllm-server2 \
     ${CNAME}
@@ -260,7 +260,7 @@ docker logs -f vllm-server
 
 # Running vLLM server with FP8 precision.
 
-1) Example for bringing up a vLLM server with a custom max model length, tensor parallel (TP) size and **DTYPE=fp8**.
+1) Example for bringing up a vLLM server with a custom max model length and **DTYPE=fp8**.
 
 1.1) Run the command below to create measurement_version.txt which captures the current version of the repository. 
 

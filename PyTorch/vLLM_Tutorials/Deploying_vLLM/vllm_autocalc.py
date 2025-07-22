@@ -16,9 +16,9 @@ def get_device_model():
 
 def vllm_auto_calc(fd):
     if int(fd['VLLM_PROMPT_USE_FUSEDSDPA']) == 1:
-        GPU_FREE_MEM_TARGET = 1
+        gpu_free_mem_target = 1
     else:
-        GPU_FREE_MEM_TARGET = 3
+        gpu_free_mem_target = 3
     
     if DTYPE == "fp8":
         fd['QUANT_DTYPE'] = 1
@@ -59,7 +59,7 @@ def vllm_auto_calc(fd):
         print(f"Usable graph+kvcache memory {fd['USABLE_MEM']:.2f} GB")
 
     if fd.get('GPU_MEMORY_UTILIZATION') is None:
-        gpu_mem_util_temp = (1 - (GPU_FREE_MEM_TARGET) / fd['USABLE_MEM'])
+        gpu_mem_util_temp = (1 - (gpu_free_mem_target) / fd['USABLE_MEM'])
         fd['GPU_MEMORY_UTILIZATION'] = math.floor(
             gpu_mem_util_temp * 100) / 100
     fd['KV_CACHE_PER_SEQ'] = (
