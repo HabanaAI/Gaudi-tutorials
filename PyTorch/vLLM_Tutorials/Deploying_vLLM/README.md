@@ -21,10 +21,6 @@ This folder contains scripts and configuration files that can be used to build a
 |meta-llama/Llama-3.2-11B-Vision-Instruct |1| 
 |meta-llama/Llama-3.2-90B-Vision-Instruct |4| 
 
-> [!NOTE]
-> **fp8 for Vision model is not supported**
->
-
 ## Quick Start
 To run these models on your Gaudi machine:
 
@@ -196,7 +192,7 @@ docker exec vllm-server /root/scripts/perftest.sh 1024 3192 100
  -  -e MAX_MODEL_LEN (Optional, set a length that suits your workload. If not set, a default will be chosen)
  -  -e DTYPE (Optional, you can set it to "fp8" or "bfloat16" depending upon your choice. If not set, "bfloat16" will be choosen by default)
 
-2) Example for bringing up a vLLM server with a custom max model length, tensor parallel (TP) size and **DTYPE=bfloat16**. Proxy variables and volumes added for reference.
+2) Example for bringing up a vLLM server with a custom max model length and tensor parallel (TP) size. Proxy variables and volumes added for reference.
 ```bash
 docker run -it --rm \
     -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
@@ -210,7 +206,6 @@ docker run -it --rm \
     -p 8000:8000 \
     -e MODEL=meta-llama/Llama-3.1-70B-Instruct \
     -e TENSOR_PARALLEL_SIZE=4 \
-    -e DTYPE=bfloat16 \
     -e MAX_MODEL_LEN=8192 \
     --name vllm-server \
     vllm-v0.7.2-gaudi-ub24:1.21.1-16
@@ -263,7 +258,7 @@ docker run -it --rm \
 docker logs -f vllm-server
 ```
 
-# Running vLLM server with **DTYPE=fp8**.
+# Running vLLM server with FP8 precision.
 
 1) Example for bringing up a vLLM server with a custom max model length, tensor parallel (TP) size and **DTYPE=fp8**.
 
@@ -287,7 +282,7 @@ docker run -it --rm \
     -e HABANA_VISIBLE_DEVICES=all \
     -p 8000:8000 \
     -e MODEL=meta-llama/Llama-3.1-70B-Instruct \
-    -e TENSOR_PARALLEL_SIZE=4 \
+    -e TENSOR_PARALLEL_SIZE=8 \
     -e DTYPE=fp8 \
     -e MAX_MODEL_LEN=8192 \
     -v ./measurement:/root/scripts/measurement \
@@ -296,6 +291,10 @@ docker run -it --rm \
 ```
 - FP8 inference requires model statistics measurements see [docs.habana.ai - Run Inference using FP8](https://docs.habana.ai/en/latest/PyTorch/Inference_on_PyTorch/Quantization/Inference_Using_FP8.html). In the above example model measurement files are automatically generated and stored inside the container at /root/scripts/measurement.
 - Persistent measurement folder can also be provided, for example by adding docker volume using command line option **-v ./measurement:/root/scripts/measurement** as given in the above example, then statistics measurement will be skipped if measurement file already exists.
+
+> [!NOTE]
+> **fp8 for Vision model is not supported**
+>
 
 # Using recipe cache to reduce warmup time(Docker Copy Method)
 
@@ -321,6 +320,7 @@ docker run -it --rm \
     -p 8000:8000 \
     -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
     -e MAX_MODEL_LEN=2304 \
+    -e DTYPE=$DTYPE 
     -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
     --name vllm-server \
     vllm-v0.7.2-gaudi-ub24:1.21.1-16
@@ -347,6 +347,7 @@ docker create -it --rm \
     -p 8000:8000 \
     -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
     -e MAX_MODEL_LEN=32512 \
+    -e DTYPE=$DTYPE 
     -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
     --name vllm-server \
     vllm-v0.7.2-gaudi-ub24:1.21.1-16
@@ -379,6 +380,7 @@ docker create -it --rm \
     -p 8000:8000 \
     -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
     -e MAX_MODEL_LEN=20480 \
+    -e DTYPE=$DTYPE 
     -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
     --name vllm-server \
     vllm-v0.7.2-gaudi-ub24:1.21.1-16
@@ -414,6 +416,7 @@ docker run -it --rm \
     -p 8000:8000 \
     -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
     -e MAX_MODEL_LEN=2304 \
+    -e DTYPE=$DTYPE 
     -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
     -v ./recipe_cache:/root/scripts/recipe_cache \
     --name vllm-server \
@@ -435,6 +438,7 @@ docker run -it --rm \
     -p 8000:8000 \
     -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
     -e MAX_MODEL_LEN=32512 \
+    -e DTYPE=$DTYPE 
     -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
     -v ./recipe_cache:/root/scripts/recipe_cache \
     --name vllm-server \
@@ -456,6 +460,7 @@ docker run -it --rm \
     -p 8000:8000 \
     -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
     -e MAX_MODEL_LEN=20480 \
+    -e DTYPE=$DTYPE 
     -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
     -v ./recipe_cache:/root/scripts/recipe_cache \
     --name vllm-server \
@@ -464,7 +469,7 @@ docker run -it --rm \
 # To futher speed up cache loading, use Shared Memory(RAMDISK) to store the cache.
 1)  
 ```
-MODEL_CACHE_DIR=Llama-3.1-8B-Instruct_TP1_G2_$DTYPE
+MODEL_CACHE_DIR=Llama-3.1-8B-Instruct_TP1_G3_$DTYPE
 docker create -it --rm \
     -e http_proxy=$http_proxy -e https_proxy=$https_proxy -e no_proxy=$no_proxy \
     -e HF_HOME=/mnt/hf_cache \
@@ -477,6 +482,7 @@ docker create -it --rm \
     -p 8000:8000 \
     -e MODEL=meta-llama/Llama-3.1-8B-Instruct \
     -e MAX_MODEL_LEN=20480 \
+    -e DTYPE=$DTYPE 
     -e PT_HPU_RECIPE_CACHE_CONFIG="./recipe_cache/$MODEL_CACHE_DIR,False,2048" \
     -v /dev/shm:/root/scripts/recipe_cache \
     --entrypoint "/bin/bash" \

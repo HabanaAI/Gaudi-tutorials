@@ -15,15 +15,11 @@ def get_device_model():
 
 
 def vllm_auto_calc(fd):
-
-
     if int(fd['VLLM_PROMPT_USE_FUSEDSDPA']) == 1:
         GPU_FREE_MEM_TARGET = 1
     else:
         GPU_FREE_MEM_TARGET = 3
     
-    
-
     if DTYPE == "fp8":
         fd['QUANT_DTYPE'] = 1
         fd['CACHE_DTYPE_BYTES'] = fd['CACHE_DTYPE_BYTES_FP8']
