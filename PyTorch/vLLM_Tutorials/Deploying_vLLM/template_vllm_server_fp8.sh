@@ -31,7 +31,7 @@ if [ -n "$PT_HPU_RECIPE_CACHE_CONFIG" ]; then # Checks if using recipe cache
 fi
 
 if [ "$CACHE_DTYPE_BYTES" != "2" ]; then
-        EXTRA_ARGS+=" --kv_cache_dtype=${${q}KV_CACHE_DTYPE}"
+    EXTRA_ARGS+=" --kv_cache_dtype=${${q}KV_CACHE_DTYPE}"
 fi
 
 cd /root/scripts

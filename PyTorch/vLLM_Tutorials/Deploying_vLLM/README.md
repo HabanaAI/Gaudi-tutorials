@@ -282,7 +282,6 @@ docker run -it --rm \
     -e HABANA_VISIBLE_DEVICES=all \
     -p 8000:8000 \
     -e MODEL=meta-llama/Llama-3.1-70B-Instruct \
-    -e TENSOR_PARALLEL_SIZE=8 \
     -e DTYPE=fp8 \
     -e MAX_MODEL_LEN=8192 \
     -v ./measurement:/root/scripts/measurement \
@@ -306,6 +305,7 @@ docker run -it --rm \
 
 1) For each model length, the recipe cache needs to be generated separately. To generate recpie for a a MAX_MODEL_LEN of 2k(small context),use this command:
 ```
+DTYPE=bfloat16
 MODEL_CACHE_DIR=Llama-3.1-8B-Instruct_TP1_G3_$DTYPE
 ## First run to create small context recipes
 docker run -it --rm \
@@ -390,6 +390,10 @@ docker cp ./recipe_cache/$MODEL_CACHE_DIR vllm-server:/root/scripts/recipe_cache
 
 docker start -a vllm-server
 ```
+
+> [!NOTE]
+> When DTYPE=fp8 persistent measurement directory can be added to recipe cache examples using command line option **-v ./measurement:/root/scripts/measurement**
+>
 
 # Using recipe cache to reduce warmp time(Docker Volume Method)
 
