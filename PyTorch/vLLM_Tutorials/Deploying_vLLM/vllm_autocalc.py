@@ -13,22 +13,56 @@ def get_device_model():
     hpu_determined = hthpu.get_device_name()
     return hpu_determined
 
+def prepare_group_list(grouping_string):
+    group_seperator = '--'
+    card_seperator = ','
+    grouping_string = grouping_string.replace(" ", "").strip(group_seperator).strip(card_seperator)
+    group_list=[group.strip(card_seperator).split(card_seperator) for group in grouping_string.split(group_seperator)]
+    print("Card grouping list >> {}".format(group_list))
+    return group_list
 
 def vllm_auto_calc(fd):
     if int(fd['VLLM_PROMPT_USE_FUSEDSDPA']) == 1:
         gpu_free_mem_target = 1
     else:
         gpu_free_mem_target = 3
+
+    # handle exceptions
+    if (fd['MODEL'] in [
+        'Qwen/Qwen2.5-32B-Instruct'
+    ] and DTYPE == "fp8"
+    and hpu_determined == "GAUDI2"):
+        gpu_free_mem_target = 3
     
     if DTYPE == "fp8":
         fd['QUANT_DTYPE'] = 1
         fd['CACHE_DTYPE_BYTES'] = fd['CACHE_DTYPE_BYTES_FP8']
-        fd['TENSOR_PARALLEL_SIZE'] = fd['TENSOR_PARALLEL_SIZE_FP8']
+        if os.environ.get('TENSOR_PARALLEL_SIZE') is None:
+            fd['TENSOR_PARALLEL_SIZE'] = fd['TENSOR_PARALLEL_SIZE_FP8']
 
     tensor_parallel_size_new = max(1, min(8, fd['TENSOR_PARALLEL_SIZE']))
     if tensor_parallel_size_new != fd['TENSOR_PARALLEL_SIZE']:
         print(f"Clamping TENSOR_PARALLEL_SIZE to {tensor_parallel_size_new}")
     fd['TENSOR_PARALLEL_SIZE'] = tensor_parallel_size_new
+
+    if DTYPE == "fp8":
+        if fd['UNI_GROUPS'] == "\"None\"":
+            fd['MEASUREMENT_TP'] = fd['TENSOR_PARALLEL_SIZE']
+        elif fd['MEASUREMENT_TP'] <= fd['TENSOR_PARALLEL_SIZE']:
+            raise ValueError(
+                "Unification is not \"None\". "
+                "Set correct MEASUREMENT_TP and UNI_GROUPS")
+        else:
+            groups = prepare_group_list(fd['UNI_GROUPS'])
+            mtp = sum(len(cards) for cards in groups)
+            if mtp != fd['MEASUREMENT_TP']:
+                raise ValueError(
+                    f"MEASUREMENT_TP {fd['MEASUREMENT_TP']} not same as total unified cards {mtp}. "
+                    "Set correct MEASUREMENT_TP and UNI_GROUPS")
+            if len(groups) != fd['TENSOR_PARALLEL_SIZE']:
+                raise ValueError(
+                    f"TP {fd['TENSOR_PARALLEL_SIZE']} not same than unified groups {len(groups)}. "
+                    "Set correct TENSOR_PARALLEL_SIZE, MEASUREMENT_TP and UNI_GROUPS")
 
     fd['MAX_MODEL_LEN'] = max(1, fd['MAX_MODEL_LEN'])
 
