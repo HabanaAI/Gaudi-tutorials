@@ -107,7 +107,7 @@ class PerfUtility:
         throughput, mem_allocated, max_mem_allocated, graph_compile = perf_report.parse_run_log(output)
 
         # 3.Add new row into report
-        #throughput = '0'
+        throughput = throughput or '0'
         new_row = {}
         perf_ratio = float(throughput) / float(data["ref_perf"])
         if perf_report.report_level >= 3:
@@ -305,95 +305,39 @@ class OH_Benchmark(unittest.TestCase):
             self.perf_report.gaudi_info_df = df
         self.assertEqual(False, False)
 
-    @unittest.skipIf(skip_llama2_70b == 1 , "Skip over this routine")
-    def test_2_llama2_70b(self):
-
-        model_name = "Llama2_70b"
+    def run_model_test(self, model_name):
         # Get configs/data
         data = self.utils.load_input_data(model_name)
-        #print(data)
         self.assertNotEqual(data, None)
 
         # Testing
-        for i in data:
-            try:
-                response_status_code = self.utils.model_test(i, perf_report)
-            except:
-                response_status_code=-1
-                continue
-        self.assertEqual(response_status_code, 0)
+        for item in data:
+            with self.subTest(input=item):
+                response_status_code = self.utils.model_test(item, perf_report)
+                self.assertEqual(
+                    response_status_code, 0,
+                    f"Model test failed with status code {response_status_code} for input {item}"
+                )
+
+    @unittest.skipIf(skip_llama2_70b == 1 , "Skip over this routine")
+    def test_2_llama2_70b(self):
+        self.run_model_test("Llama2_70b")
 
     @unittest.skipIf(skip_llama31_8b == 1 , "Skip over this routine")
     def test_3_llama3_1_8b(self):
-
-        model_name = "Llama3.1_8b"
-        # Get configs/data
-        data = self.utils.load_input_data(model_name)
-        #print(data)
-        self.assertNotEqual(data, None)
-
-        # Testing
-        for i in data:
-            try:
-                response_status_code = self.utils.model_test(i, perf_report)
-            except:
-                response_status_code=-1
-                continue
-        self.assertEqual(response_status_code, 0)
+        self.run_model_test("Llama3.1_8b")
 
     @unittest.skipIf(skip_llama31_70b == 1 , "Skip over this routine")
     def test_4_llama3_1_70b(self):
-
-        model_name = "Llama3.1_70b"
-        # Get configs/data
-        data = self.utils.load_input_data(model_name)
-        #print(data)
-        self.assertNotEqual(data, None)
-
-        # Testing
-        for i in data:
-            try:
-                response_status_code = self.utils.model_test(i, perf_report)
-            except:
-                response_status_code=-1
-                continue
-        self.assertEqual(response_status_code, 0)
+        self.run_model_test("Llama3.1_70b")
 
     @unittest.skipIf(skip_llama33_70b == 1 , "Skip over this routine")
     def test_5_llama3_3_70b(self):
-
-        model_name = "Llama3.3_70b"
-        # Get configs/data
-        data = self.utils.load_input_data(model_name)
-        #print(data)
-        self.assertNotEqual(data, None)
-
-        # Testing
-        for i in data:
-            try:
-                response_status_code = self.utils.model_test(i, perf_report)
-            except:
-                response_status_code=-1
-                continue
-        self.assertEqual(response_status_code, 0)
+        self.run_model_test("Llama3.3_70b")
 
     @unittest.skipIf(skip_llama31_405b == 1 , "Skip over this routine")
     def test_6_llama3_1_405b(self):
-
-        model_name = "Llama3.1_405b"
-        # Get configs/data
-        data = self.utils.load_input_data(model_name)
-        #print(data)
-        self.assertNotEqual(data, None)
-
-        # Testing
-        for i in data:
-            try:
-                response_status_code = self.utils.model_test(i, perf_report)
-            except:
-                response_status_code=-1
-                continue
-        self.assertEqual(response_status_code, 0)
+        self.run_model_test("Llama3.1_405b")
 
 if __name__ == "__main__":
     import sys
