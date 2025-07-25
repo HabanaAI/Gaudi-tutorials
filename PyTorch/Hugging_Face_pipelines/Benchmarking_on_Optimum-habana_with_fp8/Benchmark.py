@@ -6,29 +6,36 @@ import os
 import unittest
 import subprocess
 import requests
+import shutil
 
 unittest.TestLoader.sortTestMethodsUsing = None
 
 # unittest.TestLoader.sortTestMethodsUsing = lambda self, a, b: (a < b) - (a > b)
-class RunCmd:
-    def run(self, cmd, env_vars=None):
-        # Ensure cmd is a list of arguments
-        if isinstance(cmd, str):
-            import shlex
-            cmd = shlex.split(cmd)
+def run_cmd(cmd, env_vars=None):
+    # Ensure cmd is a list of arguments
+    if isinstance(cmd, str):
+        import shlex
+        cmd = shlex.split(cmd)
 
-        # Print the command and environment variables for debugging
-        print("Running command:", cmd)
-        if env_vars:
-            print("With environment variables:", env_vars)
+    # Print the command and environment variables for debugging
+    print("Running command:", cmd)
+    if env_vars:
+        print("With environment variables:", env_vars)
 
-        # Execute the command with the environment variables
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False, env=env_vars)
-        output, err = p.communicate()
-        p_status = p.wait()
+    env = os.environ.copy()
+    if env_vars:
+        env.update(env_vars)
 
-        # Return the status and output
-        return p_status, output
+    # Execute the command with the environment variables
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False, env=env)
+    output, err = p.communicate()
+    p_status = p.wait()
+
+    output = output.decode("utf-8") if output else ""
+    err = err.decode("utf-8") if err else ""
+
+    # Return the status and output
+    return p_status, output, err
 
 class PerfUtility:
 
@@ -72,12 +79,9 @@ class PerfUtility:
             status = 0
             if hqt_output_exist is False:
                 # 0.1 .Run the tensor measurement instruction
-                import shutil
-                import os
                 cmd = data["run_cmd"]
                 env = data["env_vars"]
-                status, output = RunCmd().run(cmd, env)
-                output = output.decode("utf-8")
+                status, output, err = run_cmd(cmd, env)
                 print(cmd)
                 # 0.1.1 copy generated hqt_output(dst) to HQT folder(src)
                 if os.path.exists(dst):
@@ -95,12 +99,11 @@ class PerfUtility:
         env = data["env_vars"]
         #print(cmd)
         #return 0
-        status, output = RunCmd().run(cmd, env)
-        output = output.decode("utf-8")
+        status, output, err = run_cmd(cmd, env)
 
         # 2.Parsing the run log
         filename = data["model"] + "_" + data["input_len"] + "_" + data["output_len"] + "_" + data["num_cards"] + 'c' + "_log.txt"
-        perf_report.dump_log_to_file(output, filename)
+        perf_report.dump_log_to_file(output + "\n" + err, filename)
         throughput, mem_allocated, max_mem_allocated, graph_compile = perf_report.parse_run_log(output)
 
         # 3.Add new row into report
@@ -151,11 +154,9 @@ class PerfReport:
         self.perf_report_df = df
 
     def dump_log_to_file(self, output, filename):
-        filepath = self.result_folder_name + os.sep + filename
-        fd = open(filepath, "w")  # append mode
-        fd.write(output)
-        fd.close()
-        return
+        filepath = os.path.join(self.result_folder_name, filename)
+        with open(filepath, "w", encoding="utf-8") as f:
+            f.write(output)
 
     def parse_run_log(self, log):
         throughput = ''
@@ -228,7 +229,6 @@ class PerfReport:
             )
 
         print("\nReport File is : " + report_path)
-        import shutil
 
         shutil.make_archive(self.result_folder_name, "zip", self.result_folder_name)
         return
@@ -293,7 +293,7 @@ class OH_Benchmark(unittest.TestCase):
             output, err = p.communicate()
             status = p.wait()
         cmd = './perfspect/perfspect report --gaudi --output ' + self.perf_report.result_folder_name
-        status, output = RunCmd().run(cmd)
+        status, output, err = run_cmd(cmd)
         import socket
         hostname = socket.gethostname()
         xlsx_file = self.perf_report.result_folder_name + os.sep + hostname + '.xlsx'
