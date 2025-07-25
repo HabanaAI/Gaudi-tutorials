@@ -6,7 +6,7 @@ unset VLLM_PROMPT_SEQ_BUCKET_MAX
 MODEL_BASE=$(echo $MODEL | awk -F '/' '{print $2}')
 MODEL_BASE=${${q}MODEL_BASE,,}
 
-if [ -f "./measurement/${${q}MODEL_BASE}/maxabs_quant_$gnum.json" ]; then
+if [ -f "./measurement/${${q}MODEL_BASE}_tp${${q}TENSOR_PARALLEL_SIZE}_${${q}gnum}/${${q}MODEL_BASE}/maxabs_quant_$gnum.json" ]; then
 	echo "Measurement file found, skipping calibration"
 else
 	cd /root/scripts/vllm_hpu_ext/calibration/
@@ -14,11 +14,12 @@ else
 
 	if [ -n "$UNI_GROUPS" ] && [ "$UNI_GROUPS" != "None" ]; then
         	echo -e 'Calibrate model with unification'
-	        ./calibrate_model.sh -m $MODEL -d /root/scripts/dataset-processed.pkl -o /root/scripts/measurement -l 100 -t $MEASUREMENT_TP -g "$UNI_GROUPS"
+	        ./calibrate_model.sh -m $MODEL -d /root/scripts/dataset-processed.pkl -o /root/scripts/measurement/${${q}MODEL_BASE}_tp${${q}TENSOR_PARALLEL_SIZE}_${${q}gnum} -l 100 -t $MEASUREMENT_TP -g "$UNI_GROUPS"
 	else
         	echo -e 'Calibrate model without unification'
-	        ./calibrate_model.sh -m $MODEL -d /root/scripts/dataset-processed.pkl -o /root/scripts/measurement -l 100 -t $MEASUREMENT_TP 
+	        ./calibrate_model.sh -m $MODEL -d /root/scripts/dataset-processed.pkl -o /root/scripts/measurement/${${q}MODEL_BASE}_tp${${q}TENSOR_PARALLEL_SIZE}_${${q}gnum} -l 100 -t $MEASUREMENT_TP 
 	fi
+        cp /root/scripts/measurement/measurement_version.txt /root/scripts/measurement/${${q}MODEL_BASE}_tp${${q}TENSOR_PARALLEL_SIZE}_${${q}gnum}
 fi
 
 QUANTIZATION="inc"
@@ -29,11 +30,14 @@ if [ -n "$PT_HPU_RECIPE_CACHE_CONFIG" ]; then # Checks if using recipe cache
     EXTRA_ARGS+=" --num_gpu_blocks_override $NUM_GPU_BLOCKS_OVERRIDE"
 fi
 
+if [ "$CACHE_DTYPE_BYTES" != "2" ]; then
+    EXTRA_ARGS+=" --kv_cache_dtype=${${q}KV_CACHE_DTYPE}"
+fi
+
 cd /root/scripts
 ## Start vLLM FP8 server  
-QUANT_CONFIG=./measurement/${${q}MODEL_BASE}/maxabs_quant_$gnum.json vllm serve $MODEL \
+QUANT_CONFIG=./measurement/${${q}MODEL_BASE}_tp${${q}TENSOR_PARALLEL_SIZE}_${${q}gnum}/${${q}MODEL_BASE}/maxabs_quant_$gnum.json vllm serve $MODEL \
         --quantization=${${q}QUANTIZATION} \
-        --kv_cache_dtype=${${q}KV_CACHE_DTYPE} \
         --tensor-parallel-size=$TENSOR_PARALLEL_SIZE \
         --max-model-len=$MAX_MODEL_LEN \
         --dtype bfloat16 \

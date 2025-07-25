@@ -45,9 +45,8 @@ RUN git clone https://github.com/HabanaAI/vllm-hpu-extension.git vllm_hpu_ext &&
 
 COPY step-5-unify_measurements.py /root/scripts/vllm_hpu_ext/calibration
 
-
-RUN mkdir -p /root/scripts/{recipe_cache,measurement}
-
+RUN mkdir -p /root/scripts/recipe_cache
+RUN mkdir -p /root/scripts/measurement
 
 # Set entrypoint script
 ENTRYPOINT ["/root/scripts/entrypoint.sh"]
