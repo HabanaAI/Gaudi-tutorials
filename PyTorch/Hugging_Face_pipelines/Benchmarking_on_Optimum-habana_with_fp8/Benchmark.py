@@ -6,29 +6,36 @@ import os
 import unittest
 import subprocess
 import requests
+import shutil
 
 unittest.TestLoader.sortTestMethodsUsing = None
 
 # unittest.TestLoader.sortTestMethodsUsing = lambda self, a, b: (a < b) - (a > b)
-class RunCmd:
-    def run(self, cmd, env_vars=None):
-        # Ensure cmd is a list of arguments
-        if isinstance(cmd, str):
-            import shlex
-            cmd = shlex.split(cmd)
+def run_cmd(cmd, env_vars=None):
+    # Ensure cmd is a list of arguments
+    if isinstance(cmd, str):
+        import shlex
+        cmd = shlex.split(cmd)
 
-        # Print the command and environment variables for debugging
-        print("Running command:", cmd)
-        if env_vars:
-            print("With environment variables:", env_vars)
+    # Print the command and environment variables for debugging
+    print("Running command:", cmd)
+    if env_vars:
+        print("With environment variables:", env_vars)
 
-        # Execute the command with the environment variables
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False, env=env_vars)
-        output, err = p.communicate()
-        p_status = p.wait()
+    env = os.environ.copy()
+    if env_vars:
+        env.update(env_vars)
 
-        # Return the status and output
-        return p_status, output
+    # Execute the command with the environment variables
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False, env=env)
+    output, err = p.communicate()
+    p_status = p.wait()
+
+    output = output.decode("utf-8") if output else ""
+    err = err.decode("utf-8") if err else ""
+
+    # Return the status and output
+    return p_status, output, err
 
 class PerfUtility:
 
@@ -72,12 +79,9 @@ class PerfUtility:
             status = 0
             if hqt_output_exist is False:
                 # 0.1 .Run the tensor measurement instruction
-                import shutil
-                import os
                 cmd = data["run_cmd"]
                 env = data["env_vars"]
-                status, output = RunCmd().run(cmd, env)
-                output = output.decode("utf-8")
+                status, output, err = run_cmd(cmd, env)
                 print(cmd)
                 # 0.1.1 copy generated hqt_output(dst) to HQT folder(src)
                 if os.path.exists(dst):
@@ -95,16 +99,15 @@ class PerfUtility:
         env = data["env_vars"]
         #print(cmd)
         #return 0
-        status, output = RunCmd().run(cmd, env)
-        output = output.decode("utf-8")
+        status, output, err = run_cmd(cmd, env)
 
         # 2.Parsing the run log
         filename = data["model"] + "_" + data["input_len"] + "_" + data["output_len"] + "_" + data["num_cards"] + 'c' + "_log.txt"
-        perf_report.dump_log_to_file(output, filename)
+        perf_report.dump_log_to_file(output + "\n" + err, filename)
         throughput, mem_allocated, max_mem_allocated, graph_compile = perf_report.parse_run_log(output)
 
         # 3.Add new row into report
-        #throughput = '0'
+        throughput = throughput or '0'
         new_row = {}
         perf_ratio = float(throughput) / float(data["ref_perf"])
         if perf_report.report_level >= 3:
@@ -151,11 +154,9 @@ class PerfReport:
         self.perf_report_df = df
 
     def dump_log_to_file(self, output, filename):
-        filepath = self.result_folder_name + os.sep + filename
-        fd = open(filepath, "w")  # append mode
-        fd.write(output)
-        fd.close()
-        return
+        filepath = os.path.join(self.result_folder_name, filename)
+        with open(filepath, "w", encoding="utf-8") as f:
+            f.write(output)
 
     def parse_run_log(self, log):
         throughput = ''
@@ -228,7 +229,6 @@ class PerfReport:
             )
 
         print("\nReport File is : " + report_path)
-        import shutil
 
         shutil.make_archive(self.result_folder_name, "zip", self.result_folder_name)
         return
@@ -293,7 +293,7 @@ class OH_Benchmark(unittest.TestCase):
             output, err = p.communicate()
             status = p.wait()
         cmd = './perfspect/perfspect report --gaudi --output ' + self.perf_report.result_folder_name
-        status, output = RunCmd().run(cmd)
+        status, output, err = run_cmd(cmd)
         import socket
         hostname = socket.gethostname()
         xlsx_file = self.perf_report.result_folder_name + os.sep + hostname + '.xlsx'
@@ -305,95 +305,39 @@ class OH_Benchmark(unittest.TestCase):
             self.perf_report.gaudi_info_df = df
         self.assertEqual(False, False)
 
-    @unittest.skipIf(skip_llama2_70b == 1 , "Skip over this routine")
-    def test_2_llama2_70b(self):
-
-        model_name = "Llama2_70b"
+    def run_model_test(self, model_name):
         # Get configs/data
         data = self.utils.load_input_data(model_name)
-        #print(data)
         self.assertNotEqual(data, None)
 
         # Testing
-        for i in data:
-            try:
-                response_status_code = self.utils.model_test(i, perf_report)
-            except:
-                response_status_code=-1
-                continue
-        self.assertEqual(response_status_code, 0)
+        for item in data:
+            with self.subTest(input=item):
+                response_status_code = self.utils.model_test(item, perf_report)
+                self.assertEqual(
+                    response_status_code, 0,
+                    f"Model test failed with status code {response_status_code} for input {item}"
+                )
+
+    @unittest.skipIf(skip_llama2_70b == 1 , "Skip over this routine")
+    def test_2_llama2_70b(self):
+        self.run_model_test("Llama2_70b")
 
     @unittest.skipIf(skip_llama31_8b == 1 , "Skip over this routine")
     def test_3_llama3_1_8b(self):
-
-        model_name = "Llama3.1_8b"
-        # Get configs/data
-        data = self.utils.load_input_data(model_name)
-        #print(data)
-        self.assertNotEqual(data, None)
-
-        # Testing
-        for i in data:
-            try:
-                response_status_code = self.utils.model_test(i, perf_report)
-            except:
-                response_status_code=-1
-                continue
-        self.assertEqual(response_status_code, 0)
+        self.run_model_test("Llama3.1_8b")
 
     @unittest.skipIf(skip_llama31_70b == 1 , "Skip over this routine")
     def test_4_llama3_1_70b(self):
-
-        model_name = "Llama3.1_70b"
-        # Get configs/data
-        data = self.utils.load_input_data(model_name)
-        #print(data)
-        self.assertNotEqual(data, None)
-
-        # Testing
-        for i in data:
-            try:
-                response_status_code = self.utils.model_test(i, perf_report)
-            except:
-                response_status_code=-1
-                continue
-        self.assertEqual(response_status_code, 0)
+        self.run_model_test("Llama3.1_70b")
 
     @unittest.skipIf(skip_llama33_70b == 1 , "Skip over this routine")
     def test_5_llama3_3_70b(self):
-
-        model_name = "Llama3.3_70b"
-        # Get configs/data
-        data = self.utils.load_input_data(model_name)
-        #print(data)
-        self.assertNotEqual(data, None)
-
-        # Testing
-        for i in data:
-            try:
-                response_status_code = self.utils.model_test(i, perf_report)
-            except:
-                response_status_code=-1
-                continue
-        self.assertEqual(response_status_code, 0)
+        self.run_model_test("Llama3.3_70b")
 
     @unittest.skipIf(skip_llama31_405b == 1 , "Skip over this routine")
     def test_6_llama3_1_405b(self):
-
-        model_name = "Llama3.1_405b"
-        # Get configs/data
-        data = self.utils.load_input_data(model_name)
-        #print(data)
-        self.assertNotEqual(data, None)
-
-        # Testing
-        for i in data:
-            try:
-                response_status_code = self.utils.model_test(i, perf_report)
-            except:
-                response_status_code=-1
-                continue
-        self.assertEqual(response_status_code, 0)
+        self.run_model_test("Llama3.1_405b")
 
 if __name__ == "__main__":
     import sys
