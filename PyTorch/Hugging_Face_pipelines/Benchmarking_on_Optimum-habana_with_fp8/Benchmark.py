@@ -7,6 +7,10 @@ import unittest
 import subprocess
 import requests
 import shutil
+import re
+
+from dataclasses import dataclass
+from typing import Optional
 
 unittest.TestLoader.sortTestMethodsUsing = None
 
@@ -104,10 +108,14 @@ class PerfUtility:
         # 2.Parsing the run log
         filename = data["model"] + "_" + data["input_len"] + "_" + data["output_len"] + "_" + data["num_cards"] + 'c' + "_log.txt"
         perf_report.dump_log_to_file(output + "\n" + err, filename)
-        throughput, mem_allocated, max_mem_allocated, graph_compile = perf_report.parse_run_log(output)
+        parsed = perf_report.parse_run_log(output)
+
+        throughput = parsed.throughput or '0'
+        mem_allocated = parsed.mem_allocated or '0'
+        max_mem_allocated = parsed.max_mem_allocated or '0'
+        graph_compile = parsed.graph_compile or 'N/A'
 
         # 3.Add new row into report
-        throughput = throughput or '0'
         new_row = {}
         perf_ratio = float(throughput) / float(data["ref_perf"])
         if perf_report.report_level >= 3:
@@ -118,6 +126,14 @@ class PerfUtility:
         df_len = len(perf_report.perf_report_df)
         perf_report.perf_report_df.loc[df_len+1] = new_row
         return status
+
+
+@dataclass
+class RunLogData:
+    throughput: Optional[str] = None
+    mem_allocated: Optional[str] = None
+    max_mem_allocated: Optional[str] = None
+    graph_compile: Optional[str] = None
 
 
 class PerfReport:
@@ -159,21 +175,24 @@ class PerfReport:
             f.write(output)
 
     def parse_run_log(self, log):
-        throughput = ''
-        mem_allocated = ''
-        max_mem_allocated = ''
-        graph_compile = ''
-        for line in log.splitlines():
-            if line.find("Throughput") != -1:
-                throughput = line.split('=')[1].split(' ')[1]
-            elif line.find("Memory") != -1:
-                mem_allocated = line.split('=')[1].split(' ')[1]
-            elif line.find("Max") != -1:
-                max_mem_allocated = line.split('=')[1].split(' ')[1]
-            elif line.find("Graph") != -1:
-                graph_compile = line.split('=')[1].split(' ')[1]
-        return throughput, mem_allocated, max_mem_allocated, graph_compile
+        result = RunLogData()
 
+        patterns = {
+            "throughput": re.compile(r"Throughput.*?=\s*([\d.eE+-]+)\s+\S+"),
+            "mem_allocated": re.compile(r"Memory allocated\s*=\s*([\d.eE+-]+)\s+\S+"),
+            "max_mem_allocated": re.compile(r"Max memory allocated\s*=\s*([\d.eE+-]+)\s+\S+"),
+            "graph_compile": re.compile(r"Graph compilation duration\s*=\s*([\d.eE+-]+)\s+\S+"),
+        }
+
+        for line in log.splitlines():
+            line = line.strip()
+            for key, pattern in patterns.items():
+                if getattr(result, key) is None:
+                    match = pattern.search(line)
+                    if match:
+                        setattr(result, key, match.group(1))
+
+        return result
 
     def generate_perf_report(self):
         import os
