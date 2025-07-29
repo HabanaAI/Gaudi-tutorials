@@ -1,0 +1,1 @@
+{"method": "HOOKS","mode": "MEASURE","observer": "maxabs","allowlist": {"types": [], "names":  []},"blocklist": {"types": [], "names":  []},"quantize_weight": false,"dump_stats_path": "/root/scripts/measurement/mistral-7b-instruct-v0.2_tp1_g2/mistral-7b-instruct-v0.2/g2/inc_output"}

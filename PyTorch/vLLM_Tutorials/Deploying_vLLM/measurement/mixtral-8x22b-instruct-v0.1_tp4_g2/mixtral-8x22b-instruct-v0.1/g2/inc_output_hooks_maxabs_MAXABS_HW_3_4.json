@@ -1,0 +1,3703 @@
+{
+    "GlobalRank": null,
+    "LocalRank": 3,
+    "Mode": "Scale",
+    "Nodes": {
+        "model.layers.0.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.0.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                0.0625,
+                0.0625
+            ],
+            "outputs": [
+                0.0625
+            ],
+            "params": {}
+        },
+        "model.layers.0.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.0.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.0.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.0.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.1.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.1.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                16.0
+            ],
+            "outputs": [
+                16.0
+            ],
+            "params": {}
+        },
+        "model.layers.1.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.1.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.1.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.1.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.2.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.2.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.2.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.2.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.2.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.2.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.3.block_sparse_moe.gate": {
+            "inputs": [
+                16.0
+            ],
+            "outputs": [
+                0.0625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.3.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                16.0,
+                16.0,
+                1.0
+            ],
+            "outputs": [
+                16.0
+            ],
+            "params": {}
+        },
+        "model.layers.3.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.3.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.3.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.3.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.4.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.4.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                0.0625
+            ],
+            "params": {}
+        },
+        "model.layers.4.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.4.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.4.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.4.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.5.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.5.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.5.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.5.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.5.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.5.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.6.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.6.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.6.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.6.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.6.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.6.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.7.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.7.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                0.0625
+            ],
+            "params": {}
+        },
+        "model.layers.7.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.7.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.7.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.7.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.8.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.8.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.8.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.8.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.8.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.8.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.9.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.9.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                16.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.9.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.9.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.9.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.9.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.10.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.10.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.10.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.10.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.10.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.10.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.11.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.11.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.11.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.11.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.11.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.11.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.12.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.12.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.12.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.12.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.12.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.12.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.13.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.13.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.13.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.13.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.13.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.13.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.14.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.14.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.14.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.14.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.14.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.14.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.15.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.15.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.15.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.15.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.15.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.15.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.16.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.16.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.16.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.16.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.16.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.16.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.17.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.17.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.17.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.17.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.17.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.17.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.18.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.18.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.18.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.18.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.18.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.18.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.19.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.19.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.19.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.19.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.19.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.19.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.20.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.20.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.20.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.20.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.20.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.20.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.21.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.21.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.21.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.21.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.21.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.21.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.22.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.22.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.22.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.22.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.22.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.22.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.23.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.23.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.23.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.23.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.23.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.23.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.24.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.24.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.24.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.24.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.24.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.24.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.25.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.25.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.25.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.25.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.25.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.25.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.26.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.26.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.26.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.26.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.26.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.26.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.27.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.27.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.27.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.27.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.27.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.27.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.28.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.28.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                16.0
+            ],
+            "params": {}
+        },
+        "model.layers.28.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.28.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.28.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.28.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.29.block_sparse_moe.gate": {
+            "inputs": [
+                16.0
+            ],
+            "outputs": [
+                0.0625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.29.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                16.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.29.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.29.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.29.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.29.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.30.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.30.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.30.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.30.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.30.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.30.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.31.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.31.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.31.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.31.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.31.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.31.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.32.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.32.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.32.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.32.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.32.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.32.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.33.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.33.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                1.0,
+                16.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.33.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.33.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.33.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.33.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.34.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.34.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.34.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.34.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.34.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.34.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.35.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.35.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.35.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.35.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.35.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.35.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.36.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.36.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                16.0
+            ],
+            "params": {}
+        },
+        "model.layers.36.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.36.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.36.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.36.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.37.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.37.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                16.0
+            ],
+            "params": {}
+        },
+        "model.layers.37.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.37.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.37.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.37.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.38.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.38.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                16.0
+            ],
+            "params": {}
+        },
+        "model.layers.38.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.38.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.38.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.38.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.39.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.39.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.39.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.39.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.39.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.39.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.40.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.40.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                16.0
+            ],
+            "params": {}
+        },
+        "model.layers.40.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.40.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.40.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.40.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.41.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.41.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.41.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.41.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.41.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.41.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.42.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.42.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.42.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.42.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.42.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.42.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.43.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.43.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.43.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.43.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.43.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.43.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.44.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.44.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.44.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.44.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.44.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.44.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.45.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.45.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.45.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.45.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.45.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.45.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.46.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.46.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.46.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.46.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.46.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.46.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.47.block_sparse_moe.gate": {
+            "inputs": [
+                1.0
+            ],
+            "outputs": [
+                0.00390625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.47.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                1.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.47.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.47.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.47.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.47.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.48.block_sparse_moe.gate": {
+            "inputs": [
+                16.0
+            ],
+            "outputs": [
+                0.0625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.48.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                16.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.48.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.48.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.48.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.48.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.49.block_sparse_moe.gate": {
+            "inputs": [
+                16.0
+            ],
+            "outputs": [
+                0.0625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.49.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                16.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.49.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.49.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.49.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.49.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.50.block_sparse_moe.gate": {
+            "inputs": [
+                16.0
+            ],
+            "outputs": [
+                0.0625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.50.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                16.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.50.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.50.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.50.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.50.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.51.block_sparse_moe.gate": {
+            "inputs": [
+                16.0
+            ],
+            "outputs": [
+                0.0625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.51.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                16.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                1.0
+            ],
+            "params": {}
+        },
+        "model.layers.51.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.51.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.51.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.51.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.52.block_sparse_moe.gate": {
+            "inputs": [
+                16.0
+            ],
+            "outputs": [
+                0.0625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.52.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                16.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                16.0
+            ],
+            "params": {}
+        },
+        "model.layers.52.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.52.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.52.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.52.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.53.block_sparse_moe.gate": {
+            "inputs": [
+                16.0
+            ],
+            "outputs": [
+                0.0625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.53.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                16.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                16.0
+            ],
+            "params": {}
+        },
+        "model.layers.53.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.53.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.53.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.53.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.54.block_sparse_moe.gate": {
+            "inputs": [
+                16.0
+            ],
+            "outputs": [
+                0.0625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.54.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                16.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                16.0
+            ],
+            "params": {}
+        },
+        "model.layers.54.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.54.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.54.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.54.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.55.block_sparse_moe.gate": {
+            "inputs": [
+                16.0
+            ],
+            "outputs": [
+                0.0625
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.55.block_sparse_moe.experts.moe_op": {
+            "inputs": [
+                16.0,
+                16.0,
+                16.0
+            ],
+            "outputs": [
+                16.0
+            ],
+            "params": {}
+        },
+        "model.layers.55.block_sparse_moe.experts.moe_op.w13_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.55.block_sparse_moe.experts.moe_op.w13_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                1.52587890625e-05
+            ],
+            "params": {
+                "weight": 0.00390625
+            }
+        },
+        "model.layers.55.block_sparse_moe.experts.moe_op.w2_list.0": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        },
+        "model.layers.55.block_sparse_moe.experts.moe_op.w2_list.1": {
+            "inputs": [
+                0.00390625
+            ],
+            "outputs": [
+                0.000244140625
+            ],
+            "params": {
+                "weight": 0.0625
+            }
+        }
+    }
+}
