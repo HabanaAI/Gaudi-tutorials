@@ -1,0 +1,1 @@
+{"mode": "QUANTIZE","observer": "maxabs","scale_method": "maxabs_hw","allowlist": {"types": [],"names": []},"blocklist": {"types": [],"names": ["self_attn", "lm_head"]},"dump_stats_path": "/root/scripts/measurement/mixtral-8x7b-instruct-v0.1_tp2_g3/mixtral-8x7b-instruct-v0.1/g3/inc_output"}

@@ -1,0 +1,1 @@
+{"method": "HOOKS","mode": "MEASURE","observer": "maxabs","allowlist": {"types": [], "names":  []},"blocklist": {"types": [], "names":  []},"quantize_weight": false,"dump_stats_path": "/root/scripts/measurement/llama-3.2-3b-instruct_tp1_g3/llama-3.2-3b-instruct/g3/inc_output"}

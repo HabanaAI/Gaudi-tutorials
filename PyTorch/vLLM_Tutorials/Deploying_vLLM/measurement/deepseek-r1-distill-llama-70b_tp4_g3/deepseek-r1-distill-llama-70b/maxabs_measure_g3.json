@@ -1,0 +1,1 @@
+{"method": "HOOKS","mode": "MEASURE","observer": "maxabs","allowlist": {"types": [], "names":  []},"blocklist": {"types": [], "names":  []},"quantize_weight": false,"dump_stats_path": "/root/scripts/measurement/deepseek-r1-distill-llama-70b_tp4_g3/deepseek-r1-distill-llama-70b/g3/inc_output"}
