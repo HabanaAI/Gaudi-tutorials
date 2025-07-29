@@ -1,4 +1,4 @@
 This Measurement file is created using below Repository
-Repository Name: 
-Branch Name: 
-Commit ID: 
+Repository Name: Gaudi-tutorials
+Branch Name: measurement_cache_fp8
+Commit ID: 4c44ba2a8b8336807dd67c523ec0b320ee99b3b1
