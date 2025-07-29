@@ -1,0 +1,1 @@
+{"mode": "QUANTIZE","observer": "maxabs","scale_method": "maxabs_hw","allowlist": {"types": [],"names": []},"blocklist": {"types": [],"names": []},"dump_stats_path": "/root/scripts/measurement/qwen2.5-72b-instruct_tp4_g2/qwen2.5-72b-instruct/g2/inc_output"}
