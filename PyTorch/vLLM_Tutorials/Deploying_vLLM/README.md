@@ -475,7 +475,6 @@ docker run -it --rm \
     vllm-v0.7.2-gaudi-ub24:1.21.1-16
 ```
 # To futher speed up cache loading, use Shared Memory(RAMDISK) to store the cache.
-1)  
 ```
 MODEL_CACHE_DIR=Llama-3.1-8B-Instruct_TP1_G3_$DTYPE
 docker create -it --rm \
